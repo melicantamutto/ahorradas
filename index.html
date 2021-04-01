@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- MATERIALIZE Compiled and minified CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
@@ -19,22 +20,25 @@
   <body>
     <!-- NAV BAR -->
     <nav>
-      <div class="nav-wrapper">
+      <div class="nav-wrapper container">
         <a href="#" class="brand-logo">
             AhorrADAs
             <i class="fas fa-wallet mr-2" aria-hidden="true"></i>
         </a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href="#">
-                <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
+          <li ><a class="valign-wrapper" href="#">
+                <i class="material-icons">show_chart</i>
+                <!-- <i class="fas fa-chart-line mr-2" aria-hidden="true"></i> -->
                 Balance
             </a></li>
-          <li><a href="#">
-            <i class="fas fa-tag mr-2" aria-hidden="true"></i>
+          <li><a class="valign-wrapper" href="#">
+            <i class="material-icons">playlist_add</i>
+            <!-- <i class="fas fa-tag mr-2" aria-hidden="true"></i> -->
             Categorias
           </a></li>
-          <li><a href="#">
-            <i class="fas fa-chart-pie mr-2" aria-hidden="true"></i>
+          <li><a class="valign-wrapper" href="#">
+            <i class="material-icons">pie_chart</i>
+            <!-- <i class="fas fa-chart-pie mr-2 " aria-hidden="true"></i> -->
             Reportes
           </a></li>
         </ul>
@@ -46,11 +50,33 @@
         <div class="row">
 
             <div class="col s3">
-              hola
+              <div class="card-panel ">
+                <h3>Balance</h3>
+                <h6>Ganancias <span class="right">$0</span></h6>
+                <h6>Gastos <span class="right">$0</span></h6>
+                <h5>Total <span class="right">$0</span></h5>
+              </div>
+              <div class="card-panel teal">
+                <h4>Filtros</h4>
+                
+              </div>
             </div>
       
-            <div class="col s9" >
-              chau
+            <div class="col s9">
+              <div class="card">
+                <div class="card-content">
+                  <a class="btn-floating btn-large right waves-effect waves-light red"><i class="material-icons">add</i></a>
+                  <span class="card-title">Operaciones</span>
+                </div>
+                <div class="card-image container">
+                    <div class="row">
+                      <div class="col s9 offset-s2">
+                        <img class="responsive-img" src="./assets/undraw_wallet_aym5.svg">
+                        
+                      </div>
+                    </div>
+                  </div>
+              </div>
             </div>
       
           </div>
