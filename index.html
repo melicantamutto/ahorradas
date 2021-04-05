@@ -1,12 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <!-- META TAGS -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- MATERIALIZE Compiled and minified CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <!-- LINK CSS HELPER -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- TITLE -->
     <title>AhorrADAs</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <!-- BODY -->
+  <body>
+    <!-- NAV BAR -->
+    <nav>
+      <div class="nav-wrapper container">
+        <a href="#" class="brand-logo">
+            AhorrADAs
+            <i class="fas fa-wallet mr-2" aria-hidden="true"></i>
+        </a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li ><a class="valign-wrapper" href="#">
+                <i class="material-icons margin-right">show_chart</i>
+                <!-- <i class="fas fa-chart-line mr-2" aria-hidden="true"></i> -->
+                Balance
+            </a></li>
+          <li><a class="valign-wrapper" href="#">
+            <i class="material-icons margin-right">playlist_add</i>
+            <!-- <i class="fas fa-tag mr-2" aria-hidden="true"></i> -->
+            Categorias
+          </a></li>
+          <li><a class="valign-wrapper" href="#">
+            <i class="material-icons margin-right">pie_chart</i>
+            <!-- <i class="fas fa-chart-pie mr-2 " aria-hidden="true"></i> -->
+            Reportes
+          </a></li>
+        </ul>
+      </div>
+    </nav>
+    <br>
+    <br>
+    <br>
+
+    <!-- BALANCE SECTION -->
+    <section id="balance" class="container">
+
+        <div class="row">
+
+            <div class="col s4">
+              <div class="card-panel">
+                <h4>Balance</h4>
+                <h6>Ganancias <span class="right">$0</span></h6>
+                <h6>Gastos <span class="right">$0</span></h6>
+                <h5>Total <span class="right">$0</span></h5>
+              </div>
+              <div class="card-panel">
+                <h5>Filtros</h5>
+                <div class="collection margin-bottom" style="border: none;">
+                  <h6>Categorías</h6>
+                  <div class="chip">
+                    <i class="material-icons">local_pizza</i>
+                      Comida
+                  </div>
+                  <div class="chip">
+                    <i class="material-icons">lightbulb_outline</i>
+                    Servicios
+                  </div>
+                  <div class="chip">
+                    <i class="material-icons">beach_access</i>
+                    Salidas
+                  </div>
+                  <div class="chip">
+                    <i class="material-icons">local_library</i>
+                    Educación
+                  </div>
+                  <div class="chip">
+                    <i class="material-icons">directions_bus</i>
+                    Transporte
+                  </div>
+                  <div class="chip">
+                    <i class="material-icons">star</i>
+                    Cine
+                  </div>
+                  <div class="chip">
+                    <i class="material-icons">work</i>
+                    Trabajo
+                  </div>
+
+                </div>
+                <div></div>
+                <div class="input-field margin-bottom">
+                  <select>
+                    <option value="1">Gastos</option>
+                    <option value="2">Ganancias</option>
+                  </select>
+                  <label>Tipos</label>
+                </div>
+                <div class="input-field margin-bottom">
+                  <label for="date">Desde</label>
+                  <input type="text" id="date" class="datepicker" value="00/00/0000">
+                </div>
+                <div class="col"></div>
+                <div class="input-field margin-bottom">
+                  <select>
+                    <option value="1">Más reciente</option>
+                    <option value="2">Menos reciente</option>
+                    <option value="2">Mayor monto</option>
+                    <option value="2">Menor monto</option>
+                    <option value="2">A/Z</option>
+                    <option value="2">Z/A</option>
+                  </select>
+                  <label>Ordenar por</label>
+                </div>
+              </div>
+            </div>    
+              
+      
+            <div class="col s8 ">
+              <div class="card">
+                <div class="card-content">
+                  <a class="btn-floating btn-large right waves-effect waves-light red" id="add-operation"><i class="material-icons">add</i></a>
+                  <h4 class="">Operaciones</h4>
+                </div>
+                <div class="card-image container">
+                    <div class="row">
+                      <div class="col s9 offset-s2">
+                        <img class="responsive-img" src="./assets/undraw_wallet_aym5.svg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-content center">
+                      <h5>Sin resultados</h5>
+                      <p>Cambia los filtros o agrega operaciones</p>
+                  </div>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+              </div>
+            </div>
+      
+          </div>
+    </section>
+
+    <!-- NEW OPERATION SECTION -->
+    <section id="categories "></section>
+
+    <!-- CATEGORIES SECTION -->
+    <!-- <section id="categories"></section> -->
+
+
+    <!-- REPORTS SECTION -->
+    <!-- <section id="reports"></section> -->
+
+
+    <!-- MATERIALIZE Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- FONTAWSOME icons -->
+    <script
+      src="https://kit.fontawesome.com/a484224e5b.js"
+      crossorigin="anonymous"
+    ></script>
+
+
+    <script src="./app.js"></script>
+
+  </body>
 </html>
