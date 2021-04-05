@@ -8,8 +8,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- MATERIALIZE Compiled and minified CSS -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+
+  <!-- LINK CSS HELPER -->
+  <link rel="stylesheet" href="style.css" />
 
   <!-- TITLE -->
   <title>AhorrADAs</title>
@@ -25,33 +28,37 @@
         <i class="fas fa-wallet mr-2" aria-hidden="true"></i>
       </a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li id="balance-button"><a class="valign-wrapper" href="#">
+        <li id="balance-button">
+          <a class="valign-wrapper" href="#">
             <i class="material-icons">show_chart</i>
             <!-- <i class="fas fa-chart-line mr-2" aria-hidden="true"></i> -->
             Balance
-          </a></li>
-        <li id="categories-button"><a class="valign-wrapper" href="#">
+          </a>
+        </li>
+        <li id="categories-button">
+          <a class="valign-wrapper" href="#">
             <i class="material-icons">playlist_add</i>
             <!-- <i class="fas fa-tag mr-2" aria-hidden="true"></i> -->
             Categorias
-          </a></li>
-        <li id="reports-button"><a class="valign-wrapper" href="#">
+          </a>
+        </li>
+        <li id="reports-button">
+          <a class="valign-wrapper" href="#">
             <i class="material-icons">pie_chart</i>
             <!-- <i class="fas fa-chart-pie mr-2 " aria-hidden="true"></i> -->
             Reportes
-          </a></li>
+          </a>
+        </li>
       </ul>
     </div>
   </nav>
-  <br>
-  <br>
-  <br>
+  <br />
+  <br />
+  <br />
 
   <!-- BALANCE SECTION -->
   <section id="balance-section" class="container">
-
     <div class="row">
-
       <div class="col s4">
         <div class="card-panel">
           <h4>Balance</h4>
@@ -61,7 +68,7 @@
         </div>
         <div class="card-panel teal">
           <h5>Filtros</h5>
-          <div class="collection" style="border: none;">
+          <div class="collection" style="border: none">
             <h6>Categorías</h6>
             <div class="chip">
               <i class="material-icons">local_pizza</i>
@@ -91,7 +98,6 @@
               <i class="material-icons">work</i>
               Trabajo
             </div>
-
           </div>
           <div class="input-field col s12">
             <select>
@@ -104,14 +110,12 @@
           </div>
           <div>
             <label for="date">Desde</label>
-            <input type="text" id="date" class="datepicker">
+            <input type="text" id="date" class="datepicker" />
           </div>
-
         </div>
       </div>
 
-
-      <div class="col s8 ">
+      <div class="col s8">
         <div class="card">
           <div class="card-content">
             <a class="btn-floating btn-large right waves-effect waves-light red" id="add-operation-button"><i
@@ -121,7 +125,7 @@
           <div class="card-image container" id="no-op-image">
             <div class="row">
               <div class="col s9 offset-s2">
-                <img class="responsive-img" src="./assets/undraw_wallet_aym5.svg">
+                <img class="responsive-img" src="./assets/undraw_wallet_aym5.svg" />
               </div>
             </div>
           </div>
@@ -131,20 +135,29 @@
           </div>
           <div class="card-content hide" id="operations-description">
             <div class="row">
-              <div class="col s3"><h6>Descripción</h6></div>
-              <div class="col s3"><h6>Categoría</h6></div>
-              <div class="col s2"><h6>Fecha</h6></div>
-              <div class="col s2"><h6>Monto</h6></div>
-              <div class="col s2"><h6>Acciones</h6></div>
+              <div class="col s3">
+                <h6>Descripción</h6>
+              </div>
+              <div class="col s3">
+                <h6>Categoría</h6>
+              </div>
+              <div class="col s2">
+                <h6>Fecha</h6>
+              </div>
+              <div class="col s2">
+                <h6>Monto</h6>
+              </div>
+              <div class="col s2">
+                <h6>Acciones</h6>
+              </div>
             </div>
           </div>
-          <br>
-          <br>
-          <br>
-          <br>
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
       </div>
-
     </div>
   </section>
 
@@ -156,13 +169,13 @@
           <div class="card">
             <div class="card-content">
               <h4>Nueva Operación</h4>
-              <br>
+              <br />
               <div class="input-field">
-                <input id="new-description" type="text" class="validate">
+                <input id="new-description" type="text" class="validate" />
                 <label for="new-description">Descripción</label>
               </div>
               <div class="input-field">
-                <input id="new-amount" type="number" class="validate">
+                <input id="new-amount" type="number" class="validate" />
                 <label for="new-amount">Monto</label>
               </div>
               <div class="input-field">
@@ -174,9 +187,9 @@
               </div>
               <div class="input-field">
                 <label for="new-date">Desde</label>
-                <input type="text" id="new-date" class="datepicker">
+                <input type="text" id="new-date" class="datepicker" />
               </div>
-              <div class="collection" style="border: none;">
+              <div class="collection" style="border: none">
                 <h6>Categorías</h6>
                 <div class="chip" id="comida">
                   <i class="material-icons">local_pizza</i>
@@ -190,7 +203,7 @@
                   <i class="material-icons">beach_access</i>
                   Salidas
                 </div>
-                <div class="chip" id="educacion"> 
+                <div class="chip" id="educacion">
                   <i class="material-icons">local_library</i>
                   Educación
                 </div>
@@ -206,7 +219,6 @@
                   <i class="material-icons">work</i>
                   Trabajo
                 </div>
-    
               </div>
             </div>
             <div class="card-action right-align">
@@ -217,26 +229,21 @@
         </div>
       </div>
     </div>
-
   </section>
 
   <!-- CATEGORIES SECTION -->
   <!-- <section id="categories-section" class="hide"></section> -->
 
-
   <!-- REPORTS SECTION -->
   <!-- <section id="reports-section" class="hide"></section> -->
-
 
   <!-- MATERIALIZE Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-  <!-- FONTAWSOME icons -->
-  <script src="https://kit.fontawesome.com/a484224e5b.js" crossorigin="anonymous"></script>
-
+  <!-- UUID -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
 
   <script src="./app.js"></script>
-
 </body>
 
 </html>
