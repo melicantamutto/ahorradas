@@ -13,6 +13,9 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
 
+    <!-- LINK CSS HELPER -->
+    <link rel="stylesheet" href="style.css">
+
     <!-- TITLE -->
     <title>AhorrADAs</title>
   </head>
@@ -27,17 +30,17 @@
         </a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li ><a class="valign-wrapper" href="#">
-                <i class="material-icons">show_chart</i>
+                <i class="material-icons margin-right">show_chart</i>
                 <!-- <i class="fas fa-chart-line mr-2" aria-hidden="true"></i> -->
                 Balance
             </a></li>
           <li><a class="valign-wrapper" href="#">
-            <i class="material-icons">playlist_add</i>
+            <i class="material-icons margin-right">playlist_add</i>
             <!-- <i class="fas fa-tag mr-2" aria-hidden="true"></i> -->
             Categorias
           </a></li>
           <li><a class="valign-wrapper" href="#">
-            <i class="material-icons">pie_chart</i>
+            <i class="material-icons margin-right">pie_chart</i>
             <!-- <i class="fas fa-chart-pie mr-2 " aria-hidden="true"></i> -->
             Reportes
           </a></li>
@@ -60,9 +63,9 @@
                 <h6>Gastos <span class="right">$0</span></h6>
                 <h5>Total <span class="right">$0</span></h5>
               </div>
-              <div class="card-panel teal">
+              <div class="card-panel">
                 <h5>Filtros</h5>
-                <div class="collection" style="border: none;">
+                <div class="collection margin-bottom" style="border: none;">
                   <h6>Categorías</h6>
                   <div class="chip">
                     <i class="material-icons">local_pizza</i>
@@ -94,20 +97,30 @@
                   </div>
 
                 </div>
-                <div class="input-field col s12">
+                <div></div>
+                <div class="input-field margin-bottom">
                   <select>
-                    <option value="" disabled selected>Choose your option</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
+                    <option value="1">Gastos</option>
+                    <option value="2">Ganancias</option>
                   </select>
-                  <label>Materialize Select</label>
+                  <label>Tipos</label>
                 </div>
-                <div>
+                <div class="input-field margin-bottom">
                   <label for="date">Desde</label>
-                  <input type="text" id="date" class="datepicker">
+                  <input type="text" id="date" class="datepicker" value="00/00/0000">
                 </div>
-                
+                <div class="col"></div>
+                <div class="input-field margin-bottom">
+                  <select>
+                    <option value="1">Más reciente</option>
+                    <option value="2">Menos reciente</option>
+                    <option value="2">Mayor monto</option>
+                    <option value="2">Menor monto</option>
+                    <option value="2">A/Z</option>
+                    <option value="2">Z/A</option>
+                  </select>
+                  <label>Ordenar por</label>
+                </div>
               </div>
             </div>    
               
