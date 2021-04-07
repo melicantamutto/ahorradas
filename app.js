@@ -20,6 +20,7 @@ const reportsSection = document.getElementById("reports-section");
 const noOpImage = document.getElementById("no-op-image");
 const noOpText = document.getElementById("no-op-text");
 const operationsDescription = document.getElementById("operations-description");
+const operationsList = document.getElementById("operations-list");
 
 // Balance Buttons
 const addOperationButton = document.getElementById("add-operation-button");
@@ -113,7 +114,7 @@ const symbolAmount = (amount, type) => type === 'spent' ? `-${amount}` : amount 
 
 
 const printOperations = () => {
-  operationsDescription.innerHTML='';
+  operationsList.innerHTML='';
   operations.forEach((operation) => {
     const newRow = `<div class="row">
       <div class="col s3">${operation.description}</div>
@@ -129,7 +130,7 @@ const printOperations = () => {
         <a href="#" class="remove-op">Eliminar</a>
       </div>
     </div>`;
-    operationsDescription.insertAdjacentHTML("beforeend", newRow);
+    operationsList.insertAdjacentHTML("beforeend", newRow);
   });
   editOpButtons = document.querySelectorAll(".edit-op");
   removeOpButtons = document.querySelectorAll(".remove-op");
