@@ -44,22 +44,27 @@ let removeOpButtons = document.querySelectorAll(".remove-op");
 
 //MENU BUTTONS FUNCIONALITY
 
-const toggleNavButtons = (click, hide1, hide2) => {
-  click.classList.remove('hide')
-  hide1.classList.add('hide')
-  hide2.classList.add('hide')
+const arraySections = [balanceSection, categoriesSection, reportsSection, newOperationSection]
 
+const toggleNavButtons = (click) => {
+  arraySections.forEach(section => {
+    if (section !== click) {
+      section.classList.add('hide')
+    }else {
+      click.classList.remove('hide')
+    }
+  });
 }
 balanceButton.addEventListener('click', ()=>{
-  toggleNavButtons(balanceSection, categoriesSection, reportsSection)
+  toggleNavButtons(balanceSection)
 })
 
 categoriesButton.addEventListener('click', ()=>{
-  toggleNavButtons(categoriesSection, balanceSection, reportsSection)
+  toggleNavButtons(categoriesSection)
 })
 
 reportsSection.addEventListener('click', ()=>{
-  toggleNavButtons(reportsSection, categoriesSection, balanceSection)
+  toggleNavButtons(reportsSection)
 })
 
 // LOCAL STORAGE COMMON FUNCTIONS
