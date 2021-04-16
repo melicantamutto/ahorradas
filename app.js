@@ -102,11 +102,6 @@ const printCategories = (collection) =>{
     });
   }
   
-<<<<<<< HEAD
-  
-=======
->>>>>>> e43e2af230ad3801a3067d87d8e565922f46d70b
-
 // OBJECTS
 
 const operations = [];
