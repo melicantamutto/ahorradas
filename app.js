@@ -22,6 +22,9 @@ const noOpImage = document.getElementById("no-op-image");
 const noOpText = document.getElementById("no-op-text");
 const operationsDescription = document.getElementById("operations-description");
 const operationsList = document.getElementById("operations-list");
+const filterCategoryCollection = document.getElementById("filter-category-collection");
+const newOpCategoryCollection = document.getElementById("new-op-category-collection");
+
 
 // Balance Buttons
 const addOperationButton = document.getElementById("add-operation-button");
@@ -60,12 +63,55 @@ reportsSection.addEventListener('click', ()=>{
   toggleNavButtons(reportsSection, categoriesSection, balanceSection)
 })
 
+// LOCAL STORAGE COMMON FUNCTIONS
+
+const setStorage = (key, arr) => localStorage.setItem(key, JSON.stringify(arr));
+
+const getStorage = (key) => JSON.parse(localStorage.getItem(key));
+
+// CATEGORIES FUNCTIONS
+
+// ADD CATEGORY (to use in the submit event)
+
+const addcategory = (name, emoji) =>{
+  const newCategory = {
+    id: uuidv4(),
+    name: name,
+    icon: emoji
+  }
+  categories.push(newCategory)
+  setStorage('categoriesList', categories)
+}
+
+// PRINT CATEGORIES (REUSABLE- to use each time the section changes)
+
+const printCategories = (collection) =>{
+  const categoriesStorage = getStorage('categoriesList');
+  collection.innerHTML = '<h6>Categorías</h6>'
+  categoriesStorage.forEach(category => {
+    const newHTML =`
+    <div class="chip" id="${category.id}">
+      <i class="material-icons">${category.icon}</i>
+      ${category.name}
+      </div>`
+      collection.insertAdjacentHTML('beforeend', newHTML)
+    });
+  }
+  
+  
 
 // OBJECTS
 
 const operations = [];
 
 const categories = [];
+addcategory('Comida', 'local_pizza')
+addcategory('Servicios', 'lightbulb_outline')
+addcategory('Salidas', 'beach_access')
+addcategory('Educación', 'local_library')
+addcategory('Transporte', 'directions_bus')
+addcategory('Cine', 'star')
+addcategory('Trabajo', 'work')
 
 // CATEGORY CHIPS
 
@@ -113,6 +159,7 @@ const addOperation = () => {
 addOperationButton.addEventListener("click", (e) => {
   e.preventDefault();
   toggleAddOperationSection();
+  printCategories(newOpCategoryCollection)
 });
 
 cancelOperation.addEventListener("click", (e) => {
@@ -208,3 +255,9 @@ removeOpButtons.forEach(removeButton => {
     checkOperations();
   });
 });
+
+// ONLOAD EVENTS
+
+window.addEventListener('load', () =>{
+  printCategories(filterCategoryCollection)
+})
