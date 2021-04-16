@@ -234,5 +234,5 @@ window.addEventListener('load', () =>{
 
 localStorage.setItem('categoriesList', JSON.stringify(categories))
 
-const categoriesStorage = localStorage.getItem(JSON.parse('categoriesList'));
+const categoriesStorage = JSON.parse(localStorage.getItem('categoriesList'));
  console.log(categoriesStorage);
