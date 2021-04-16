@@ -41,6 +41,12 @@ const newDate = document.getElementById("new-date");
 let editOpButtons = document.querySelectorAll(".edit-op");
 let removeOpButtons = document.querySelectorAll(".remove-op");
 
+// LOCAL STORAGE COMMON FUNCTIONS
+
+const setStorage = (key, arr) => localStorage.setItem(key, JSON.stringify(arr));
+
+const getStorage = (key) => JSON.parse(localStorage.getItem(key));
+
 // CATEGORIES FUNCTIONS
 
 // ADD CATEGORY (to use in the submit event)
@@ -52,14 +58,13 @@ const addcategory = (name, emoji) =>{
     icon: emoji
   }
   categories.push(newCategory)
-  localStorage.setItem('categoriesList', JSON.stringify(categories))
+  setStorage('categoriesList', categories)
 }
 
 // PRINT CATEGORIES (REUSABLE- to use each time the section changes)
 
 const printCategories = (collection) =>{
-  const categoriesStorage = JSON.parse(localStorage.getItem('categoriesList'));
-  console.log(categoriesStorage);
+  const categoriesStorage = getStorage('categoriesList');
   collection.innerHTML = '<h6>Categorías</h6>'
   categoriesStorage.forEach(category => {
     const newHTML =`
@@ -71,10 +76,8 @@ const printCategories = (collection) =>{
     });
   }
   
-  // LOCAL STORAGE
   
-  
-   console.log(categoriesStorage);
+
 // OBJECTS
 
 const operations = [];
