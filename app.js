@@ -40,6 +40,25 @@ let editOpButtons = document.querySelectorAll(".edit-op");
 let removeOpButtons = document.querySelectorAll(".remove-op");
 
 
+//MENU BUTTONS FUNCIONALITY
+
+const toggleNavButtons = (click, hide1, hide2) => {
+  click.classList.remove('hide')
+  hide1.classList.add('hide')
+  hide2.classList.add('hide')
+
+}
+balanceButton.addEventListener('click', ()=>{
+  toggleNavButtons(balanceSection, categoriesSection, reportsSection)
+})
+
+categoriesButton.addEventListener('click', ()=>{
+  toggleNavButtons(categoriesSection, balanceSection, reportsSection)
+})
+
+reportsSection.addEventListener('click', ()=>{
+  toggleNavButtons(reportsSection, categoriesSection, balanceSection)
+})
 
 
 // OBJECTS
