@@ -52,22 +52,29 @@ const addcategory = (name, emoji) =>{
     icon: emoji
   }
   categories.push(newCategory)
+  localStorage.setItem('categoriesList', JSON.stringify(categories))
 }
 
 // PRINT CATEGORIES (REUSABLE- to use each time the section changes)
 
 const printCategories = (collection) =>{
+  const categoriesStorage = JSON.parse(localStorage.getItem('categoriesList'));
+  console.log(categoriesStorage);
   collection.innerHTML = '<h6>Categorías</h6>'
-  categories.forEach(category => {
+  categoriesStorage.forEach(category => {
     const newHTML =`
     <div class="chip" id="${category.id}">
       <i class="material-icons">${category.icon}</i>
       ${category.name}
-    </div>`
-    collection.insertAdjacentHTML('beforeend', newHTML)
-  });
-}
-
+      </div>`
+      collection.insertAdjacentHTML('beforeend', newHTML)
+    });
+  }
+  
+  // LOCAL STORAGE
+  
+  
+   console.log(categoriesStorage);
 // OBJECTS
 
 const operations = [];
@@ -229,10 +236,3 @@ removeOpButtons.forEach(removeButton => {
 window.addEventListener('load', () =>{
   printCategories(filterCategoryCollection)
 })
-
-// LOCAL STORAGE
-
-localStorage.setItem('categoriesList', JSON.stringify(categories))
-
-const categoriesStorage = JSON.parse(localStorage.getItem('categoriesList'));
- console.log(categoriesStorage);
