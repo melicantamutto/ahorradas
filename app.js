@@ -40,23 +40,7 @@ let editOpButtons = document.querySelectorAll(".edit-op");
 let removeOpButtons = document.querySelectorAll(".remove-op");
 
 
-//MENU BUTTONS FUNCIONALITY
 
-balanceButton.addEventListener('click', ()=>{
-  balanceSection.classList.remove('hide')
-  balanceSection.classList('container')
-})
-
-categoriesButton.addEventListener('click', ()=>{
-  categoriesSection.classList.remove('hide')
-  categoriesSection.classList('container')
-})
-
-reportsSection.addEventListener('click', ()=>{
-  reportsSection.classList.remove('hide')
-  reportsSection.classList('container')
-  
-})
 
 // OBJECTS
 
