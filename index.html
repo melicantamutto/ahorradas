@@ -195,59 +195,29 @@
       <br>
       <div class="row">
         <div class="input-field col s3">
-          <input placeholder="Nombre" id="first_name" type="text" class="validate">
-          <label for="first_name"></label>
-        </div>
-        <a class="waves-effect waves-light btn-large">Agregar</a>
-        <div class="input-field col s2">
-          <select>
-            <option value="" disabled selected>Seleccione un ícono</option>
-            <option value="1"><i class="material-icons">local_pizza</i></option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-          </select>
+          <i class="material-icons category-icon">beach_access</i>
+          <i class="material-icons category-icon">beach_access</i>
+          <i class="material-icons category-icon">beach_access</i>
+          <i class="material-icons category-icon">beach_access</i>
+          <i class="material-icons category-icon">beach_access</i>
+          <i class="material-icons category-icon">beach_access</i>
+          <i class="material-icons category-icon">beach_access</i>
+          <i class="material-icons category-icon">beach_access</i>
+          <i class="material-icons category-icon">beach_access</i>
+          
           <!-- <label>Materialize Select</label> -->
         </div>
+        <div class="input-field col s7">
+          <input placeholder="Nombre de la categoría" id="category-name" type="text" class="validate">
+          <label for="category-name"></label>
+        </div>
+        <a class="waves-effect waves-light btn-large" id="add-category-button">Agregar</a>
       </div>
-      <h5>Haga click sobre el nombre de la categoria para editarla o x para eliminarla</h5>
-      <div class="collection" style="border: none">
-        <h6>Categorías</h6>
-        <div class="chip">
-          <i class="material-icons">local_pizza</i>
-          Comida
-          <i class="edit material-icons">edit</i>
-          <i class="close material-icons">close</i>
-        </div>
-        <div class="chip">
-          <i class="material-icons">lightbulb_outline</i>
-          Servicios
-          <i class="close material-icons">close</i>
-        </div>
-        <div class="chip">
-          <i class="material-icons">beach_access</i>
-          Salidas
-          <i class="close material-icons">close</i>
-        </div>
-        <div class="chip">
-          <i class="material-icons">local_library</i>
-          Educación
-          <i class="close material-icons">close</i>
-        </div>
-        <div class="chip">
-          <i class="material-icons">directions_bus</i>
-          Transporte
-          <i class="close material-icons">close</i>
-        </div>
-        <div class="chip">
-          <i class="material-icons">star</i>
-          Cine
-          <i class="close material-icons">close</i>
-        </div>
-        <div class="chip">
-          <i class="material-icons">work</i>
-          Trabajo
-          <i class="close material-icons">close</i>
-        </div>
+      <h6>Haga click sobre el lapiz de la categoria para editarla o en la cruz para eliminarla</h6>
+      <br>
+      <div class="collection" id="categories-section-collection" style="border: none">
+        
+      </div>
   </section>
 
   <!-- REPORTS SECTION -->

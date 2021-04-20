@@ -22,8 +22,13 @@ const noOpImage = document.getElementById("no-op-image");
 const noOpText = document.getElementById("no-op-text");
 const operationsDescription = document.getElementById("operations-description");
 const operationsList = document.getElementById("operations-list");
+
+// Categories Elements
 const filterCategoryCollection = document.getElementById("filter-category-collection");
 const newOpCategoryCollection = document.getElementById("new-op-category-collection");
+const categoriesSectionCollection = document.getElementById("categories-section-collection");
+const addCategoryButton = document.getElementById("add-category-button");
+const categoryName = document.getElementById("category-name");
 
 
 // Balance Buttons
@@ -42,6 +47,35 @@ const newDate = document.getElementById("new-date");
 let editOpButtons = document.querySelectorAll(".edit-op");
 let removeOpButtons = document.querySelectorAll(".remove-op");
 
+// PRINT CATEGORIES (REUSABLE- to use each time the section changes)
+
+const printCategories = (collection) =>{
+  const categoriesStorage = getStorage('categoriesList');
+  if(collection === categoriesSectionCollection){
+    collection.innerHTML = '';
+    categoriesStorage.forEach(category => {
+      const newHTML =`
+      <div class="chip category-style" id="${category.id}">
+        <i class="material-icons">${category.icon}</i>
+        ${category.name}
+        <i class="edit material-icons">edit</i>
+        <i class="close material-icons">close</i>
+        </div>`
+        collection.insertAdjacentHTML('beforeend', newHTML)
+      });
+  } else{
+    collection.innerHTML = '<h6>Categorías</h6>'
+    categoriesStorage.forEach(category => {
+      const newHTML =`
+      <div class="chip" id="${category.id}">
+        <i class="material-icons">${category.icon}</i>
+        <span class="category-style">${category.name}</span>
+        </div>`
+        collection.insertAdjacentHTML('beforeend', newHTML)
+      });
+  }
+  }
+
 //MENU BUTTONS FUNCIONALITY
 
 const arraySections = [balanceSection, categoriesSection, reportsSection, newOperationSection]
@@ -52,6 +86,9 @@ const toggleNavButtons = (click) => {
       section.classList.add('hide')
     }else {
       click.classList.remove('hide')
+      if(click === categoriesSection){
+        printCategories(categoriesSectionCollection)
+      }
     }
   });
 }
@@ -77,59 +114,68 @@ const getStorage = (key) => JSON.parse(localStorage.getItem(key));
 
 // ADD CATEGORY (to use in the submit event)
 
-const addcategory = (name, emoji) =>{
+const getSelected = (element, name) =>{
+
+  const previous = document.querySelector(`.selected-${name}`);
+  if (previous) {
+    previous.classList.remove("red");
+    previous.classList.remove("lighten-4");
+    previous.classList.remove(`.selected-${name}`);
+  }
+  element.classList.add("red");
+  element.classList.add("lighten-4");
+  element.classList.add(`.selected-${name}`);
+  return element
+}
+
+let selectedIcon =''
+
+document.querySelectorAll('.category-icon').forEach(icon => {
+  icon.addEventListener('click', () =>{
+    
+    const emoji = getSelected(icon, 'icon');
+    selectedIcon = emoji.innerText
+  })
+});
+
+
+const addCategory = (name, emoji) =>{
   const newCategory = {
     id: uuidv4(),
     name: name,
     icon: emoji
   }
   categories.push(newCategory)
+  console.log(categories);
   setStorage('categoriesList', categories)
 }
 
-// PRINT CATEGORIES (REUSABLE- to use each time the section changes)
-
-const printCategories = (collection) =>{
-  const categoriesStorage = getStorage('categoriesList');
-  collection.innerHTML = '<h6>Categorías</h6>'
-  categoriesStorage.forEach(category => {
-    const newHTML =`
-    <div class="chip" id="${category.id}">
-      <i class="material-icons">${category.icon}</i>
-      ${category.name}
-      </div>`
-      collection.insertAdjacentHTML('beforeend', newHTML)
-    });
-  }
-  
+addCategoryButton.addEventListener('click', () =>{
+  console.log('click');
+  addCategory(categoryName, selectedIcon);
+  printCategories(categoriesSectionCollection)
+})
 // OBJECTS
 
 const operations = [];
 
 const categories = [];
-addcategory('Comida', 'local_pizza')
-addcategory('Servicios', 'lightbulb_outline')
-addcategory('Salidas', 'beach_access')
-addcategory('Educación', 'local_library')
-addcategory('Transporte', 'directions_bus')
-addcategory('Cine', 'star')
-addcategory('Trabajo', 'work')
+addCategory('Comida', 'local_pizza')
+addCategory('Servicios', 'lightbulb_outline')
+addCategory('Salidas', 'beach_access')
+addCategory('Educación', 'local_library')
+addCategory('Transporte', 'directions_bus')
+addCategory('Cine', 'star')
+addCategory('Trabajo', 'work')
 
 // CATEGORY CHIPS
 
 let chips = document.querySelectorAll(".chip");
 
+
 chips.forEach((chip) => {
   chip.addEventListener("click", () => {
-    const previous = document.querySelector(".selected-chip");
-    if (previous) {
-      previous.classList.remove("red");
-      previous.classList.remove("lighten-4");
-      previous.classList.remove("selected-chip");
-    }
-    chip.classList.add("red");
-    chip.classList.add("lighten-4");
-    chip.classList.add("selected-chip");
+    getSelected(chip, 'chip')
   });
 });
 
