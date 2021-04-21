@@ -158,7 +158,7 @@ const addCategory = (name, emoji) => {
 
 addCategoryButton.addEventListener("click", () => {
   console.log("click");
-  addCategory(categoryName, selectedIcon);
+  addCategory(categoryName.value, selectedIcon);
   printCategories(categoriesSectionCollection);
 });
 // OBJECTS
@@ -186,7 +186,7 @@ const clickOnChip = (e) =>{
 const getSelectedCategory = () => {
   let categoryName = '';
   const selected = document.querySelector(".selected-chip");
-  const categoriesStorage = Array.from(getStorage('categoriesList'));
+  const categoriesStorage = getStorage('categoriesList');
   categoriesStorage.forEach(category => {
     if(category['id'] === selected['id']){
       categoryName = category.name
