@@ -63,7 +63,7 @@ categoriesButton.addEventListener('click', ()=>{
   toggleNavButtons(categoriesSection)
 })
 
-reportsSection.addEventListener('click', ()=>{
+reportsButton.addEventListener('click', ()=>{
   toggleNavButtons(reportsSection)
 })
 
