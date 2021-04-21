@@ -109,9 +109,11 @@ categoriesButton.addEventListener("click", () => {
   toggleNavButtons(categoriesSection);
 });
 
-reportsSection.addEventListener("click", () => {
-  toggleNavButtons(reportsSection);
-});
+
+reportsButton.addEventListener('click', ()=>{
+  toggleNavButtons(reportsSection)
+})
+
 
 // LOCAL STORAGE COMMON FUNCTIONS
 
