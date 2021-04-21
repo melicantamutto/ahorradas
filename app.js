@@ -1,15 +1,14 @@
 // MATERIALIZE INITIALIZATIONS
 
-document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems);
-  });
-
-document.addEventListener('DOMContentLoaded', function() {
-  var elems = document.querySelectorAll('.datepicker');
-  var instances = M.Datepicker.init(elems);
+document.addEventListener("DOMContentLoaded", function () {
+  var elems = document.querySelectorAll("select");
+  var instances = M.FormSelect.init(elems);
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+  var elems = document.querySelectorAll(".datepicker");
+  var instances = M.Datepicker.init(elems);
+});
 
 // HTML ELEMENTS
 
@@ -24,12 +23,17 @@ const operationsDescription = document.getElementById("operations-description");
 const operationsList = document.getElementById("operations-list");
 
 // Categories Elements
-const filterCategoryCollection = document.getElementById("filter-category-collection");
-const newOpCategoryCollection = document.getElementById("new-op-category-collection");
-const categoriesSectionCollection = document.getElementById("categories-section-collection");
+const filterCategoryCollection = document.getElementById(
+  "filter-category-collection"
+);
+const newOpCategoryCollection = document.getElementById(
+  "new-op-category-collection"
+);
+const categoriesSectionCollection = document.getElementById(
+  "categories-section-collection"
+);
 const addCategoryButton = document.getElementById("add-category-button");
 const categoryName = document.getElementById("category-name");
-
 
 // Balance Buttons
 const addOperationButton = document.getElementById("add-operation-button");
@@ -49,60 +53,65 @@ let removeOpButtons = document.querySelectorAll(".remove-op");
 
 // PRINT CATEGORIES (REUSABLE- to use each time the section changes)
 
-const printCategories = (collection) =>{
-  const categoriesStorage = getStorage('categoriesList');
-  if(collection === categoriesSectionCollection){
-    collection.innerHTML = '';
-    categoriesStorage.forEach(category => {
-      const newHTML =`
-      <div class="chip category-style" id="${category.id}">
+const printCategories = (collection) => {
+  const categoriesStorage = getStorage("categoriesList");
+  if (collection === categoriesSectionCollection) {
+    collection.innerHTML = "";
+    categoriesStorage.forEach((category) => {
+      const newHTML = `
+      <div class="chip category-style" id="${category.id}" onclick="clickOnChip(this)">
         <i class="material-icons">${category.icon}</i>
         ${category.name}
         <i class="edit material-icons">edit</i>
         <i class="close material-icons">close</i>
-        </div>`
-        collection.insertAdjacentHTML('beforeend', newHTML)
-      });
-  } else{
-    collection.innerHTML = '<h6>Categorías</h6>'
-    categoriesStorage.forEach(category => {
-      const newHTML =`
-      <div class="chip" id="${category.id}">
+        </div>`;
+      collection.insertAdjacentHTML("beforeend", newHTML);
+    });
+  } else {
+    collection.innerHTML = "<h6>Categorías</h6>";
+    categoriesStorage.forEach((category) => {
+      const newHTML = `
+      <div class="chip" id="${category.id}" onclick="clickOnChip(this)">
         <i class="material-icons">${category.icon}</i>
         <span class="category-style">${category.name}</span>
-        </div>`
-        collection.insertAdjacentHTML('beforeend', newHTML)
-      });
+        </div>`;
+      collection.insertAdjacentHTML("beforeend", newHTML);
+    });
   }
-  }
+};
 
 //MENU BUTTONS FUNCIONALITY
 
-const arraySections = [balanceSection, categoriesSection, reportsSection, newOperationSection]
+const arraySections = [
+  balanceSection,
+  categoriesSection,
+  reportsSection,
+  newOperationSection,
+];
 
 const toggleNavButtons = (click) => {
-  arraySections.forEach(section => {
+  arraySections.forEach((section) => {
     if (section !== click) {
-      section.classList.add('hide')
-    }else {
-      click.classList.remove('hide')
-      if(click === categoriesSection){
-        printCategories(categoriesSectionCollection)
+      section.classList.add("hide");
+    } else {
+      click.classList.remove("hide");
+      if (click === categoriesSection) {
+        printCategories(categoriesSectionCollection);
       }
     }
   });
-}
-balanceButton.addEventListener('click', ()=>{
-  toggleNavButtons(balanceSection)
-})
+};
+balanceButton.addEventListener("click", () => {
+  toggleNavButtons(balanceSection);
+});
 
-categoriesButton.addEventListener('click', ()=>{
-  toggleNavButtons(categoriesSection)
-})
+categoriesButton.addEventListener("click", () => {
+  toggleNavButtons(categoriesSection);
+});
 
-reportsSection.addEventListener('click', ()=>{
-  toggleNavButtons(reportsSection)
-})
+reportsSection.addEventListener("click", () => {
+  toggleNavButtons(reportsSection);
+});
 
 // LOCAL STORAGE COMMON FUNCTIONS
 
@@ -114,74 +123,76 @@ const getStorage = (key) => JSON.parse(localStorage.getItem(key));
 
 // ADD CATEGORY (to use in the submit event)
 
-const getSelected = (element, name) =>{
-
+const getSelected = (element, name) => {
   const previous = document.querySelector(`.selected-${name}`);
   if (previous) {
     previous.classList.remove("red");
     previous.classList.remove("lighten-4");
-    previous.classList.remove(`.selected-${name}`);
+    previous.classList.remove(`selected-${name}`);
   }
   element.classList.add("red");
   element.classList.add("lighten-4");
-  element.classList.add(`.selected-${name}`);
-  return element
-}
+  element.classList.add(`selected-${name}`);
+  return element;
+};
 
-let selectedIcon =''
+let selectedIcon = "";
 
-document.querySelectorAll('.category-icon').forEach(icon => {
-  icon.addEventListener('click', () =>{
-    
-    const emoji = getSelected(icon, 'icon');
-    selectedIcon = emoji.innerText
-  })
+document.querySelectorAll(".category-icon").forEach((icon) => {
+  icon.addEventListener("click", () => {
+    const emoji = getSelected(icon, "icon");
+    selectedIcon = emoji.innerText;
+  });
 });
 
-
-const addCategory = (name, emoji) =>{
+const addCategory = (name, emoji) => {
   const newCategory = {
     id: uuidv4(),
     name: name,
-    icon: emoji
-  }
-  categories.push(newCategory)
+    icon: emoji,
+  };
+  categories.push(newCategory);
   console.log(categories);
-  setStorage('categoriesList', categories)
-}
+  setStorage("categoriesList", categories);
+};
 
-addCategoryButton.addEventListener('click', () =>{
-  console.log('click');
+addCategoryButton.addEventListener("click", () => {
+  console.log("click");
   addCategory(categoryName, selectedIcon);
-  printCategories(categoriesSectionCollection)
-})
+  printCategories(categoriesSectionCollection);
+});
 // OBJECTS
 
 const operations = [];
 
 const categories = [];
-addCategory('Comida', 'local_pizza')
-addCategory('Servicios', 'lightbulb_outline')
-addCategory('Salidas', 'beach_access')
-addCategory('Educación', 'local_library')
-addCategory('Transporte', 'directions_bus')
-addCategory('Cine', 'star')
-addCategory('Trabajo', 'work')
+addCategory("Comida", "local_pizza");
+addCategory("Servicios", "lightbulb_outline");
+addCategory("Salidas", "beach_access");
+addCategory("Educación", "local_library");
+addCategory("Transporte", "directions_bus");
+addCategory("Cine", "star");
+addCategory("Trabajo", "work");
 
 // CATEGORY CHIPS
 
-let chips = document.querySelectorAll(".chip");
 
 
-chips.forEach((chip) => {
-  chip.addEventListener("click", () => {
-    getSelected(chip, 'chip')
-  });
-});
+const clickOnChip = (e) =>{
+  getSelected(e, "chip");
+}
+
 
 const getSelectedCategory = () => {
+  let categoryName = '';
   const selected = document.querySelector(".selected-chip");
-  return selected.id;
+  const categoriesStorage = Array.from(getStorage('categoriesList'));
+  categoriesStorage.forEach(category => {
+    if(category['id'] === selected['id']){
+      categoryName = category.name
+    }
+  });
+  return categoryName
 };
 
 // ADD OPERATIONS SECTION
@@ -207,7 +218,7 @@ const addOperation = () => {
 addOperationButton.addEventListener("click", (e) => {
   e.preventDefault();
   toggleAddOperationSection();
-  printCategories(newOpCategoryCollection)
+  printCategories(newOpCategoryCollection);
 });
 
 cancelOperation.addEventListener("click", (e) => {
@@ -224,15 +235,16 @@ submitNewOperation.addEventListener("click", (e) => {
 
 // PRINTING OPERATIONS
 
-const capitalizeCategory = (category) => category.charAt(0).toUpperCase() + category.slice(1);
+const capitalizeCategory = (category) =>
+  category.charAt(0).toUpperCase() + category.slice(1);
 
-const colorAmount = (type) => type === 'spent' ? 'red' : 'green' ;
+const colorAmount = (type) => (type === "spent" ? "red" : "green");
 
-const symbolAmount = (amount, type) => type === 'spent' ? `-${amount}` : amount ;
-
+const symbolAmount = (amount, type) =>
+  type === "spent" ? `-${amount}` : amount;
 
 const printOperations = () => {
-  operationsList.innerHTML='';
+  operationsList.innerHTML = "";
   operations.forEach((operation) => {
     const newRow = `<div class="row">
       <div class="col s3">${operation.description}</div>
@@ -242,7 +254,9 @@ const printOperations = () => {
         </div>
       </div>
       <div class="col s2">${operation.date}</div>
-      <div class="col s2" style="color:${colorAmount(operation.type)};">${symbolAmount(operation.amount, operation.type)}</div>
+      <div class="col s2" style="color:${colorAmount(
+        operation.type
+      )};">${symbolAmount(operation.amount, operation.type)}</div>
       <div class="col s2" id=${operation.id}>
         <a href="#" class="edit-op margin-right-plus">Editar</a>
         <a href="#" class="remove-op">Eliminar</a>
@@ -252,7 +266,7 @@ const printOperations = () => {
   });
   editOpButtons = document.querySelectorAll(".edit-op");
   removeOpButtons = document.querySelectorAll(".remove-op");
-  return editOpButtons, removeOpButtons
+  return editOpButtons, removeOpButtons;
 };
 
 const checkOperations = () => {
@@ -272,7 +286,7 @@ const checkOperations = () => {
 const getOperationById = (button) => {
   const selectedId = button.parentElement.id;
   console.log(selectedId);
-  operations.forEach(operation => {
+  operations.forEach((operation) => {
     if (operation.id === selectedId) {
       let opIndex = operations.indexOf(operation);
       console.log(opIndex);
@@ -283,7 +297,7 @@ const getOperationById = (button) => {
 
 // EDITING OPERATIONS
 
-editOpButtons.forEach(editButton => {
+editOpButtons.forEach((editButton) => {
   editButton.addEventListener("click", (e) => {
     e.preventDefault();
     operations.splice(getOperationById(editButton), 1);
@@ -293,12 +307,10 @@ editOpButtons.forEach(editButton => {
 
 // REMOVE OPERATIONS
 
-
-
-removeOpButtons.forEach(removeButton => {
+removeOpButtons.forEach((removeButton) => {
   removeButton.addEventListener("click", (e) => {
     e.preventDefault();
-    console.log('click');
+    console.log("click");
     operations.splice(getOperationById(removeButton), 1);
     checkOperations();
   });
@@ -306,6 +318,6 @@ removeOpButtons.forEach(removeButton => {
 
 // ONLOAD EVENTS
 
-window.addEventListener('load', () =>{
-  printCategories(filterCategoryCollection)
-})
+window.addEventListener("load", () => {
+  printCategories(filterCategoryCollection);
+});

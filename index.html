@@ -66,37 +66,38 @@
           <h6>Gastos <span class="right">$0</span></h6>
           <h5>Total <span class="right">$0</span></h5>
         </div>
-        <div class="card-panel teal">
+        <div class="card-panel">
           <h5>Filtros</h5>
           <div class="collection" id="filter-category-collection" style="border: none">
-        
+
           </div>
           <div></div>
           <div class="input-field margin-bottom">
-            <select>
-              <option value="1">Gastos</option>
-              <option value="2">Ganancias</option>
+            <select id="filter-type">
+              <option value="all">Todos</option>
+              <option value="spent">Gastos</option>
+              <option value="earned">Ganancias</option>
             </select>
             <label>Tipos</label>
           </div>
           <div class="input-field margin-bottom">
-            <label for="date">Desde</label>
-            <input type="text" id="date" class="datepicker" value="00/00/0000">
+            <label for="filter-date">Desde</label>
+            <input type="text" id="filter-date" class="datepicker" value="00/00/0000">
           </div>
           <div class="col"></div>
           <div class="input-field margin-bottom">
-            <select>
-              <option value="1">Más reciente</option>
-              <option value="2">Menos reciente</option>
-              <option value="2">Mayor monto</option>
-              <option value="2">Menor monto</option>
-              <option value="2">A/Z</option>
-              <option value="2">Z/A</option>
+            <select id="filter-sort">
+              <option value="most-recent">Más reciente</option>
+              <option value="least-recent">Menos reciente</option>
+              <option value="biggest-amount">Mayor monto</option>
+              <option value="smallest-amount">Menor monto</option>
+              <option value="a-z">A/Z</option>
+              <option value="z-a">Z/A</option>
             </select>
             <label>Ordenar por</label>
           </div>
         </div>
-      </div>    
+      </div>
 
       <div class="col s8">
         <div class="card">
@@ -146,7 +147,7 @@
     </div>
   </section>
 
-<!-- NEW OPERATION SECTION -->
+  <!-- NEW OPERATION SECTION -->
   <section id="new-operation-section" class="hide">
     <div class="container">
       <div class="row">
@@ -175,19 +176,19 @@
                 <input type="text" id="new-date" class="datepicker" />
               </div>
               <div class="collection" id="new-op-category-collection" style="border: none">
-                
+
               </div>
             </div>
             <div class="card-action right-align">
               <a href="#" id="cancel-operation">Cancelar</a>
               <a href="#" id="submit-new-operation">Agregar</a>
-            </div>               
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  
+
   <!-- CATEGORIES SECTION -->
   <section id="categories-section" class="container hide">
     <div class="card-panel">
@@ -204,7 +205,7 @@
           <i class="material-icons category-icon">beach_access</i>
           <i class="material-icons category-icon">beach_access</i>
           <i class="material-icons category-icon">beach_access</i>
-          
+
           <!-- <label>Materialize Select</label> -->
         </div>
         <div class="input-field col s7">
@@ -216,7 +217,7 @@
       <h6>Haga click sobre el lapiz de la categoria para editarla o en la cruz para eliminarla</h6>
       <br>
       <div class="collection" id="categories-section-collection" style="border: none">
-        
+
       </div>
   </section>
 
