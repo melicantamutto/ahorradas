@@ -109,7 +109,6 @@ categoriesButton.addEventListener("click", () => {
   toggleNavButtons(categoriesSection);
 });
 
-
 reportsButton.addEventListener('click', ()=>{
   toggleNavButtons(reportsSection)
 })
@@ -165,16 +164,19 @@ addCategoryButton.addEventListener("click", () => {
 });
 // OBJECTS
 
-const operations = [];
+const operations = getStorage('operationsList') ? getStorage('operationsList') : [];
 
-const categories = [];
-addCategory("Comida", "local_pizza");
-addCategory("Servicios", "lightbulb_outline");
-addCategory("Salidas", "beach_access");
-addCategory("Educación", "local_library");
-addCategory("Transporte", "directions_bus");
-addCategory("Cine", "star");
-addCategory("Trabajo", "work");
+const categories = getStorage('categoriesList') ? getStorage('categoriesList') : [];
+
+if(!getStorage('categoriesList')){
+  addCategory("Comida", "local_pizza");
+  addCategory("Servicios", "lightbulb_outline");
+  addCategory("Salidas", "beach_access");
+  addCategory("Educación", "local_library");
+  addCategory("Transporte", "directions_bus");
+  addCategory("Cine", "star");
+  addCategory("Trabajo", "work");
+}
 
 // CATEGORY CHIPS
 
@@ -215,6 +217,7 @@ const addOperation = () => {
   };
   operations.push(newOp);
   console.log(operations);
+  setStorage('operationsList', operations)
 };
 
 addOperationButton.addEventListener("click", (e) => {
@@ -246,8 +249,9 @@ const symbolAmount = (amount, type) =>
   type === "spent" ? `-${amount}` : amount;
 
 const printOperations = () => {
+  const operationsStorage = getStorage('operationsList')
   operationsList.innerHTML = "";
-  operations.forEach((operation) => {
+  operationsStorage.forEach((operation) => {
     const newRow = `<div class="row">
       <div class="col s3">${operation.description}</div>
       <div class="col s3">
@@ -272,7 +276,7 @@ const printOperations = () => {
 };
 
 const checkOperations = () => {
-  if (operations !== []) {
+  if (getStorage('operationsList')) {
     noOpImage.classList.add("hide");
     noOpText.classList.add("hide");
     operationsDescription.classList.remove("hide");
@@ -322,4 +326,5 @@ removeOpButtons.forEach((removeButton) => {
 
 window.addEventListener("load", () => {
   printCategories(filterCategoryCollection);
+  checkOperations()
 });
