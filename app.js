@@ -113,6 +113,7 @@ reportsButton.addEventListener('click', ()=>{
   toggleNavButtons(reportsSection)
 })
 
+
 // LOCAL STORAGE COMMON FUNCTIONS
 
 const setStorage = (key, arr) => localStorage.setItem(key, JSON.stringify(arr));
