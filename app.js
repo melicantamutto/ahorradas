@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Sections
 const newOperationSection = document.getElementById("new-operation-section");
+const editOperationSection = document.getElementById("edit-operation-section");
 const balanceSection = document.getElementById("balance-section");
 const categoriesSection = document.getElementById("categories-section");
 const reportsSection = document.getElementById("reports-section");
@@ -48,8 +49,15 @@ const newDescription = document.getElementById("new-description");
 const newAmount = document.getElementById("new-amount");
 const newType = document.getElementById("new-type");
 const newDate = document.getElementById("new-date");
-let editOpButtons = document.querySelectorAll(".edit-op");
-let removeOpButtons = document.querySelectorAll(".remove-op");
+
+// Edit Operation Elements
+
+const cancelEditOperation = document.getElementById("cancel-edit-operation");
+const submitEditOperation = document.getElementById("submit-edit-operation");
+const editDescription = document.getElementById("edit-description");
+const editAmount = document.getElementById("edit-amount");
+const editType = document.getElementById("edit-type");
+const editDate = document.getElementById("edit-date");
 
 // PRINT CATEGORIES (REUSABLE- to use each time the section changes)
 
@@ -87,6 +95,7 @@ const arraySections = [
   categoriesSection,
   reportsSection,
   newOperationSection,
+  editOperationSection,
 ];
 
 const toggleNavButtons = (click) => {
@@ -109,9 +118,9 @@ categoriesButton.addEventListener("click", () => {
   toggleNavButtons(categoriesSection);
 });
 
-reportsButton.addEventListener('click', ()=>{
-  toggleNavButtons(reportsSection)
-})
+reportsButton.addEventListener("click", () => {
+  toggleNavButtons(reportsSection);
+});
 
 // LOCAL STORAGE COMMON FUNCTIONS
 
@@ -163,11 +172,15 @@ addCategoryButton.addEventListener("click", () => {
 });
 // OBJECTS
 
-const operations = getStorage('operationsList') ? getStorage('operationsList') : [];
+const operations = getStorage("operationsList")
+  ? getStorage("operationsList")
+  : [];
 
-const categories = getStorage('categoriesList') ? getStorage('categoriesList') : [];
+const categories = getStorage("categoriesList")
+  ? getStorage("categoriesList")
+  : [];
 
-if(!getStorage('categoriesList')){
+if (!getStorage("categoriesList")) {
   addCategory("Comida", "local_pizza");
   addCategory("Servicios", "lightbulb_outline");
   addCategory("Salidas", "beach_access");
@@ -179,23 +192,20 @@ if(!getStorage('categoriesList')){
 
 // CATEGORY CHIPS
 
-
-
-const clickOnChip = (e) =>{
+const clickOnChip = (e) => {
   getSelected(e, "chip");
-}
-
+};
 
 const getSelectedCategory = () => {
-  let categoryName = '';
+  let categoryName = "";
   const selected = document.querySelector(".selected-chip");
-  const categoriesStorage = getStorage('categoriesList');
-  categoriesStorage.forEach(category => {
-    if(category['id'] === selected['id']){
-      categoryName = category.name
+  const categoriesStorage = getStorage("categoriesList");
+  categoriesStorage.forEach((category) => {
+    if (category["id"] === selected["id"]) {
+      categoryName = category.name;
     }
   });
-  return categoryName
+  return categoryName;
 };
 
 // ADD OPERATIONS SECTION
@@ -216,7 +226,7 @@ const addOperation = () => {
   };
   operations.push(newOp);
   console.log(operations);
-  setStorage('operationsList', operations)
+  setStorage("operationsList", operations);
 };
 
 addOperationButton.addEventListener("click", (e) => {
@@ -248,7 +258,7 @@ const symbolAmount = (amount, type) =>
   type === "spent" ? `-${amount}` : amount;
 
 const printOperations = () => {
-  const operationsStorage = getStorage('operationsList')
+  const operationsStorage = getStorage("operationsList");
   operationsList.innerHTML = "";
   operationsStorage.forEach((operation) => {
     const newRow = `<div class="row">
@@ -263,19 +273,16 @@ const printOperations = () => {
         operation.type
       )};">${symbolAmount(operation.amount, operation.type)}</div>
       <div class="col s2" id=${operation.id}>
-        <a href="#" class="edit-op margin-right-plus">Editar</a>
-        <a href="#" class="remove-op">Eliminar</a>
+        <a href="#" class="margin-right-plus" onclick="editOpClick(this)">Editar</a>
+        <a href="#" onclick="removeOpClick(this)">Eliminar</a>
       </div>
     </div>`;
     operationsList.insertAdjacentHTML("beforeend", newRow);
   });
-  editOpButtons = document.querySelectorAll(".edit-op");
-  removeOpButtons = document.querySelectorAll(".remove-op");
-  return editOpButtons, removeOpButtons;
 };
 
 const checkOperations = () => {
-  if (getStorage('operationsList')) {
+  if (getStorage("operationsList")) {
     noOpImage.classList.add("hide");
     noOpText.classList.add("hide");
     operationsDescription.classList.remove("hide");
@@ -289,41 +296,61 @@ const checkOperations = () => {
 // GETTING OPERATION BY ID (TO EDIT OR TO REMOVE)
 
 const getOperationById = (button) => {
+  const operationsStorage = getStorage("operationsList");
   const selectedId = button.parentElement.id;
+  let opIndex;
   console.log(selectedId);
-  operations.forEach((operation) => {
+  operationsStorage.forEach((operation) => {
     if (operation.id === selectedId) {
-      let opIndex = operations.indexOf(operation);
-      console.log(opIndex);
-      return opIndex;
+      opIndex = operationsStorage.indexOf(operation);
     }
   });
+  return opIndex
+};
+
+const editOperation = (i) => {
+  const operation = getStorage("operationsList")[i];
+  editDescription.value = operation.description;
+  editAmount.value = operation.amount;
+  editType.value = operation.type;
+console.log(operation.type);
+  editDate.value = operation.date;
 };
 
 // EDITING OPERATIONS
 
-editOpButtons.forEach((editButton) => {
-  editButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    operations.splice(getOperationById(editButton), 1);
-    checkOperations();
-  });
+const editOpClick = (e) =>{
+  const editIndex = getOperationById(e);
+  console.log(editIndex);
+
+  toggleNavButtons(editOperationSection)
+  editOperation(editIndex);
+  checkOperations();
+}
+
+cancelEditOperation.addEventListener("click", (e) => {
+  e.preventDefault();
+  toggleNavButtons(balanceSection)
+});
+
+submitEditOperation.addEventListener("click", (e) => {
+  e.preventDefault();
+  addOperation();
+  toggleNavButtons(balanceSection)
+  checkOperations();
 });
 
 // REMOVE OPERATIONS
 
-removeOpButtons.forEach((removeButton) => {
-  removeButton.addEventListener("click", (e) => {
-    e.preventDefault();
+const removeOpClick = (e) =>{
     console.log("click");
-    operations.splice(getOperationById(removeButton), 1);
+    operations.splice(getOperationById(e), 1);
     checkOperations();
-  });
-});
+}
 
 // ONLOAD EVENTS
 
 window.addEventListener("load", () => {
   printCategories(filterCategoryCollection);
-  checkOperations()
+  checkOperations();
 });
