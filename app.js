@@ -30,6 +30,9 @@ const filterCategoryCollection = document.getElementById(
 const newOpCategoryCollection = document.getElementById(
   "new-op-category-collection"
 );
+const editOpCategoryCollection = document.getElementById(
+  "edit-op-category-collection"
+);
 const categoriesSectionCollection = document.getElementById(
   "categories-section-collection"
 );
@@ -311,9 +314,12 @@ const getOperationById = (button) => {
 // EDITING OPERATIONS
 
 let currentEditIndex = 0;
-//Muestra la operación que esté en el index que le pasamos como parámetro en el formulario para editar
+
+//Muestra la operación que esté en el index que le pasamos como parámetro en el formulario para editar. Retorna el index que se esta editando asi queda guardado en el ámbito  global y lo puede usar la funcion que guarda la operación ya editada.
 const printEditOperation = (i) => {
   const operation = getStorage("operationsList")[i];
+  const arrayChips = editOpCategoryCollection.childNodes;
+
   editDescription.value = operation.description;
   editAmount.value = operation.amount;
   // editType.value = operation.type;
@@ -323,6 +329,12 @@ const printEditOperation = (i) => {
     editType.children[1].setAttribute("selected", "selected");
   }
   editDate.value = operation.date;
+  arrayChips.forEach((chip) =>{
+    if(chip.textContent.includes(operation.category)){
+      getSelected(chip, 'chip')
+    }
+  })
+
   currentEditIndex = i;
   return currentEditIndex
 };
@@ -347,6 +359,7 @@ const changeEditOperation = (i) => {
 const editOpClick = (e) => {
   const editIndex = getOperationById(e);
   toggleNavButtons(editOperationSection);
+  printCategories(editOpCategoryCollection)
   printEditOperation(editIndex);
   checkOperations();
 };
