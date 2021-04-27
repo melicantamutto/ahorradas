@@ -170,6 +170,7 @@ addCategoryButton.addEventListener("click", () => {
   addCategory(categoryName.value, selectedIcon);
   printCategories(categoriesSectionCollection);
 });
+
 // OBJECTS
 
 const operations = getStorage("operationsList")
@@ -225,7 +226,6 @@ const addOperation = () => {
     category: getSelectedCategory(),
   };
   operations.push(newOp);
-  console.log(operations);
   setStorage("operationsList", operations);
 };
 
@@ -299,57 +299,89 @@ const getOperationById = (button) => {
   const operationsStorage = getStorage("operationsList");
   const selectedId = button.parentElement.id;
   let opIndex;
-  console.log(selectedId);
   operationsStorage.forEach((operation) => {
     if (operation.id === selectedId) {
       opIndex = operationsStorage.indexOf(operation);
     }
   });
-  return opIndex
+  return opIndex;
 };
 
-const editOperation = (i) => {
-  const operation = getStorage("operationsList")[i];
-  editDescription.value = operation.description;
-  editAmount.value = operation.amount;
-  editType.value = operation.type;
-console.log(operation.type);
-  editDate.value = operation.date;
-};
 
 // EDITING OPERATIONS
 
-const editOpClick = (e) =>{
+let currentEditIndex = 0;
+//Muestra la operación que esté en el index que le pasamos como parámetro en el formulario para editar
+const printEditOperation = (i) => {
+  const operation = getStorage("operationsList")[i];
+  editDescription.value = operation.description;
+  editAmount.value = operation.amount;
+  // editType.value = operation.type;
+  if (operation.type === "spent") {
+    editType.children[0].setAttribute("selected", "selected");
+  } else {
+    editType.children[1].setAttribute("selected", "selected");
+  }
+  editDate.value = operation.date;
+  currentEditIndex = i;
+  return currentEditIndex
+};
+
+//Corta el objeto de la operación anterior (según el index que le pasemos) y en su lugar inserta la operación editada según los inputs de la sección de editar. Luego guarda todas las operaciones nuevamente en el local storage
+const changeEditOperation = (i) => {
+  const operationsStorage = getStorage("operationsList");
+  const operation = getStorage("operationsList")[i];
+  const edited = {
+    id: operation.id,
+    description: editDescription.value,
+    amount: editAmount.value,
+    type: editType.options[editType.selectedIndex].value,
+    date: editDate.value,
+    category: getSelectedCategory(),
+  }
+  operationsStorage.splice(i, 1, edited);
+  setStorage("operationsList", operationsStorage);
+};
+
+// Evento aplicado al botón de editar, que le pasa la operación a la que le hicimos click. Cambia a la sección de editar, muestra la operación seleccionada y luego checkea si existen operaciones y en ese caso, las muestra.
+const editOpClick = (e) => {
   const editIndex = getOperationById(e);
-  console.log(editIndex);
-
-  toggleNavButtons(editOperationSection)
-  editOperation(editIndex);
+  toggleNavButtons(editOperationSection);
+  printEditOperation(editIndex);
   checkOperations();
-}
+};
 
+// Evento aplicado al boton de cancelar que se encuentra en el formulario de edición de la operación. Únicamente vuelve a la sección de balance sin cambiar nada.
 cancelEditOperation.addEventListener("click", (e) => {
   e.preventDefault();
-  toggleNavButtons(balanceSection)
+  toggleNavButtons(balanceSection);
 });
 
+// Evento aplicado al botón para enviar la operación editada. Busca cual es la operación que queremos editar, cambia la operacion en el local storage, vuelve a la sección de balance y checkea si existen operaciones y en ese caso, las muestra.
 submitEditOperation.addEventListener("click", (e) => {
   e.preventDefault();
-  addOperation();
-  toggleNavButtons(balanceSection)
+  changeEditOperation(currentEditIndex)
+  toggleNavButtons(balanceSection);
   checkOperations();
 });
+
 
 // REMOVE OPERATIONS
 
-const removeOpClick = (e) =>{
-    console.log("click");
-    operations.splice(getOperationById(e), 1);
-    checkOperations();
-}
+
+//Evento aplicado al boton de eliminar de cada operación. Busca en el local storage todas las operaciones y corta según el indice la operacion seleccionada. Luego vuelve a guardar el array modificado en el local storage.
+const removeOpClick = (e) => {
+  const operationsStorage = getStorage("operationsList");
+  operationsStorage.splice(getOperationById(e), 1);
+  setStorage("operationsList", operationsStorage);
+  checkOperations();
+};
+
 
 // ONLOAD EVENTS
 
+
+// Evento aplicado a la página cuando se carga. Se imprimen las categorías que se enceuntran en el local storage y checkea si existen operaciones en el local storage. Si las hay las muestra, sino muestra que no hay.
 window.addEventListener("load", () => {
   printCategories(filterCategoryCollection);
   checkOperations();
