@@ -189,6 +189,48 @@
     </div>
   </section>
 
+  <!-- EDIT OPERATION SECTION -->
+  <section id="edit-operation-section" class="hide">
+    <div class="container">
+      <div class="row">
+        <div class="col8 offset-s3">
+          <div class="card">
+            <div class="card-content">
+              <h4>Editar Operación</h4>
+              <br />
+              <div class="input-field">
+                <input id="edit-description" type="text" />
+                <label for="edit-description">Descripción</label>
+              </div>
+              <div class="input-field">
+                <input id="edit-amount" type="number" class="validate" />
+                <label for="edit-amount">Monto</label>
+              </div>
+              <div class="input-field">
+                <select id="edit-type">
+                  <option value="spent">Gasto</option>
+                  <option value="earned">Ganancia</option>
+                </select>
+                <label>Tipo</label>
+              </div>
+              <div class="input-field">
+                <label for="edit-date">Desde</label>
+                <input type="text" id="edit-date" class="datepicker" />
+              </div>
+              <div class="collection" id="edit-op-category-collection" style="border: none">
+
+              </div>
+            </div>
+            <div class="card-action right-align">
+              <a href="#" id="cancel-edit-operation">Cancelar</a>
+              <a href="#" id="submit-edit-operation">Editar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CATEGORIES SECTION -->
   <section id="categories-section" class="container hide">
     <div class="card-panel">
