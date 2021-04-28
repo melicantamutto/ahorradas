@@ -1,4 +1,4 @@
-// -------------------------MATERIALIZE INITIALIZATIONS-------------------------
+//  -------------------------------------------------- MATERIALIZE INITIALIZATIONS -------------------------------------------------- 
 
 document.addEventListener("DOMContentLoaded", function () {
   var elems = document.querySelectorAll("select");
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// -------------------------HTML ELEMENTS-------------------------
+//  -------------------------------------------------- HTML ELEMENTS -------------------------------------------------- 
 
 
 // Funciones para traer los elementos del HTML
@@ -20,7 +20,7 @@ const getQuery = (obj) => document.querySelector(obj)
 const getQueryAll = (obj) => document.querySelectorAll(obj)
 
 
-// -------------------------LOCAL STORAGE COMMON FUNCTIONS-------------------------
+//  -------------------------------------------------- LOCAL STORAGE COMMON FUNCTIONS -------------------------------------------------- 
 
 
 // Función que guarda la información en el local storage
@@ -30,7 +30,7 @@ const setStorage = (key, arr) => localStorage.setItem(key, JSON.stringify(arr));
 const getStorage = (key) => JSON.parse(localStorage.getItem(key));
 
 
-// -------------------------PRINT CATEGORIES (REUSABLE- to use each time the section changes)
+//  -------------------------------------------------- PRINT CATEGORIES (REUSABLE- to use each time the section changes) -------------------------
 
 
 //Funcion a la que le pasamos una colección (div en el que pintamos las categorías) como parámetro. Busca las categorías del local storage y crea un div para cada una. Si la colección es la de la seccioón categorías se le agregan también los botones para editar y remover. Finalmente agrega el div de la categoría al final de la colección.
@@ -40,11 +40,11 @@ const printCategories = (collection) => {
     collection.innerHTML = "";
     categoriesStorage.forEach((category) => {
       const newHTML = `
-      <div class="chip category-style" id="${category.id}" onclick="clickOnChip(this)">
+      <div class="chip category-style" id="${category.id}">
         <i class="material-icons">${category.icon}</i>
         ${category.name}
-        <i class="edit material-icons">edit</i>
-        <i class="close material-icons">close</i>
+        <i class="material-icons" onclick="clickCategoryEdition(this)">edit</i>
+        <i class="close material-icons" onclick="clickCategoryRemove(this)">close</i>
         </div>`;
       collection.insertAdjacentHTML("beforeend", newHTML);
     });
@@ -62,7 +62,7 @@ const printCategories = (collection) => {
 };
 
 
-// -------------------------NEW CATEGORY FUNCTIONS-------------------------
+//  -------------------------------------------------- NEW CATEGORY FUNCTIONS -------------------------------------------------- 
 
 
 // Función reutilizable que toma un elemento y su nombre (que es?). Primero busca si existe algún otro elemento con la clase selected. Si es así le remueve todas las clases que le dan color y la clase selected tambien. Luego de todas fromas le da el color y la clase de selccionado al elemento que le pasamos como parámetro y retorna ese elemento.
@@ -108,18 +108,18 @@ getId("add-category-button").addEventListener("click", () => {
 });
 
 
-// -------------------------INITIAL OBJECTS-------------------------
+//  -------------------------------------------------- INITIAL OBJECTS -------------------------------------------------- 
 
 
 // Variable de operaciones donde guardamos el array que encontramos en el local storage o un array vacío si no encontramos nada.
 const operations = getStorage("operationsList")
-  ? getStorage("operationsList")
-  : [];
+? getStorage("operationsList")
+: [];
 
 // Variable de categorías donde guardamos el array que encontramos en el local storage o un array vacío si no encontramos nada.
 const categories = getStorage("categoriesList")
-  ? getStorage("categoriesList")
-  : [];
+? getStorage("categoriesList")
+: [];
 
 // Al iniciar la página chequeamos si el array de categorías del local storage está vacío y si es así agregamos categorías por default.
 if (!getStorage("categoriesList")) {
@@ -131,9 +131,12 @@ if (!getStorage("categoriesList")) {
   addCategory("Cine", "star");
   addCategory("Trabajo", "work");
 }
+
+// Variable que guarda el index de la operación o la categoría que estamos editando en el ámbito global (se sobre-escribe cada vez que le damos a una nueva)
+let currentEditIndex = 0;
   
 
-// -------------------------CATEGORY CHIPS-------------------------
+//  -------------------------------------------------- CATEGORY CHIPS -------------------------------------------------- 
 
 
 // Función pasada a los eventos de las categorías en el HTML que selecciona un chip y deselecciona el anterior
@@ -154,13 +157,100 @@ const getCategoryName = () => {
   return name;
 };
 
+const getCategoryIndex = () =>{
+  let index = "";
+  const selected = getQuery(".selected-chip");
+  const categoriesStorage = getStorage("categoriesList");
+  categoriesStorage.forEach((category) => {
+    if (category["id"] === selected["id"]) {
+      index = categoriesStorage.indexOf(category);
+    }
+  });
+  console.log(index);
+  return index;
+} 
 
-// -------------------------MENU BUTTONS FUNCIONALITY-------------------------
+
+//  -------------------------------------------------- EDIT CATEGORY -------------------------------------------------- 
+
+
+//Función
+const printEditCategory = (i) =>{
+  const category = getStorage("categoriesList")[i];
+  const icons = getQueryAll('.edit-category-icon')
+  getId('edit-category-name').value = category.name;
+  icons.forEach((icon) =>{
+    if(icon.textContent.includes(category.emoji)){
+      getSelected(icon, 'icon')
+    }
+  })
+  currentEditIndex = i;
+  return currentEditIndex
+}
+
+const changeEditCategory = (i) =>{
+  const categoriesStorage = getStorage("categoriesList");
+  const category = getStorage("categoriesList")[i];
+  const edited = {
+    id: operation.id,
+    name: getId('edit-category-name').value,
+    emoji: selectedIcon
+  }
+  categoriesStorage.splice(i, 1, edited);
+  setStorage("categoriesList", categoriesStorage);
+}
+
+const clickCategoryEdition = (e, typeofEdition) => {
+  getSelected(e.parentNode, "chip");
+  console.log('edit');
+  showSection(getId('edit-category-section'))
+  printEditCategory(getCategoryIndex(e.parentNode))
+};
+
+// Evento aplicado al boton de cancelar que se encuentra en el formulario de edición de la operación. Únicamente vuelve a la sección de balance sin cambiar nada.
+getId('cancel-edit-category').addEventListener("click", (e) => {
+  e.preventDefault();
+  showSection(getId('categories-section'));
+});
+
+// Evento aplicado al botón para enviar la operación editada. Busca cual es la operación que queremos editar, cambia la operacion en el local storage, vuelve a la sección de balance y checkea si existen operaciones y en ese caso, las muestra.
+getId('submit-edit-category').addEventListener("click", (e) => {
+  e.preventDefault();
+  changeEditCategory(currentEditIndex)
+  showSection(getId('categories-section'));
+  printCategories(getId('categories-section-collection'))
+});
+
+//  -------------------------------------------------- REMOVE CATEGORY -------------------------------------------------- 
+
+let eliminatedCategory =''
+
+
+//Evento aplicado a la cruz dentro de cada chip de categorías que busca en el local storage las categorías y luego borra la seleccionada, usando la funcion que busca la categoria seleccionada y devuelve el index. Finalmente vuelve a guardar el array actualizado en el local storage y lo imprime en la seccion de categorías
+const removeCategoryClick = () =>{
+  eliminatedCategory = getCategoryName();
+  const categoriesStorage = getStorage("categoriesList");
+  categoriesStorage.splice(getCategoryIndex(), 1);
+  setStorage("categoriesList", categoriesStorage);
+  printCategories(getId('categories-section-collection'))
+  return  eliminatedCategory
+}
+
+const clickCategoryRemove = (e) => {
+  getSelected(e.parentNode, "chip");
+  console.log('remove');
+  removeCategoryClick()
+  removeOperationsByCategory()
+};
+
+
+//  -------------------------------------------------- MENU BUTTONS FUNCIONALITY -------------------------------------------------- 
 
 
 const sectionsArray = [
   getId('balance-section'),
   getId("categories-section"),
+  getId("edit-category-section"),
   getId('reports-section'),
   getId('new-operation-section'),
   getId("edit-operation-section"),
@@ -196,7 +286,7 @@ getId("reports-button").addEventListener("click", () => {
 });
 
 
-// -------------------------ADD OPERATIONS-------------------------
+//  -------------------------------------------------- ADD OPERATIONS -------------------------------------------------- 
 
 
 // Función que crea un objeto con la descripción, el monto, la fecha, el tipo y la categoría según los inputs del formulario de la sección de nueva operación. Además le agrega un id random creado por el UU ID. Agrega la nueva operación al array de operaciones y lo guarda en el local storage.
@@ -235,7 +325,7 @@ getId('submit-new-operation').addEventListener("click", (e) => {
 });
 
 
-// -------------------------PRINTING OPERATIONS-------------------------
+//  -------------------------------------------------- PRINTING OPERATIONS -------------------------------------------------- 
 
 
 // Función que toma una categoría y la retorna con la primera letra en mayúsculas
@@ -288,7 +378,7 @@ const checkIfOperations = () => {
 };
 
 
-// -------------------------GETTING OPERATION BY ID (TO EDIT OR TO REMOVE)-------------------------
+//  -------------------------------------------------- GETTING OPERATION BY ID (TO EDIT OR TO REMOVE) -------------------------------------------------- 
 
 
 // Función a la que le pasamos un botón (para editar o eliminar la operación) y busca que operación del local storage coincide con el id del DIV PADRE del botón (se lo dimos cuando imprimimos la operación en el HTML). Cuando encuentra la operación retorna un NÚMERO correspondiente al index de la operación dentro del array del local storage.
@@ -305,13 +395,10 @@ const getOperationById = (button) => {
 };
 
 
-// -------------------------EDITING OPERATIONS-------------------------
+//  -------------------------------------------------- EDITING OPERATIONS -------------------------------------------------- 
 
 
-// Variable que guarda el index de la operación que estamos editando en el ámbito global (se sobre-escribe cada vez que le damos a una nueva)
-let currentEditIndex = 0;
-
-//Muestra la operación que esté en el index que le pasamos como parámetro en el formulario para editar. Retorna el index que se esta editando asi queda guardado en el ámbito  global y lo puede usar la funcion que guarda la operación ya editada.
+// Muestra la operación que esté en el index que le pasamos como parámetro en el formulario para editar. Retorna el index que se esta editando asi queda guardado en el ámbito  global y lo puede usar la funcion que guarda la operación ya editada.
 const printEditOperation = (i) => {
   const operation = getStorage("operationsList")[i];
   const arrayChips = getId('edit-op-category-collection').childNodes;
@@ -335,7 +422,7 @@ const printEditOperation = (i) => {
   return currentEditIndex
 };
 
-//Corta el objeto de la operación anterior (según el index que le pasemos) y en su lugar inserta la operación editada según los inputs de la sección de editar. Luego guarda todas las operaciones nuevamente en el local storage
+// Corta el objeto de la operación anterior (según el index que le pasemos) y en su lugar inserta la operación editada según los inputs de la sección de editar. Luego guarda todas las operaciones nuevamente en el local storage
 const changeEditOperation = (i) => {
   const operationsStorage = getStorage("operationsList");
   const operation = getStorage("operationsList")[i];
@@ -375,7 +462,7 @@ getId('submit-edit-operation').addEventListener("click", (e) => {
 });
 
 
-// -------------------------REMOVE OPERATIONS-------------------------
+//  -------------------------------------------------- REMOVE OPERATIONS -------------------------------------------------- 
 
 
 //Evento aplicado al boton de eliminar de cada operación. Busca en el local storage todas las operaciones y corta según el indice la operacion seleccionada. Luego vuelve a guardar el array modificado en el local storage.
@@ -387,7 +474,7 @@ const removeOpClick = (e) => {
 };
 
 
-// -------------------------ONLOAD EVENTS-------------------------
+//  -------------------------------------------------- ONLOAD EVENTS -------------------------------------------------- 
 
 
 // Evento aplicado a la página cuando se carga. Se imprimen las categorías que se enceuntran en el local storage y checkea si existen operaciones en el local storage. Si las hay las muestra, sino muestra que no hay.
