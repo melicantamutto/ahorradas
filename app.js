@@ -1,4 +1,4 @@
-// -------------------------MATERIALIZE INITIALIZATIONS-------------------------
+//  -------------------------------------------------- MATERIALIZE INITIALIZATIONS -------------------------------------------------- 
 
 document.addEventListener("DOMContentLoaded", function () {
   var elems = document.querySelectorAll("select");
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// -------------------------HTML ELEMENTS-------------------------
+//  -------------------------------------------------- HTML ELEMENTS -------------------------------------------------- 
 
 
 // Funciones para traer los elementos del HTML
@@ -20,7 +20,7 @@ const getQuery = (obj) => document.querySelector(obj)
 const getQueryAll = (obj) => document.querySelectorAll(obj)
 
 
-// -------------------------LOCAL STORAGE COMMON FUNCTIONS-------------------------
+//  -------------------------------------------------- LOCAL STORAGE COMMON FUNCTIONS -------------------------------------------------- 
 
 
 // Función que guarda la información en el local storage
@@ -30,7 +30,7 @@ const setStorage = (key, arr) => localStorage.setItem(key, JSON.stringify(arr));
 const getStorage = (key) => JSON.parse(localStorage.getItem(key));
 
 
-// -------------------------PRINT CATEGORIES (REUSABLE- to use each time the section changes)
+//  -------------------------------------------------- PRINT CATEGORIES (REUSABLE- to use each time the section changes) -------------------------
 
 
 //Funcion a la que le pasamos una colección (div en el que pintamos las categorías) como parámetro. Busca las categorías del local storage y crea un div para cada una. Si la colección es la de la seccioón categorías se le agregan también los botones para editar y remover. Finalmente agrega el div de la categoría al final de la colección.
@@ -40,11 +40,11 @@ const printCategories = (collection) => {
     collection.innerHTML = "";
     categoriesStorage.forEach((category) => {
       const newHTML = `
-      <div class="chip category-style" id="${category.id}" onclick="clickOnChip(this)">
+      <div class="chip category-style" id="${category.id}">
         <i class="material-icons">${category.icon}</i>
         ${category.name}
-        <i class="edit material-icons">edit</i>
-        <i class="close material-icons">close</i>
+        <i class="material-icons" onclick="clickCategoryEdition(this)">edit</i>
+        <i class="close material-icons" onclick="clickCategoryRemove(this)">close</i>
         </div>`;
       collection.insertAdjacentHTML("beforeend", newHTML);
     });
@@ -62,7 +62,7 @@ const printCategories = (collection) => {
 };
 
 
-// -------------------------NEW CATEGORY FUNCTIONS-------------------------
+//  -------------------------------------------------- NEW CATEGORY FUNCTIONS -------------------------------------------------- 
 
 
 // Función reutilizable que toma un elemento y su nombre (que es?). Primero busca si existe algún otro elemento con la clase selected. Si es así le remueve todas las clases que le dan color y la clase selected tambien. Luego de todas fromas le da el color y la clase de selccionado al elemento que le pasamos como parámetro y retorna ese elemento.
@@ -108,18 +108,18 @@ getId("add-category-button").addEventListener("click", () => {
 });
 
 
-// -------------------------INITIAL OBJECTS-------------------------
+//  -------------------------------------------------- INITIAL OBJECTS -------------------------------------------------- 
 
 
 // Variable de operaciones donde guardamos el array que encontramos en el local storage o un array vacío si no encontramos nada.
 const operations = getStorage("operationsList")
-  ? getStorage("operationsList")
-  : [];
+? getStorage("operationsList")
+: [];
 
 // Variable de categorías donde guardamos el array que encontramos en el local storage o un array vacío si no encontramos nada.
 const categories = getStorage("categoriesList")
-  ? getStorage("categoriesList")
-  : [];
+? getStorage("categoriesList")
+: [];
 
 // Al iniciar la página chequeamos si el array de categorías del local storage está vacío y si es así agregamos categorías por default.
 if (!getStorage("categoriesList")) {
@@ -131,9 +131,12 @@ if (!getStorage("categoriesList")) {
   addCategory("Cine", "star");
   addCategory("Trabajo", "work");
 }
+
+// Variable que guarda el index de la operación o la categoría que estamos editando en el ámbito global (se sobre-escribe cada vez que le damos a una nueva)
+let currentEditIndex = 0;
   
 
-// -------------------------CATEGORY CHIPS-------------------------
+//  -------------------------------------------------- CATEGORY CHIPS -------------------------------------------------- 
 
 
 // Función pasada a los eventos de las categorías en el HTML que selecciona un chip y deselecciona el anterior
@@ -154,19 +157,33 @@ const getCategoryName = () => {
   return name;
 };
 
+const getCategoryIndex = () =>{
+  let index = "";
+  const selected = getQuery(".selected-chip");
+  const categoriesStorage = getStorage("categoriesList");
+  categoriesStorage.forEach((category) => {
+    if (category["id"] === selected["id"]) {
+      index = categoriesStorage.indexOf(category);
+    }
+  });
+  console.log(index);
+  return index;
+} 
 
-// -------------------------MENU BUTTONS FUNCIONALITY-------------------------
+
+//  -------------------------------------------------- MENU BUTTONS FUNCIONALITY -------------------------------------------------- 
 
 
 const sectionsArray = [
   getId('balance-section'),
   getId("categories-section"),
+  getId("edit-category-section"),
   getId('reports-section'),
   getId('new-operation-section'),
   getId("edit-operation-section"),
 ];
 
-//Función que toma como parámentro la sección clickeada a mostrar y le remueve la clase hide y se la da a todas las demás secciones que no son la clickeada (recorriendo el sectionsArray)
+//Función que toma como parámentro la sección clickeada a mostrar y le remueve la clase hide y se la da a todas las demás secciones que no son la clickeada (recorriendo el sectionsArray). Si la sección es la de categorías imprime las categorías y si es la de balance, chequea si hay operaciones y si es así, las muestra.
 const showSection = (click) => {
   sectionsArray.forEach((section) => {
     if (section !== click) {
@@ -175,6 +192,8 @@ const showSection = (click) => {
       click.classList.remove("hide");
       if (click === getId("categories-section")) {
         printCategories(getId('categories-section-collection'));
+      } else if(click === getId("balance-section")){
+        checkIfOperations();
       }
     }
   });
@@ -196,7 +215,7 @@ getId("reports-button").addEventListener("click", () => {
 });
 
 
-// -------------------------ADD OPERATIONS-------------------------
+//  -------------------------------------------------- ADD OPERATIONS -------------------------------------------------- 
 
 
 // Función que crea un objeto con la descripción, el monto, la fecha, el tipo y la categoría según los inputs del formulario de la sección de nueva operación. Además le agrega un id random creado por el UU ID. Agrega la nueva operación al array de operaciones y lo guarda en el local storage.
@@ -231,11 +250,11 @@ getId('submit-new-operation').addEventListener("click", (e) => {
   e.preventDefault();
   addOperation();
   showSection(getId('balance-section'));
-  checkIfOperations();
+  checkIfOperations()
 });
 
 
-// -------------------------PRINTING OPERATIONS-------------------------
+//  -------------------------------------------------- PRINTING OPERATIONS -------------------------------------------------- 
 
 
 // Función que toma una categoría y la retorna con la primera letra en mayúsculas
@@ -250,10 +269,9 @@ const symbolAmount = (amount, type) =>
   type === "spent" ? `-${amount}` : amount;
 
 // Función que busca las operaciones que guardamos en el local storage y las pinta en el div correspondiente, una por una. A todas le agrega un contenedor con dos botones para editarlas y para eliminarlas (con eventos en linea, onlick correspondientes). Ese contenedor tiene el id único de cada operación para poder distinguir cual operación quiero editar o eliminar
-const printOperations = () => {
-  const operationsStorage = getStorage("operationsList");
+const printOperations = (array) => {
   getId('operations-list') .innerHTML = "";
-  operationsStorage.forEach((operation) => {
+  array.forEach((operation) => {
     const newRow = `<div class="row">
       <div class="col s3">${operation.description}</div>
       <div class="col s3">
@@ -276,11 +294,11 @@ const printOperations = () => {
 
 // Función que checkea si existen operaciones en el local storage. Si es así las pinta y si no muestra una imagen y un texto provisorio.
 const checkIfOperations = () => {
-  if (getStorage("operationsList")) {
+  if (getStorage("operationsList") !== []) {
     getId('no-op-image').classList.add("hide");
     getId('no-op-text').classList.add("hide");
     getId('operations-description').classList.remove("hide");
-    printOperations();
+    printOperations(getStorage('operationsList'));
   } else {
     getId('no-op-image').classList.remove("hide");
     getId('no-op-text').classList.remove("hide");
@@ -288,13 +306,13 @@ const checkIfOperations = () => {
 };
 
 
-// -------------------------GETTING OPERATION BY ID (TO EDIT OR TO REMOVE)-------------------------
+//  -------------------------------------------------- GETTING OPERATION BY ID (TO EDIT OR TO REMOVE) -------------------------------------------------- 
 
 
-// Función a la que le pasamos un botón (para editar o eliminar la operación) y busca que operación del local storage coincide con el id del DIV PADRE del botón (se lo dimos cuando imprimimos la operación en el HTML). Cuando encuentra la operación retorna un NÚMERO correspondiente al index de la operación dentro del array del local storage.
-const getOperationById = (button) => {
+// Función a la que le pasamos un botón (para editar o eliminar la operación) o una operación y un str de que tipo es (si es boton o es operacion) y busca que operación del local storage coincide con el id del DIV PADRE del botón (se lo dimos cuando imprimimos la operación en el HTML) o con el id de la operacion que le pasamos. Cuando encuentra la operación retorna un NÚMERO correspondiente al index de la operación dentro del array del local storage.
+const getOperationById = (selected, type) => {
   const operationsStorage = getStorage("operationsList");
-  const selectedId = button.parentElement.id;
+  const selectedId = type === 'operation' ? selected.id : selected.parentElement.id;
   let opIndex;
   operationsStorage.forEach((operation) => {
     if (operation.id === selectedId) {
@@ -305,13 +323,10 @@ const getOperationById = (button) => {
 };
 
 
-// -------------------------EDITING OPERATIONS-------------------------
+//  -------------------------------------------------- EDITING OPERATIONS -------------------------------------------------- 
 
 
-// Variable que guarda el index de la operación que estamos editando en el ámbito global (se sobre-escribe cada vez que le damos a una nueva)
-let currentEditIndex = 0;
-
-//Muestra la operación que esté en el index que le pasamos como parámetro en el formulario para editar. Retorna el index que se esta editando asi queda guardado en el ámbito  global y lo puede usar la funcion que guarda la operación ya editada.
+// Muestra la operación que esté en el index que le pasamos como parámetro en el formulario para editar. Retorna el index que se esta editando asi queda guardado en el ámbito  global y lo puede usar la funcion que guarda la operación ya editada.
 const printEditOperation = (i) => {
   const operation = getStorage("operationsList")[i];
   const arrayChips = getId('edit-op-category-collection').childNodes;
@@ -335,7 +350,7 @@ const printEditOperation = (i) => {
   return currentEditIndex
 };
 
-//Corta el objeto de la operación anterior (según el index que le pasemos) y en su lugar inserta la operación editada según los inputs de la sección de editar. Luego guarda todas las operaciones nuevamente en el local storage
+// Corta el objeto de la operación anterior (según el index que le pasemos) y en su lugar inserta la operación editada según los inputs de la sección de editar. Luego guarda todas las operaciones nuevamente en el local storage
 const changeEditOperation = (i) => {
   const operationsStorage = getStorage("operationsList");
   const operation = getStorage("operationsList")[i];
@@ -353,7 +368,7 @@ const changeEditOperation = (i) => {
 
 // Evento aplicado al botón de editar, que le pasa la operación a la que le hicimos click. Cambia a la sección de editar, muestra la operación seleccionada y luego checkea si existen operaciones y en ese caso, las muestra.
 const editOpClick = (e) => {
-  const editIndex = getOperationById(e);
+  const editIndex = getOperationById(e, 'button');
   showSection(getId("edit-operation-section"));
   printCategories(getId('edit-op-category-collection'))
   printEditOperation(editIndex);
@@ -375,19 +390,114 @@ getId('submit-edit-operation').addEventListener("click", (e) => {
 });
 
 
-// -------------------------REMOVE OPERATIONS-------------------------
+//  -------------------------------------------------- REMOVE OPERATIONS -------------------------------------------------- 
 
 
-//Evento aplicado al boton de eliminar de cada operación. Busca en el local storage todas las operaciones y corta según el indice la operacion seleccionada. Luego vuelve a guardar el array modificado en el local storage.
-const removeOpClick = (e) => {
+//Función reutilizable que busca en el local storage todas las operaciones y corta según el indice la operacion seleccionada. Luego vuelve a guardar el array modificado en el local storage.
+const removeOperation = (op) =>{
   const operationsStorage = getStorage("operationsList");
-  operationsStorage.splice(getOperationById(e), 1);
+  operationsStorage.splice(getOperationById(op, 'operation'), 1);
   setStorage("operationsList", operationsStorage);
+  console.log('coincidence');
+}
+
+//Evento aplicado al boton de eliminar de cada operación. Busca en el local storage todas las operaciones y corta según el indice la operacion seleccionada. Luego vuelve a guardar el array modificado en el local storage. Finalemente chequea si existen operaciones y las imprime.
+const removeOpClick = (e) => {
+  removeOperation(e);
   checkIfOperations();
 };
 
 
-// -------------------------ONLOAD EVENTS-------------------------
+//  -------------------------------------------------- EDIT CATEGORY -------------------------------------------------- 
+
+
+//Función que muestra en la sección de edita rcategoría el nombre y el icono de la categoría a editar. Duelve al ambito global el indice de la categoría dentro del array de categorias almacenado en el local storage
+const printEditCategory = (i) =>{
+  const category = getStorage("categoriesList")[i];
+  const icons = getQueryAll('.category-icon')
+  console.log(icons);
+  getId('edit-category-name').value = category.name;
+  icons.forEach((icon) =>{
+    if(icon.textContent.includes(category.icon)){
+      getSelected(icon, 'icon')
+    }
+  })
+  currentEditIndex = i;
+  return currentEditIndex
+}
+
+// Función que reemplaza la categoría que se euncuentra en el índice que le pasamos como parámetro en el array de categorías del local storage por una categoría con el mismo id que la anterior pero con los valores que tiene el input de nombre y el icono seleccionado en el momento que se apreta el botón de editar.
+const changeEditCategory = (i) =>{
+  const categoriesStorage = getStorage("categoriesList");
+  const category = getStorage("categoriesList")[i];
+  const edited = {
+    id: category.id,
+    name: getId('edit-category-name').value,
+    icon: selectedIcon
+  }
+  categoriesStorage.splice(i, 1, edited);
+  setStorage("categoriesList", categoriesStorage);
+}
+
+// Evento aplicado al botón de editar de cada categoría. Convierte a ese chip en seleccionado, vuelve visible la sección que permite editar esa categoría e imprime sus valores en los inputs.
+const clickCategoryEdition = (e) => {
+  getSelected(e.parentNode, "chip");
+  showSection(getId('edit-category-section'))
+  printEditCategory(getCategoryIndex(e.parentNode))
+};
+
+// Evento aplicado al boton de cancelar que se encuentra en el formulario de edición de la categoría. Únicamente vuelve a la sección de balance sin cambiar nada.
+getId('cancel-edit-category').addEventListener("click", (e) => {
+  e.preventDefault();
+  showSection(getId('categories-section'));
+});
+
+// Evento aplicado al botón para enviar la categoría editada. Busca cual es la categoría que queremos editar, cambia la categoría en el local storage y finalmente las muestra a todas actualizadas en la sección de categorías inicial.
+getId('submit-edit-category').addEventListener("click", (e) => {
+  e.preventDefault();
+  changeEditCategory(currentEditIndex)
+  showSection(getId('categories-section'));
+  printCategories(getId('categories-section-collection'))
+});
+
+
+//  -------------------------------------------------- REMOVE CATEGORY -------------------------------------------------- 
+
+
+// Variable que guarda en el ámbito global qué categoría eliminamos, para luego eliminar las operaciones que pertenecían a esta categoría en aprticular.
+let eliminatedCategory =''
+
+
+//Función que busca en el local storage las categorías y luego borra la seleccionada, usando la funcion que busca la categoria seleccionada y devuelve el index. Finalmente vuelve a guardar el array actualizado en el local storage y lo imprime en la seccion de categorías. Guarda en la variable eliminatedCategory el NOMBRE de la categoría eliminada para retornarla al ámbito global
+const removeCategory = () =>{
+  eliminatedCategory = getCategoryName();
+  const categoriesStorage = getStorage("categoriesList");
+  categoriesStorage.splice(getCategoryIndex(), 1);
+  setStorage("categoriesList", categoriesStorage);
+  printCategories(getId('categories-section-collection'))
+  return  eliminatedCategory
+}
+
+// Función que necesita que categoría se eliminó para recorrer el array de operaciones y pasarle la función de removeOperation a las que cuya categoría coincida con la eliminada.
+const removeOperationsByCategory = (category) =>{
+  const operationsStorage = getStorage('operationsList');
+  operationsStorage.forEach(op => {
+    if(op.category === category){
+      removeOperation(op)
+    }
+  });
+}
+
+//Evento aplicado a la cruz dentro de cada chip de categorías que primero las selecciona(les da la clase de .selected-chip) con getSelected luego la remueve del local storage , las pinta y luego remueve las operaciones que tenian esa categoría eliminadas del local storage.
+const clickCategoryRemove = (e) => {
+  getSelected(e.parentNode, "chip");
+  console.log('remove');
+  removeCategory()
+  removeOperationsByCategory(eliminatedCategory)
+};
+
+
+//  -------------------------------------------------- ONLOAD EVENTS -------------------------------------------------- 
 
 
 // Evento aplicado a la página cuando se carga. Se imprimen las categorías que se enceuntran en el local storage y checkea si existen operaciones en el local storage. Si las hay las muestra, sino muestra que no hay.
