@@ -92,13 +92,14 @@ getQueryAll(".category-icon").forEach((icon) => {
 
 //Función que crea una categoría con el nombre que le pasemos, el emoji y un id ramdom generado por UU ID. Pushea el objeto de la nueva categoría en el array de categorías y luego guarda ese array en el local storage
 const addCategory = (name, emoji) => {
+  const categoriesStorage = getStorage('categoriesStorage')
   const newCategory = {
     id: uuidv4(),
     name: name,
     icon: emoji,
   };
-  categories.push(newCategory);
-  setStorage("categoriesList", categories);
+  categoriesStorage.push(newCategory);
+  setStorage("categoriesList", categoriesStorage);
 };
 
 // Evento aplicado al botón para agregar categorías en la que le pasa el valor del input category-name y el icono seleccionado a la función addCategory y luego las pinta en el HTML con printCategories, pasandole la colección de la sección de categorías (para actualizarlas)
@@ -111,15 +112,15 @@ getId("add-category-button").addEventListener("click", () => {
 //  -------------------------------------------------- INITIAL OBJECTS -------------------------------------------------- 
 
 
-// Variable de operaciones donde guardamos el array que encontramos en el local storage o un array vacío si no encontramos nada.
-const operations = getStorage("operationsList")
+// Variable de operaciones donde guardamos el array que encontramos en el local storage o seteamos el local storage por primera vez si no encontramos nada.
+const initialOperations = getStorage("operationsList")
 ? getStorage("operationsList")
-: [];
+: setStorage('operationsList', []);
 
-// Variable de categorías donde guardamos el array que encontramos en el local storage o un array vacío si no encontramos nada.
-const categories = getStorage("categoriesList")
+// Variable de categorías donde guardamos el array que encontramos en el local storage o seteamos el local storage por primera vez si no encontramos nada.
+const initialCategories = getStorage("categoriesList")
 ? getStorage("categoriesList")
-: [];
+: setStorage('categoriesList', []);
 
 // Al iniciar la página chequeamos si el array de categorías del local storage está vacío y si es así agregamos categorías por default.
 if (!getStorage("categoriesList")) {
@@ -220,6 +221,7 @@ getId("reports-button").addEventListener("click", () => {
 
 // Función que crea un objeto con la descripción, el monto, la fecha, el tipo y la categoría según los inputs del formulario de la sección de nueva operación. Además le agrega un id random creado por el UU ID. Agrega la nueva operación al array de operaciones y lo guarda en el local storage.
 const addOperation = () => {
+  const operationsStorage = getStorage('operationsList')
   let newOp = {
     id: uuidv4(),
     description: getId('new-description').value,
@@ -228,8 +230,8 @@ const addOperation = () => {
     date: getId('new-date').value,
     category: getCategoryName(),
   };
-  operations.push(newOp);
-  setStorage("operationsList", operations);
+  operationsStorage.push(newOp);
+  setStorage("operationsList", operationsStorage);
 };
 
 // Evento que hace visible la sección de nueva operación y muestra las categorías disponibles actualizadas.
@@ -294,14 +296,17 @@ const printOperations = (array) => {
 
 // Función que checkea si existen operaciones en el local storage. Si es así las pinta y si no muestra una imagen y un texto provisorio.
 const checkIfOperations = () => {
-  if (getStorage("operationsList") !== []) {
+  if (getStorage("operationsList").length !== 0) {
     getId('no-op-image').classList.add("hide");
     getId('no-op-text').classList.add("hide");
     getId('operations-description').classList.remove("hide");
+    getId('operations-list').classList.remove("hide");
     printOperations(getStorage('operationsList'));
   } else {
     getId('no-op-image').classList.remove("hide");
     getId('no-op-text').classList.remove("hide");
+    getId('operations-description').classList.add("hide");
+    getId('operations-list').classList.add("hide");
   }
 };
 
