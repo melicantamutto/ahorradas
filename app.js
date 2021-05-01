@@ -10,6 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
   var instances = M.Datepicker.init(elems);
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.tooltipped');
+  var instances = M.Tooltip.init(elems);
+});
+
 
 //  -------------------------------------------------- HTML ELEMENTS -------------------------------------------------- 
 
@@ -92,7 +97,7 @@ getQueryAll(".category-icon").forEach((icon) => {
 
 //Función que crea una categoría con el nombre que le pasemos, el emoji y un id ramdom generado por UU ID. Pushea el objeto de la nueva categoría en el array de categorías y luego guarda ese array en el local storage
 const addCategory = (name, emoji) => {
-  const categoriesStorage = getStorage('categoriesStorage')
+  const categoriesStorage = getStorage('categoriesList')
   const newCategory = {
     id: uuidv4(),
     name: name,
@@ -103,7 +108,7 @@ const addCategory = (name, emoji) => {
 };
 
 // Evento aplicado al botón para agregar categorías en la que le pasa el valor del input category-name y el icono seleccionado a la función addCategory y luego las pinta en el HTML con printCategories, pasandole la colección de la sección de categorías (para actualizarlas)
-getId("add-category-button").addEventListener("click", () => {
+getId("submit-new-category").addEventListener("click", () => {
   addCategory(getId('category-name').value, selectedIcon);
   printCategories(getId('categories-section-collection'));
 });
@@ -250,6 +255,7 @@ getId('cancel-operation').addEventListener("click", (e) => {
 // Evento que envía la nueva operación que estabamos creando, retorna a la sección de balance y checkea si existen operaciones y en ese caso las muestra en el HTML actualizadas.
 getId('submit-new-operation').addEventListener("click", (e) => {
   e.preventDefault();
+  checkIfChipSelected(e)
   addOperation();
   showSection(getId('balance-section'));
   checkIfOperations()
@@ -389,6 +395,7 @@ getId('cancel-edit-operation').addEventListener("click", (e) => {
 // Evento aplicado al botón para enviar la operación editada. Busca cual es la operación que queremos editar, cambia la operacion en el local storage, vuelve a la sección de balance y checkea si existen operaciones y en ese caso, las muestra.
 getId('submit-edit-operation').addEventListener("click", (e) => {
   e.preventDefault();
+  checkIfChipSelected(e)
   changeEditOperation(currentEditIndex)
   showSection(getId('balance-section'));
   checkIfOperations();
@@ -500,6 +507,22 @@ const clickCategoryRemove = (e) => {
   removeCategory()
   removeOperationsByCategory(eliminatedCategory)
 };
+
+
+//  -------------------------------------------------- FORM VALIDATION -------------------------------------------------- 
+
+
+// //Función
+// const checkIfChipSelected = (button) =>{
+//   const instance = M.Tooltip.getInstance(button);
+//   if(getQuery('.selected-category')){
+//     console.log('no tooltip');
+//     instance.close();
+//   }else{
+//     instance.open();
+//     console.log('tooltip');
+//   }
+// }
 
 
 //  -------------------------------------------------- ONLOAD EVENTS -------------------------------------------------- 
