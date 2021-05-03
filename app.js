@@ -4,10 +4,45 @@ document.addEventListener("DOMContentLoaded", function () {
   var elems = document.querySelectorAll("select");
   var instances = M.FormSelect.init(elems);
 });
+//Intento de funcion para filtrar por fecha
+// const catchOperationsDate = (array) => {
+//   let result = ''
+//   array.filter((op)=>{
+//     result += op.date
+//   })
+//   return result
+// }
+// const operationsDate = console.log(catchOperationsDate([...getStorage("operationsList")])); 
 
-document.addEventListener("DOMContentLoaded", function () {
-  var elems = document.querySelectorAll(".datepicker");
-  var instances = M.Datepicker.init(elems);
+// const filterDate = (date) => {
+//   let result = ''
+//   if (date === operationsDate.filter((op)=>{op === date}) ) {
+//     result += date
+//   }
+//   return result
+// }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  var options = {
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    onSelect: function(Date){
+    //  filterDate(Date)
+    console.log(Date);
+    },
+    i18n: {
+      months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+      monthsShort:['Ene', 'Feb', 'Mar', 'Abr', 'Mayo', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+      weekdays: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'],
+      weekdaysShort: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab', 'Dom']
+    }
+
+  };
+  var elems = document.querySelector('.datepicker');
+  var instance = M.Datepicker.init(elems, options);
+  // instance.open();
+  instance.setDate(new Date());
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -134,9 +169,13 @@ let currentEditIndex = 0;
 //  -------------------------------------------------- CATEGORY CHIPS --------------------------------------------------
 
 // Función pasada a los eventos de las categorías en el HTML que selecciona un chip y deselecciona el anterior
-const clickOnChip = (e) => {
+const clickOnChip = (e) =>{
   getSelected(e, "chip");
-};
+  if (e.parentNode === getId('filter-category-collection')) {
+    filterOperation()
+  }
+}
+
 
 // Función que busca el chip con la clase de seleccionado y busca en el local storage qué categoría tiene el mismo id que el chip seleccionado y retorna EL NOMBRE de la categoría
 const getCategoryName = () => {
@@ -296,6 +335,7 @@ const checkIfOperations = () => {
     getId("no-op-text").classList.add("hide");
     getId("operations-description").classList.remove("hide");
     getId("operations-list").classList.remove("hide");
+
     printOperations(getStorage("operationsList"));
   } else {
     getId("no-op-image").classList.remove("hide");
@@ -509,6 +549,62 @@ window.addEventListener("load", () => {
   checkIfOperations();
 });
 
+
+//FILTER-FUNCIONALITY
+
+let newArr = [...getStorage("operationsList")];
+const filterType = getId('filter-type');
+const filtersCategories = getId('filter-category-collection');
+const filterDate = getId('filter-date');
+const filterSort = getId("filter-sort");
+// var checkDate = ''
+// console.log(checkDate);
+
+
+const filterOperation = () => {
+const selectedType = filterType.options[filterType.selectedIndex].value;
+console.log(selectedType);
+const selectedCategory = getCategoryName();
+const sortBy = filterSort.options[filterSort.selectedIndex].value;
+  // const selectedDate = filterDate.picker.value
+  // console.log(selectedDate);
+let newArr = [...getStorage("operationsList")];
+  
+  if (selectedCategory !== 'all') {
+    newArr = newArr.filter((op) => op.category === selectedCategory);
+    
+  }
+
+  if (selectedType !== "all") {
+    newArr = newArr.filter((op) => op.type === selectedType);
+   
+  }
+  //  if(filterDate){
+  //    newArr = newArr.filter((op) => op.date === selectedDate)
+  //  }
+  //  console.log(filterDate);
+  switch (sortBy) {
+    case 'most-recent':
+      newArr = newArr.sort((a,b) => a.date > b.date)
+      break;
+    case 'least-recent':
+      newArr = newArr.sort((a,b) => a.date < b.date)
+      break;
+    case 'biggest-amount':
+      newArr = newArr.sort((a,b) => a.amount < b.amount ? 1 : -1)
+      break;
+    case 'smallest-amount':
+      newArr = newArr.sort((a,b) => a.amount > b.amount ? 1 : -1)
+      break;
+    case 'a-z':
+      newArr = newArr.sort((a,b) => a.description < b.description ? 1 : -1)
+      break;
+    case 'z-a':
+      newArr = newArr.sort((a,b) => a.description > b.description ? 1 : -1)
+      break;
+  }
+  printOperations(newArr)
+
 //  -------------------------------------------------- ONLOAD EVENTS --------------------------------------------------
 
 const getCategoryMost = (type) => {
@@ -551,8 +647,6 @@ const showCategoryMost = (most, type) => {
     <td>$${most[type]}</td>`;
   getId(`category-most-${type}`).innerHTML = newTd;
 };
-
-
 
 const getReport = (type) => {
   const operationsStorage = getStorage("operationsList");
