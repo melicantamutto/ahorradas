@@ -1,3 +1,11 @@
+:root{
+    --BaseColor: #9ca1fa;
+    --SecondColor: #212b47;
+    --TypographyColor: #f8ecf5;
+    --ContrastColor: #5860a0;
+    --TypographyColor2: #140f07;
+}
+
 .margin-bottom{
     margin-bottom: 1.75em;
 }
@@ -10,7 +18,10 @@
     margin-right: 0.5em;
 }
 
-/* .chip{
-    display: flex;
-    
-} */
+.body-color{
+    background-color: var(--TypographyColor);
+}
+
+.nav-color{
+    background-color: var(--BaseColor);
+}
