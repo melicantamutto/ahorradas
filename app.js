@@ -770,3 +770,4 @@ const showMonthMost = (most, type) => {
   <td>$${most[type]}</td>`;
   getId(`month-most-${type}`).innerHTML = newTd;
 };
+
