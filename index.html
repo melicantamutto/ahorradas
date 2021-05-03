@@ -181,7 +181,8 @@
             </div>
             <div class="card-action right-align">
               <a href="#" id="cancel-operation">Cancelar</a>
-              <a class ='tooltipped' href="#" id="submit-new-operation" data-position="top" data-tooltip ="Por favor seleccione una categoría">Agregar</a>
+              <a class='tooltipped' href="#" id="submit-new-operation" data-position="top"
+                data-tooltip="Por favor seleccione una categoría">Agregar</a>
             </div>
           </div>
         </div>
@@ -223,7 +224,8 @@
             </div>
             <div class="card-action right-align">
               <a href="#" id="cancel-edit-operation">Cancelar</a>
-              <a class ='tooltipped' href="#" id="submit-edit-operation" data-position="top" data-tooltip ="Por favor seleccione una categoría">Editar</a>
+              <a class='tooltipped' href="#" id="submit-edit-operation" data-position="top"
+                data-tooltip="Por favor seleccione una categoría">Editar</a>
             </div>
           </div>
         </div>
@@ -260,7 +262,8 @@
           <i class="material-icons category-icon">games</i>
         </div>
         <div class="input-field col s7">
-          <input placeholder="Nombre de la categoría" id="category-name" type="text" class="validate" class="validate" required>
+          <input placeholder="Nombre de la categoría" id="category-name" type="text" class="validate" class="validate"
+            required>
           <label for="category-name"></label>
         </div>
         <a class="waves-effect waves-light btn-large" id="submit-new-category">Agregar</a>
@@ -321,46 +324,11 @@
       <div class="collection with-header">
         <table>
           <tbody>
-            <tr>
-              <td>Categoria con mayor ganancia</td>
-              <td>
-                <div class="chip">
-                  <i class="material-icons">work</i>
-                  Trabajo
-                </div>
-              </td>
-              <td>$1000</td>
-            </tr>
-            <tr>
-              <td>Categoria con mayor gasto</td>
-              <td>
-                <div class="chip">
-                  <i class="material-icons">local_pizza</i>
-                  Comida
-                </div>
-              </td>
-              <td>-$1000</td>
-            </tr>
-            <tr>
-              <td>Categoria con mayor balance</td>
-              <td>
-                <div class="chip">
-                  <i class="material-icons">work</i>
-                  Trabajo
-                </div>
-              </td>
-              <td>$1000</td>
-            </tr>
-            <tr>
-              <td>Mes con mayor ganancia</td>
-              <td>1/11/1111</td>
-              <td>$1000</td>
-            </tr>
-            <tr>
-              <td>Mes con mayor gasto</td>
-              <td>1/11/1111</td>
-              <td>-$1000</td>
-            </tr>
+            <tr id="category-most-earned"></tr>
+            <tr id="category-most-spent"></tr>
+            <tr id="category-most-balance"></tr>
+            <tr id="month-most-earned"></tr>
+            <tr id="month-most-spent"></tr>
           </tbody>
         </table>
       </div>
@@ -376,42 +344,7 @@
               <th>Balance</th>
             </tr>
           </thead>
-
-          <tbody>
-            <tr>
-              <td>
-                <div class="chip">
-                  <i class="material-icons">local_pizza</i>
-                  Comida
-                </div>
-              </td>
-              <td>+$1000</td>
-              <td>-$1000</td>
-              <td>$1000</td>
-            </tr>
-            <tr>
-              <td>
-                <div class="chip">
-                  <i class="material-icons">work</i>
-                  Trabajo
-                </div>
-              </td>
-              <td>+$1000</td>
-              <td>-$1000</td>
-              <td>$1000</td>
-            </tr>
-            <tr>
-              <td>
-                <div class="chip">
-                  <i class="material-icons">lightbulb_outline</i>
-                  Servicios
-                </div>
-              </td>
-              <td>+$1000</td>
-              <td>-$1000</td>
-              <td>$1000</td>
-            </tr>
-          </tbody>
+          <tbody id="categories-reports"></tbody>
         </table>
       </div>
       <br>
@@ -426,21 +359,7 @@
               <th>Balance</th>
             </tr>
           </thead>
-
-          <tbody>
-            <tr>
-              <td>3/03/2021</td>
-              <td>+$1000</td>
-              <td>-$1000</td>
-              <td>$1000</td>
-            </tr>
-            <tr>
-              <td>4/04/2021</td>
-              <td>+$1000</td>
-              <td>-$1000</td>
-              <td>$1000</td>
-            </tr>
-          </tbody>
+          <tbody id="months-reports"></tbody>
         </table>
       </div>
     </div>
