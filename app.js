@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //   })
 //   return result
 // }
-// const operationsDate = console.log(catchOperationsDate([...getStorage("operationsList")])); 
+// const operationsDate = console.log(catchOperationsDate([...getStorage("operationsList")]));
 
 // const filterDate = (date) => {
 //   let result = ''
@@ -22,24 +22,22 @@ document.addEventListener("DOMContentLoaded", function () {
 //   return result
 // }
 
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
   var options = {
     defaultDate: new Date(),
     setDefaultDate: true,
-    onSelect: function(Date){
-    //  filterDate(Date)
-    console.log(Date);
+    onSelect: function (Date) {
+      //  filterDate(Date)
+      console.log(Date);
     },
     i18n: {
-      months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-      monthsShort:['Ene', 'Feb', 'Mar', 'Abr', 'Mayo', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-      weekdays: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'],
-      weekdaysShort: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab', 'Dom']
-    }
-
+      months: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre",],
+      monthsShort: ["Ene","Feb","Mar","Abr","Mayo","Jun","Jul","Ago","Sep","Oct","Nov","Dic",],
+      weekdays: ["Lunes","Martes","Miércoles","Jueves","Viernes","Sabado","Domingo",],
+      weekdaysShort: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sab", "Dom"],
+    },
   };
-  var elems = document.querySelector('.datepicker');
+  var elems = document.querySelector(".datepicker");
   var instance = M.Datepicker.init(elems, options);
   // instance.open();
   instance.setDate(new Date());
@@ -67,7 +65,7 @@ const getStorage = (key) => JSON.parse(localStorage.getItem(key));
 
 //  -------------------------------------------------- PRINT CATEGORIES (REUSABLE- to use each time the section changes) -------------------------
 
-//Funcion a la que le pasamos una colección (div en el que pintamos las categorías) como parámetro. Busca las categorías del local storage y crea un div para cada una. Si la colección es la de la seccioón categorías se le agregan también los botones para editar y remover. Finalmente agrega el div de la categoría al final de la colección.
+// Funcion a la que le pasamos una colección (div en el que pintamos las categorías) como parámetro. Busca las categorías del local storage y crea un div para cada una. Si la colección es la de la seccioón categorías se le agregan también los botones para editar y remover. Finalmente agrega el div de la categoría al final de la colección.
 const printCategories = (collection) => {
   const categoriesStorage = getStorage("categoriesList");
   if (collection === getId("categories-section-collection")) {
@@ -169,13 +167,12 @@ let currentEditIndex = 0;
 //  -------------------------------------------------- CATEGORY CHIPS --------------------------------------------------
 
 // Función pasada a los eventos de las categorías en el HTML que selecciona un chip y deselecciona el anterior
-const clickOnChip = (e) =>{
+const clickOnChip = (e) => {
   getSelected(e, "chip");
-  if (e.parentNode === getId('filter-category-collection')) {
-    filterOperation()
+  if (e.parentNode === getId("filter-category-collection")) {
+    filterOperation();
   }
-}
-
+};
 
 // Función que busca el chip con la clase de seleccionado y busca en el local storage qué categoría tiene el mismo id que el chip seleccionado y retorna EL NOMBRE de la categoría
 const getCategoryName = () => {
@@ -190,6 +187,7 @@ const getCategoryName = () => {
   return name;
 };
 
+// Función que busca por id el chip seleccionado y retorna el índice de la categoría con el mismo id
 const getCategoryIndex = () => {
   let index = "";
   const selected = getQuery(".selected-chip");
@@ -233,6 +231,7 @@ const showSection = (click) => {
 // Evento para mostrar la sección de balance
 getId("balance-button").addEventListener("click", () => {
   showSection(getId("balance-section"));
+  showBalanceTotals();
 });
 
 // Evento para mostrar la sección de categorías
@@ -243,9 +242,9 @@ getId("categories-button").addEventListener("click", () => {
 // Evento para mostrar la sección de reportes
 getId("reports-button").addEventListener("click", () => {
   showSection(getId("reports-section"));
-  showCategoryMost(getCategoryMost('earned'), 'earned');
-  showCategoryMost(getCategoryMost('spent'), 'spent');
-  showCategoryMost(getCategoryMost('balance'), 'balance');
+  showCategoryMost(getCategoryMost("earned"), "earned");
+  showCategoryMost(getCategoryMost("spent"), "spent");
+  showCategoryMost(getCategoryMost("balance"), "balance");
   showMonthMost(getMonthMost("earned"), "earned");
   showMonthMost(getMonthMost("spent"), "spent");
   showCategoryReport(getReport("category"));
@@ -289,6 +288,7 @@ getId("submit-new-operation").addEventListener("click", (e) => {
   addOperation();
   showSection(getId("balance-section"));
   checkIfOperations();
+  showBalanceTotals();
 });
 
 //  -------------------------------------------------- PRINTING OPERATIONS --------------------------------------------------
@@ -549,75 +549,106 @@ window.addEventListener("load", () => {
   checkIfOperations();
 });
 
+// -------------------------------------------------- Balance / TOTALES --------------------------------------------------
 
-//FILTER-FUNCIONALITY
+//Funcion reutilizable que separa la list de operacines segun gasto o ganancia
+const searchOperationByType = (array, str) => {
+  const typeOp = array.filter((op) => op.type === str);
+  return typeOp;
+};
+
+//Funcion reutilizable que suma las operaciones segun gasto o ganancia
+const searchTotalAmounts = (array) => {
+  let result = 0;
+  array.map((move) => {
+    result += Number(move.amount);
+  });
+  return result;
+};
+
+// Función que actualiza el balance de la sección balance
+const showBalanceTotals = () => {
+  const totalEarned = searchOperationByType(
+    [...getStorage("operationsList")],
+    "earned"
+  );
+  const totalSpent = searchOperationByType(
+    [...getStorage("operationsList")],
+    "spent"
+  );
+
+  getId("total-earned").innerText = searchTotalAmounts(totalEarned);
+  getId("total-spent").innerText = searchTotalAmounts(totalSpent);
+  getId("total-balance").innerText =
+    searchTotalAmounts(totalEarned) + searchTotalAmounts(totalSpent);
+};
+
+// -------------------------------------------------- FILTER-FUNCIONALITY --------------------------------------------------
 
 let newArr = [...getStorage("operationsList")];
-const filterType = getId('filter-type');
-const filtersCategories = getId('filter-category-collection');
-const filterDate = getId('filter-date');
+const filterType = getId("filter-type");
+const filtersCategories = getId("filter-category-collection");
+const filterDate = getId("filter-date");
 const filterSort = getId("filter-sort");
 // var checkDate = ''
 // console.log(checkDate);
 
-
 const filterOperation = () => {
-const selectedType = filterType.options[filterType.selectedIndex].value;
-console.log(selectedType);
-const selectedCategory = getCategoryName();
-const sortBy = filterSort.options[filterSort.selectedIndex].value;
+  const selectedType = filterType.options[filterType.selectedIndex].value;
+  console.log(selectedType);
+  const selectedCategory = getCategoryName();
+  const sortBy = filterSort.options[filterSort.selectedIndex].value;
   // const selectedDate = filterDate.picker.value
   // console.log(selectedDate);
-let newArr = [...getStorage("operationsList")];
-  
-  if (selectedCategory !== 'all') {
+  let newArr = [...getStorage("operationsList")];
+
+  if (selectedCategory !== "all") {
     newArr = newArr.filter((op) => op.category === selectedCategory);
-    
   }
 
   if (selectedType !== "all") {
     newArr = newArr.filter((op) => op.type === selectedType);
-   
   }
   //  if(filterDate){
   //    newArr = newArr.filter((op) => op.date === selectedDate)
   //  }
   //  console.log(filterDate);
   switch (sortBy) {
-    case 'most-recent':
-      newArr = newArr.sort((a,b) => a.date > b.date)
+    case "most-recent":
+      newArr = newArr.sort((a, b) => a.date > b.date);
       break;
-    case 'least-recent':
-      newArr = newArr.sort((a,b) => a.date < b.date)
+    case "least-recent":
+      newArr = newArr.sort((a, b) => a.date < b.date);
       break;
-    case 'biggest-amount':
-      newArr = newArr.sort((a,b) => a.amount < b.amount ? 1 : -1)
+    case "biggest-amount":
+      newArr = newArr.sort((a, b) => (a.amount < b.amount ? 1 : -1));
       break;
-    case 'smallest-amount':
-      newArr = newArr.sort((a,b) => a.amount > b.amount ? 1 : -1)
+    case "smallest-amount":
+      newArr = newArr.sort((a, b) => (a.amount > b.amount ? 1 : -1));
       break;
-    case 'a-z':
-      newArr = newArr.sort((a,b) => a.description < b.description ? 1 : -1)
+    case "a-z":
+      newArr = newArr.sort((a, b) => (a.description < b.description ? 1 : -1));
       break;
-    case 'z-a':
-      newArr = newArr.sort((a,b) => a.description > b.description ? 1 : -1)
+    case "z-a":
+      newArr = newArr.sort((a, b) => (a.description > b.description ? 1 : -1));
       break;
   }
-  printOperations(newArr)
-}
-//  -------------------------------------------------- ONLOAD EVENTS --------------------------------------------------
+  printOperations(newArr);
+};
+
+//  --------------------------------------------------  REPORTS FUNCTIONALITY --------------------------------------------------
 
 const getCategoryMost = (type) => {
   const reportCategories = getReport("categories");
   let result;
-  let amount = type === 'balance' ? getCategoryMost('spent').spent : 0;
+  let amount = type === "balance" ? getCategoryMost("spent").spent : 0;
   reportCategories.forEach((report) => {
-    if(type === 'spent'){
+    if (type === "spent") {
       if (report.spent < amount) {
         amount = report.spent;
         result = report;
       }
-    } else{
+    } else {
       if (report[type] > amount) {
         amount = report.earned;
         result = report;
@@ -628,13 +659,13 @@ const getCategoryMost = (type) => {
 };
 
 const showCategoryMost = (most, type) => {
-  let title =  ''
-  if(type === 'earned'){
-    title = '<td>Categoria con mayor ganancia</td>'
-  } else if(type === 'spent'){
-    title = '<td>Categoria con mayor gasto</td>'
-  } else{
-    title = '<td>Categoria con mayor balance</td>'
+  let title = "";
+  if (type === "earned") {
+    title = "<td>Categoria con mayor ganancia</td>";
+  } else if (type === "spent") {
+    title = "<td>Categoria con mayor gasto</td>";
+  } else {
+    title = "<td>Categoria con mayor balance</td>";
   }
   const newTd = ` 
    ${title}
@@ -642,8 +673,8 @@ const showCategoryMost = (most, type) => {
       <div class="chip">
         <i class="material-icons">${most.icon}</i>
         ${most.name}
-      </div>
-    </td>
+      </div>  
+    </td>  
     <td>$${most[type]}</td>`;
   getId(`category-most-${type}`).innerHTML = newTd;
 };
@@ -651,20 +682,7 @@ const showCategoryMost = (most, type) => {
 const getReport = (type) => {
   const operationsStorage = getStorage("operationsList");
   const categoriesStorage = getStorage("categoriesList");
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   const toFilter = type === "months" ? months : categoriesStorage;
   let reportArray = [];
 
@@ -675,22 +693,13 @@ const getReport = (type) => {
         : operationsStorage.filter((op) => filter["name"] === op["category"]);
 
     if (operationsFiltered.length !== 0) {
-      const earned = operationsFiltered.filter((op) => op["type"] === "earned");
-      const spent = operationsFiltered.filter((op) => op["type"] === "spent");
+      const earned = searchOperationByType(operationsFiltered, "earned");
+      const spent = searchOperationByType(operationsFiltered, "spent");
 
-      let totalEarned = 0;
-      let totalSpent = 0;
-      let totalBalance = 0;
+      const totalEarned = searchTotalAmounts(earned);
+      const totalSpent = searchTotalAmounts(spent);
+      const totalBalance = searchTotalAmounts(operationsFiltered);
 
-      earned.forEach((op) => {
-        totalEarned += Number(op.amount);
-      });
-
-      spent.forEach((op) => {
-        totalSpent -= Number(op.amount);
-      });
-
-      totalBalance = totalSpent + totalEarned;
       const amounts = {
         earned: totalEarned,
         spent: totalSpent,
@@ -714,12 +723,12 @@ const showCategoryReport = (array) => {
       <div class="chip">
         <i class="material-icons">${category.icon}</i>
         ${category.name}
-      </div>
-    </td>
+      </div>  
+    </td>  
     <td>${category.earned}</td>
     <td>${category.spent}</td>
     <td>${category.balance}</td>
-  </tr>
+  </tr>  
     <tr>`;
     getId("categories-reports").insertAdjacentHTML("beforeend", newTr);
   });
@@ -764,7 +773,7 @@ const showMonthMost = (most, type) => {
     type === "earned"
       ? "<td>Mes con mayor ganancia</td>"
       : "<td>Mes con mayor gasto</td>";
-  const newTd = ` 
+  const newTd = `     
   ${title}
   <td>${most.month}</td>
   <td>$${most[type]}</td>`;
