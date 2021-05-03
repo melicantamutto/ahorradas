@@ -604,7 +604,7 @@ let newArr = [...getStorage("operationsList")];
       break;
   }
   printOperations(newArr)
-
+}
 //  -------------------------------------------------- ONLOAD EVENTS --------------------------------------------------
 
 const getCategoryMost = (type) => {
