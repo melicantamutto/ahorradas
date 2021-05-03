@@ -1,3 +1,11 @@
+:root{
+    --BaseColor: #9ca1fa;
+    --SecondColor: #212b47;
+    --TypographyColor: #f8ecf5;
+    --ContrastColor: #5860a0;
+    --TypographyColor2: #140f07;
+}
+
 .margin-bottom{
     margin-bottom: 1.75em;
 }
@@ -10,7 +18,47 @@
     margin-right: 0.5em;
 }
 
-/* .chip{
+.body-color{
+    background-color: var(--TypographyColor);
+}
+
+.nav-color, .chips-color{
+    background-color: var(--SecondColor);
+}
+
+.card-color {
+    background-color: var(--BaseColor);
+}
+
+.typography-color, .chips-color {
+    color: var(--TypographyColor);
+}
+
+.typography-color-b {
+    color: var(--SecondColor);
+}
+
+.logo{
+    width: auto;
+    height: 3.5rem;
+    margin-right: 1.5%;
+    margin-top: 5px;
+}
+
+.b:hover {
+    background-color: var(--ContrastColor);
+    color: var(--SecondColor);
+}
+
+.chips-center {
+    height: auto;
+    width: 7rem;
     display: flex;
-    
-} */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.icon-margin{
+    margin-right: 5%;
+}

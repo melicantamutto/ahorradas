@@ -74,7 +74,7 @@ const printCategories = (collection) => {
     collection.innerHTML = "";
     categoriesStorage.forEach((category) => {
       const newHTML = `
-      <div class="chip category-style" id="${category.id}">
+      <div class="chip category-style chips-color" id="${category.id}" onclick="clickOnChip(this)">
         <i class="material-icons">${category.icon}</i>
         ${category.name}
         <i class="material-icons" onclick="clickCategoryEdition(this)">edit</i>
@@ -86,8 +86,8 @@ const printCategories = (collection) => {
     collection.innerHTML = "<h6>Categorías</h6>";
     categoriesStorage.forEach((category) => {
       const newHTML = `
-      <div class="chip" id="${category.id}" onclick="clickOnChip(this)">
-        <i class="material-icons">${category.icon}</i>
+      <div class="chip chips-color chips-center" id="${category.id}" onclick="clickOnChip(this)">
+        <i class="material-icons icon-margin">${category.icon}</i>
         <span class="category-style">${category.name}</span>
         </div>`;
       collection.insertAdjacentHTML("beforeend", newHTML);
@@ -311,7 +311,7 @@ const printOperations = (array) => {
     const newRow = `<div class="row">
       <div class="col s3">${operation.description}</div>
       <div class="col s3">
-        <div class="chip">
+        <div class="chip card-color typography-color ">
           ${capitalizeCategory(operation.category)}
         </div>
       </div>
