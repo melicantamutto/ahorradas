@@ -190,6 +190,7 @@ const getCategoryName = () => {
   return name;
 };
 
+// Función que busca por id el chip seleccionado y retorna el índice de la categoría con el mismo id
 const getCategoryIndex = () => {
   let index = "";
   const selected = getQuery(".selected-chip");
@@ -605,6 +606,7 @@ let newArr = [...getStorage("operationsList")];
   }
   printOperations(newArr)
 }
+
 //  -------------------------------------------------- ONLOAD EVENTS --------------------------------------------------
 
 const getCategoryMost = (type) => {
@@ -651,19 +653,7 @@ const showCategoryMost = (most, type) => {
 const getReport = (type) => {
   const operationsStorage = getStorage("operationsList");
   const categoriesStorage = getStorage("categoriesList");
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov", "Dec"
   ];
   const toFilter = type === "months" ? months : categoriesStorage;
   let reportArray = [];
@@ -800,3 +790,5 @@ const searchTotalAmounts = (array) =>{
 ganancias.innerText = searchTotalAmounts(totalGanancias)
 gastos.innerText = searchTotalAmounts(totalGastos)
 total.innerText = searchTotalAmounts(totalGanancias) + searchTotalAmounts(totalGastos)
+=======
+
