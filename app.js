@@ -605,6 +605,7 @@ let newArr = [...getStorage("operationsList")];
       break;
   }
   printOperations(newArr)
+}
 
 //  -------------------------------------------------- ONLOAD EVENTS --------------------------------------------------
 
@@ -758,4 +759,4 @@ const showMonthMost = (most, type) => {
   <td>${most.month}</td>
   <td>$${most[type]}</td>`;
   getId(`month-most-${type}`).innerHTML = newTd;
-};
+}
