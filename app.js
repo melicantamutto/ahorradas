@@ -779,33 +779,3 @@ const showMonthMost = (most, type) => {
   <td>$${most[type]}</td>`;
   getId(`month-most-${type}`).innerHTML = newTd;
 };
-
-//Balance / TOTALES
-const ganancias = getId('ganancias');
-const gastos = getId('gastos');
-const total = getId('total');
-
-
-//Funcion que separa la list de operacines segun gasto o ganancia
-const searchOperation = (array, str) => {
-  const typeOp = array.filter(op => op.type === str)
-  return typeOp
-}
-
-const totalGanancias = searchOperation([...getStorage("operationsList")], 'earned')
-console.log(totalGanancias);
-const totalGastos = searchOperation([...getStorage("operationsList")], 'spent')
-
-
-//Funcion que suma las operaciones segun gasto o ganancia
-const searchTotalAmounts = (array) =>{
-  let result = 0
-  array.map((move)=>{
-    result += Number(move.amount)
-  })
-  return result
-}
-
-ganancias.innerText = searchTotalAmounts(totalGanancias)
-gastos.innerText = searchTotalAmounts(totalGastos)
-total.innerText = searchTotalAmounts(totalGanancias) + searchTotalAmounts(totalGastos)
