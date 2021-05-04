@@ -270,11 +270,13 @@ getId("reports-ham-button").addEventListener("click", () => {
 // Función que crea un objeto con la descripción, el monto, la fecha, el tipo y la categoría según los inputs del formulario de la sección de nueva operación. Además le agrega un id random creado por el UU ID. Agrega la nueva operación al array de operaciones y lo guarda en el local storage.
 const addOperation = () => {
   const operationsStorage = getStorage("operationsList");
+  const type = getId("new-type").options[getId("new-type").selectedIndex].value;
+  const amount = getId("new-amount").value;
   let newOp = {
     id: uuidv4(),
     description: getId("new-description").value,
-    amount: getId("new-amount").value,
-    type: getId("new-type").options[getId("new-type").selectedIndex].value,
+    amount: type === 'spent' ? -amount : amount,
+    type: type,
     date: getId("new-date").value,
     category: getCategoryName(),
   };
@@ -314,9 +316,6 @@ const capitalizeCategory = (category) =>
 // Función que según el tipo de operación la pinta en rojo o en verde
 const colorAmount = (type) => (type === "spent" ? "red" : "green");
 
-// Función que según el tipo de operación le agrega un menos adelante o no
-const symbolAmount = (amount, type) =>
-  type === "spent" ? `-${amount}` : amount;
 
 // Función que busca las operaciones que guardamos en el local storage y las pinta en el div correspondiente, una por una. A todas le agrega un contenedor con dos botones para editarlas y para eliminarlas (con eventos en linea, onlick correspondientes). Ese contenedor tiene el id único de cada operación para poder distinguir cual operación quiero editar o eliminar
 const printOperations = (array) => {
@@ -332,7 +331,7 @@ const printOperations = (array) => {
       <div class="col m2 l2 hide-on-small-only">${operation.date}</div>
       <div class="col s6 m2 l2" style="color:${colorAmount(
         operation.type
-      )};">${symbolAmount(operation.amount, operation.type)}</div>
+      )};">${operation.amount}</div>
       <div class="col s6 m2 l2" id=${operation.id}>
         <a href="#" class="margin-right-plus" onclick="editOpClick(this)">Editar</a>
         <a href="#" onclick="removeOpClick(this)">Eliminar</a>
@@ -665,7 +664,7 @@ const getCategoryMost = (type) => {
       }
     } else {
       if (report[type] > amount) {
-        amount = report.earned;
+        amount = report[type];
         result = report;
       }
     }
@@ -712,7 +711,7 @@ const getReport = (type) => {
     if (operationsFiltered.length !== 0) {
       const earned = searchOperationByType(operationsFiltered, "earned");
       const spent = searchOperationByType(operationsFiltered, "spent");
-
+      
       const totalEarned = searchTotalAmounts(earned);
       const totalSpent = searchTotalAmounts(spent);
       const totalBalance = searchTotalAmounts(operationsFiltered);
@@ -779,8 +778,8 @@ const getMonthMost = (type) => {
         result = report;
       }
     } else {
-      if (report[type] < amount) {
-        amount = report[type];
+      if (report['spent'] < amount) {
+        amount = report['spent'];
         result = report;
       }
     }
