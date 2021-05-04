@@ -37,8 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
       weekdaysShort: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sab", "Dom"],
     },
   };
-  var elems = document.querySelector(".datepicker");
-  var instance = M.Datepicker.init(elems, options);
+  var elems = document.querySelectorAll(".datepicker");
+  var instance = M.Datepicker.init(elems[0], options);
   // instance.open();
   instance.setDate(new Date());
 });
@@ -219,6 +219,7 @@ const sectionsArray = [
 
 //Función que toma como parámentro la sección clickeada a mostrar y le remueve la clase hide y se la da a todas las demás secciones que no son la clickeada (recorriendo el sectionsArray). Si la sección es la de categorías imprime las categorías y si es la de balance, chequea si hay operaciones y si es así, las muestra.
 const showSection = (click) => {
+  showBalanceTotals();
   sectionsArray.forEach((section) => {
     if (section !== click) {
       section.classList.add("hide");
