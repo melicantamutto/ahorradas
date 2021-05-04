@@ -98,3 +98,8 @@ td.is-selected.is-today {
     display: flex;
     flex-wrap: wrap;
 }
+
+.chip-selected-color{
+    background-color: var(--TypographyColor);
+    color: var(--SecondColor);
+}

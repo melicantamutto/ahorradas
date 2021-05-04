@@ -105,10 +105,8 @@ const getSelected = (element, name) => {
   const previous = getQuery(`.selected-${name}`);
   if (previous) {
     previous.classList.remove("chip-selected-color");
-    previous.classList.remove("chip-selected-color");
     previous.classList.remove(`selected-${name}`);
   }
-  element.classList.add("chip-selected-color");
   element.classList.add("chip-selected-color");
   element.classList.add(`selected-${name}`);
   return element;
