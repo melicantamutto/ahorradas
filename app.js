@@ -86,7 +86,7 @@ const printCategories = (collection) => {
       collection.insertAdjacentHTML("beforeend", newHTML);
     });
   } else {
-    collection.innerHTML = "<h6>Categorías</h6>";
+    collection.innerHTML = "";
     categoriesStorage.forEach((category) => {
       const newHTML = `
       <div class="chip chips-color chips-center" id="${category.id}" onclick="clickOnChip(this)">

@@ -68,3 +68,7 @@
     color: var(--SecondColor);
 }
 
+.box-wrap{
+    display: flex;
+    flex-wrap: wrap;
+}
