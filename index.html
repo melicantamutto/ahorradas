@@ -31,25 +31,45 @@
         <li id="balance-button">
           <a class="valign-wrapper" href="#">
             <i class="material-icons">show_chart</i>
-            <!-- <i class="fas fa-chart-line mr-2" aria-hidden="true"></i> -->
             Balance
           </a>
         </li>
         <li id="categories-button">
           <a class="valign-wrapper" href="#">
             <i class="material-icons">playlist_add</i>
-            <!-- <i class="fas fa-tag mr-2" aria-hidden="true"></i> -->
             Categorias
           </a>
         </li>
         <li id="reports-button">
           <a class="valign-wrapper" href="#">
             <i class="material-icons">pie_chart</i>
-            <!-- <i class="fas fa-chart-pie mr-2 " aria-hidden="true"></i> -->
             Reportes
           </a>
         </li>
       </ul>
+      <ul id="slide-out" class="sidenav show-on-medium-and-down">
+
+        <li><a class="subheader">Menu</a></li>
+        <li id="balance-ham-button">
+          <a class="waves-effect" href="#!">
+            <i class="material-icons">show_chart</i>
+            Balance
+          </a>
+        </li>
+        <li id="categories-ham-button">
+          <a class="waves-effect" href="#!">
+            <i class="material-icons">playlist_add</i>
+            Categorias
+          </a>
+        </li>
+        <li id="reports-ham-button">
+          <a class="waves-effect" href="#!">
+            <i class="material-icons">pie_chart</i>
+            Reportes
+          </a>
+        </li>
+      </ul>
+      <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </section>
   </nav>
   <br />
@@ -57,9 +77,9 @@
   <br />
 
   <!-- BALANCE SECTION -->
-  <section id="balance-section" class="">
+  <section id="balance-section" class="container">
     <article class="row">
-      <div class="col s4">
+      <div class="col s12 l4">
         <div class="card-panel card-color">
           <h4 class="typography-color">Balance</h4>
           <h6>Ganancias <span class="right" id="total-earned">$0</span></h6>
@@ -81,7 +101,6 @@
             <label><span class="typography-color-b">Tipos</span></label>
           </div>
           <div class="input-field margin-bottom">
-
             <label for="filter-date"><span class="typography-color-b">Desde</span></label>
             <input type="text" id="filter-date" class="datepicker nav-color" value="00/00/0000">
           </div>
@@ -100,7 +119,8 @@
         </div>
       </div>
 
-      <div class="col s8">
+
+      <div class="col s12 l8">
         <div class="card body-color">
           <div class="card-content">
             <a class="btn-floating btn-large right waves-effect waves-light red" id="add-operation-button"><i
@@ -119,7 +139,7 @@
             <p>Cambia los filtros o agrega operaciones</p>
           </div>
           <div class="card-content hide" id="operations-description">
-            <div class="row card-color typography-color">
+            <div class="row hide-on-small-only card-color typography-color">
               <div class="col s3">
                 <h6>Descripción</h6>
               </div>
@@ -241,7 +261,7 @@
       <h3 class="typography-color">Categorias</h3>
       <br>
       <div class="row ">
-        <div class="input-field col s3 typography-color">
+        <div class="input-field col s12 m6 l3 typography-color">
           <i class="material-icons category-icon">local_pizza</i>
           <i class="material-icons category-icon">lightbulb_outline</i>
           <i class="material-icons category-icon">local_library</i>
@@ -263,7 +283,7 @@
           <i class="material-icons category-icon">favorite</i>
           <i class="material-icons category-icon">games</i>
         </div>
-        <div class="input-field col s7">
+        <div class="input-field col s12 m5 l7">
           <input placeholder="Nombre de la categoría" id="category-name" type="text" class="validate" class="validate"
             required>
           <label for="category-name"></label>
@@ -274,7 +294,7 @@
       <br>
       <div class="collection" id="categories-section-collection" style="border: none">
 
-      </article>
+    </article>
   </section>
 
   <!-- EDIT CATEGORY SECTION -->
@@ -283,7 +303,7 @@
       <h3>Editar categoría</h3>
       <br>
       <div class="row ">
-        <div class="input-field col s3 blue-text">
+        <div class="input-field col s12 m6 l3 blue-text">
           <i class="material-icons category-icon">local_pizza</i>
           <i class="material-icons category-icon">lightbulb_outline</i>
           <i class="material-icons category-icon">local_library</i>
@@ -307,7 +327,7 @@
 
           <!-- <label>Materialize Select</label> -->
         </div>
-        <div class="input-field col s7">
+        <div class="input-field col s12 m5 l7">
           <input placeholder="Nombre de la categoría" id="edit-category-name" type="text" class="validate" required>
           <label for="edit-category-name"></label>
         </div>
@@ -363,8 +383,8 @@
           </thead>
           <tbody id="months-reports"></tbody>
         </table>
-        </div>
-      </article>
+      </div>
+    </article>
   </section>
 
   <!-- MATERIALIZE Compiled and minified JavaScript -->
