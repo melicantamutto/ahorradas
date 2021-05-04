@@ -19,13 +19,13 @@
 </head>
 <!-- BODY -->
 
-<body>
+<body class="body-color">
   <!-- NAV BAR -->
-  <nav>
+  <nav class="nav-color">
     <section class="nav-wrapper container">
+      <img class="logo" src="./assets/Logo/logoAhorradas.png" alt="">
       <a href="#" class="brand-logo">
         AhorrADAs
-        <i class="fas fa-wallet mr-2" aria-hidden="true"></i>
       </a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li id="balance-button">
@@ -80,14 +80,14 @@
   <section id="balance-section" class="container">
     <article class="row">
       <div class="col s12 l4">
-        <div class="card-panel">
-          <h4>Balance</h4>
+        <div class="card-panel card-color">
+          <h4 class="typography-color">Balance</h4>
           <h6>Ganancias <span class="right" id="total-earned">$0</span></h6>
           <h6>Gastos <span class="right" id="total-spent">$0</span></h6>
           <h5>Total <span class="right" id="total-balance">$0</span></h5>
         </div>
-        <div class="card-panel">
-          <h5>Filtros</h5>
+        <div class="card-panel card-color">
+          <h5 class="typography-color">Filtros</h5>
           <div class="collection" id="filter-category-collection" style="border: none">
 
           </div>
@@ -98,11 +98,11 @@
               <option value="spent">Gastos</option>
               <option value="earned">Ganancias</option>
             </select>
-            <label>Tipos</label>
+            <label><span class="typography-color-b">Tipos</span></label>
           </div>
           <div class="input-field margin-bottom">
-            <label for="filter-date">Desde</label>
-            <input type="text" id="filter-date" class="datepicker">
+            <label for="filter-date"><span class="typography-color-b">Desde</span></label>
+            <input type="text" id="filter-date" class="datepicker nav-color" value="00/00/0000">
           </div>
           <div class="col"></div>
           <div class="input-field margin-bottom">
@@ -114,17 +114,18 @@
               <option value="a-z">A/Z</option>
               <option value="z-a">Z/A</option>
             </select>
-            <label>Ordenar por</label>
+            <label><span class="typography-color-b">Ordenar por</span></label>
           </div>
         </div>
       </div>
 
+
       <div class="col s12 l8">
-        <div class="card">
+        <div class="card body-color">
           <div class="card-content">
             <a class="btn-floating btn-large right waves-effect waves-light red" id="add-operation-button"><i
-                class="material-icons">add</i></a>
-            <h4 class="">Operaciones</h4>
+                class="material-icons card-color">add</i></a>
+            <h4 class="typography-color-b">Operaciones</h4>
           </div>
           <div class="card-image container" id="no-op-image">
             <div class="row">
@@ -138,7 +139,7 @@
             <p>Cambia los filtros o agrega operaciones</p>
           </div>
           <div class="card-content hide" id="operations-description">
-            <div class="row hide-on-small-only">
+            <div class="row hide-on-small-only card-color typography-color">
               <div class="col s3">
                 <h6>Descripción</h6>
               </div>
@@ -173,37 +174,38 @@
       <div class="row">
         <div class="col8 offset-s3">
           <div class="card">
-            <div class="card-content">
-              <h4>Nueva Operación</h4>
+            <div class="card-content card-color">
+              <h4 class="typography-color">Nueva Operación</h4>
               <br />
               <div class="input-field">
                 <input id="new-description" type="text" class="validate" required />
-                <label for="new-description">Descripción</label>
+                <label for="new-description"><span class="typography-color-b">Descripción</span></label>
               </div>
               <div class="input-field">
                 <input id="new-amount" type="number" class="validate" required />
-                <label for="new-amount">Monto</label>
+                <label for="new-amount"><span class="typography-color-b">Monto</span></label>
               </div>
               <div class="input-field">
                 <select id="new-type">
                   <option value="spent">Gasto</option>
                   <option value="earned">Ganancia</option>
                 </select>
-                <label>Tipo</label>
+                <label><span class="typography-color-b">Tipo</span></label>
               </div>
               <div class="input-field">
-                <label for="new-date">Desde</label>
+                <label for="new-date"><span class="typography-color-b">Desde</span></label>
                 <input type="text" id="new-date" class="datepicker" required />
               </div>
               <div class="collection" id="new-op-category-collection" style="border: none">
-
               </div>
             </div>
-            <div class="card-action right-align">
-              <a href="#" id="cancel-operation">Cancelar</a>
-              <a class='tooltipped' href="#" id="submit-new-operation" data-position="top"
-                data-tooltip="Por favor seleccione una categoría">Agregar</a>
-            </div>
+            <div class="card-color">
+                <div class="card-action right-align">
+                  <a href="#" class='tooltipped' data-position="top"
+                data-tooltip="Por favor seleccione una categoría" id="submit-new-operation"><span class="typography-color"> Agregar</span></a>
+                  <a href="#" id="cancel-operation"><span class="typography-color"> Cancelar</span></a>
+             </div>
+          </div>r
           </div>
         </div>
       </div>
@@ -255,11 +257,11 @@
 
   <!-- CATEGORIES SECTION -->
   <section id="categories-section" class="container hide">
-    <article class="card-panel">
-      <h3>Categorias</h3>
+    <article class="card-panel card-color">
+      <h3 class="typography-color">Categorias</h3>
       <br>
       <div class="row ">
-        <div class="input-field col s12 m6 l3 blue-text">
+        <div class="input-field col s12 m6 l3 typography-color">
           <i class="material-icons category-icon">local_pizza</i>
           <i class="material-icons category-icon">lightbulb_outline</i>
           <i class="material-icons category-icon">local_library</i>
@@ -286,7 +288,7 @@
             required>
           <label for="category-name"></label>
         </div>
-        <a class="waves-effect waves-light btn-large" id="submit-new-category">Agregar</a>
+        <a class="waves-effect waves-light btn-large chips-color" id="submit-new-category">Agregar</a>
       </div>
       <h6>Haga click sobre el lapiz de la categoria para editarla o en la cruz para eliminarla</h6>
       <br>
@@ -337,8 +339,8 @@
 
   <!-- REPORTS SECTION -->
   <section id="reports-section" class="container hide">
-    <article class="card-panel">
-      <h4>Reportes</h4>
+    <article class="card-panel body-color">
+      <h4 class="typography-color-b">Reportes</h4>
       <br>
       <h5>Resumen</h5>
       <div class="collection with-header">
@@ -349,7 +351,7 @@
             <tr id="category-most-balance"></tr>
             <tr id="month-most-earned"></tr>
             <tr id="month-most-spent"></tr>
-          </tbody>
+         </tbody>
         </table>
       </div>
       <br>
@@ -357,7 +359,7 @@
       <div class="collection with-header">
         <table>
           <thead>
-            <tr>
+            <tr class="card-color typography-color">
               <th>Categoria</th>
               <th>Ganancias</th>
               <th>Gastos</th>
