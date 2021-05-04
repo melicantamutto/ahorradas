@@ -48,6 +48,11 @@ document.addEventListener("DOMContentLoaded", function () {
   var instances = M.Tooltip.init(elems);
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.sidenav');
+  var instances = M.Sidenav.init(elems);
+});
+
 //  -------------------------------------------------- HTML ELEMENTS --------------------------------------------------
 
 // Funciones para traer los elementos del HTML
@@ -232,6 +237,13 @@ const showSection = (click) => {
 getId("balance-button").addEventListener("click", () => {
   showSection(getId("balance-section"));
   showBalanceTotals();
+  printCategories(getId('filter-category-collection'))
+});
+
+getId("balance-ham-button").addEventListener("click", () => {
+  showSection(getId("balance-section"));
+  showBalanceTotals();
+  printCategories(getId('filter-category-collection'))
 });
 
 // Evento para mostrar la sección de categorías
@@ -239,16 +251,20 @@ getId("categories-button").addEventListener("click", () => {
   showSection(getId("categories-section"));
 });
 
+getId("categories-ham-button").addEventListener("click", () => {
+  showSection(getId("categories-section"));
+});
+
 // Evento para mostrar la sección de reportes
+
 getId("reports-button").addEventListener("click", () => {
   showSection(getId("reports-section"));
-  showCategoryMost(getCategoryMost("earned"), "earned");
-  showCategoryMost(getCategoryMost("spent"), "spent");
-  showCategoryMost(getCategoryMost("balance"), "balance");
-  showMonthMost(getMonthMost("earned"), "earned");
-  showMonthMost(getMonthMost("spent"), "spent");
-  showCategoryReport(getReport("category"));
-  showMonthReport(getReport("months"));
+  showAllReports();
+});
+
+getId("reports-ham-button").addEventListener("click", () => {
+  showSection(getId("reports-section"));
+  showAllReports();
 });
 
 //  -------------------------------------------------- ADD OPERATIONS --------------------------------------------------
@@ -256,11 +272,13 @@ getId("reports-button").addEventListener("click", () => {
 // Función que crea un objeto con la descripción, el monto, la fecha, el tipo y la categoría según los inputs del formulario de la sección de nueva operación. Además le agrega un id random creado por el UU ID. Agrega la nueva operación al array de operaciones y lo guarda en el local storage.
 const addOperation = () => {
   const operationsStorage = getStorage("operationsList");
+  const type = getId("new-type").options[getId("new-type").selectedIndex].value;
+  const amount = getId("new-amount").value;
   let newOp = {
     id: uuidv4(),
     description: getId("new-description").value,
-    amount: getId("new-amount").value,
-    type: getId("new-type").options[getId("new-type").selectedIndex].value,
+    amount: type === 'spent' ? -amount : amount,
+    type: type,
     date: getId("new-date").value,
     category: getCategoryName(),
   };
@@ -300,26 +318,23 @@ const capitalizeCategory = (category) =>
 // Función que según el tipo de operación la pinta en rojo o en verde
 const colorAmount = (type) => (type === "spent" ? "red" : "green");
 
-// Función que según el tipo de operación le agrega un menos adelante o no
-const symbolAmount = (amount, type) =>
-  type === "spent" ? `-${amount}` : amount;
 
 // Función que busca las operaciones que guardamos en el local storage y las pinta en el div correspondiente, una por una. A todas le agrega un contenedor con dos botones para editarlas y para eliminarlas (con eventos en linea, onlick correspondientes). Ese contenedor tiene el id único de cada operación para poder distinguir cual operación quiero editar o eliminar
 const printOperations = (array) => {
   getId("operations-list").innerHTML = "";
   array.forEach((operation) => {
     const newRow = `<div class="row">
-      <div class="col s3">${operation.description}</div>
-      <div class="col s3">
+      <div class="col s4 m3 l3">${operation.description}</div>
+      <div class="col s4 offset-s4 m3 l3">
         <div class="chip card-color typography-color ">
           ${capitalizeCategory(operation.category)}
         </div>
       </div>
-      <div class="col s2">${operation.date}</div>
-      <div class="col s2" style="color:${colorAmount(
+      <div class="col m2 l2 hide-on-small-only">${operation.date}</div>
+      <div class="col s5 m2 l2" style="color:${colorAmount(
         operation.type
-      )};">${symbolAmount(operation.amount, operation.type)}</div>
-      <div class="col s2" id=${operation.id}>
+      )};">${operation.amount}</div>
+      <div class="col s6 offset-s1 m2 l2" id=${operation.id}>
         <a href="#" class="margin-right-plus" onclick="editOpClick(this)">Editar</a>
         <a href="#" onclick="removeOpClick(this)">Eliminar</a>
       </div>
@@ -638,6 +653,7 @@ const filterOperation = () => {
 
 //  --------------------------------------------------  REPORTS FUNCTIONALITY --------------------------------------------------
 
+// Función reutilizable que busca la categoría con más ganancias o gastos, segun lo que le pasemos como parámetros
 const getCategoryMost = (type) => {
   const reportCategories = getReport("categories");
   let result;
@@ -650,7 +666,7 @@ const getCategoryMost = (type) => {
       }
     } else {
       if (report[type] > amount) {
-        amount = report.earned;
+        amount = report[type];
         result = report;
       }
     }
@@ -658,6 +674,7 @@ const getCategoryMost = (type) => {
   return result;
 };
 
+// Función reutilizable que muestra la categoría con más ganancias o gastos en el HTML, segun lo que le pasemos como parámetros
 const showCategoryMost = (most, type) => {
   let title = "";
   if (type === "earned") {
@@ -671,7 +688,7 @@ const showCategoryMost = (most, type) => {
    ${title}
     <td>
       <div class="chip">
-        <i class="material-icons">${most.icon}</i>
+        <i class="material-icons hide-on-small-only">${most.icon}</i>
         ${most.name}
       </div>  
     </td>  
@@ -679,6 +696,7 @@ const showCategoryMost = (most, type) => {
   getId(`category-most-${type}`).innerHTML = newTd;
 };
 
+// Función que retorna un array de reportes según mes o categorías, con objetos dentro que tienen el nombre, los gastos y ganancias y el balance de cada uno
 const getReport = (type) => {
   const operationsStorage = getStorage("operationsList");
   const categoriesStorage = getStorage("categoriesList");
@@ -695,7 +713,7 @@ const getReport = (type) => {
     if (operationsFiltered.length !== 0) {
       const earned = searchOperationByType(operationsFiltered, "earned");
       const spent = searchOperationByType(operationsFiltered, "spent");
-
+      
       const totalEarned = searchTotalAmounts(earned);
       const totalSpent = searchTotalAmounts(spent);
       const totalBalance = searchTotalAmounts(operationsFiltered);
@@ -715,13 +733,14 @@ const getReport = (type) => {
   return reportArray;
 };
 
+// Función que muestra en el HTML los reportes de cada categoría con operaciones
 const showCategoryReport = (array) => {
   getId("categories-reports").innerHTML = "";
   array.forEach((category) => {
     const newTr = `<tr>
     <td>
       <div class="chip">
-        <i class="material-icons">${category.icon}</i>
+        <i class="material-icons hide-on-small-only">${category.icon}</i>
         ${category.name}
       </div>  
     </td>  
@@ -734,6 +753,7 @@ const showCategoryReport = (array) => {
   });
 };
 
+// Función que muestra en el HTML los reportes de cada mes con operaciones
 const showMonthReport = (array) => {
   getId("months-reports").innerHTML = "";
   array.forEach((month) => {
@@ -748,6 +768,7 @@ const showMonthReport = (array) => {
   });
 };
 
+//Función reutilizable que busca el mes con más ganancias o gastos, segun lo que le pasemos como parámetros
 const getMonthMost = (type) => {
   const reportMonths = getReport("months");
   let result;
@@ -759,8 +780,8 @@ const getMonthMost = (type) => {
         result = report;
       }
     } else {
-      if (report[type] < amount) {
-        amount = report[type];
+      if (report['spent'] < amount) {
+        amount = report['spent'];
         result = report;
       }
     }
@@ -768,6 +789,7 @@ const getMonthMost = (type) => {
   return result;
 };
 
+//Función reutilizable que muestra el mes con más ganancias o gastos en el HTML, segun lo que le pasemos como parámetros
 const showMonthMost = (most, type) => {
   const title =
     type === "earned"
@@ -779,3 +801,23 @@ const showMonthMost = (most, type) => {
   <td>$${most[type]}</td>`;
   getId(`month-most-${type}`).innerHTML = newTd;
 };
+
+// Función que reune todas las funciones para mostrar los reportes
+const showAllReports = () =>{
+  showCategoryMost(getCategoryMost("earned"), "earned");
+  showCategoryMost(getCategoryMost("spent"), "spent");
+  showCategoryMost(getCategoryMost("balance"), "balance");
+  showMonthMost(getMonthMost("earned"), "earned");
+  showMonthMost(getMonthMost("spent"), "spent");
+  showCategoryReport(getReport("category"));
+  showMonthReport(getReport("months"));
+}
+
+//  --------------------------------------------------  RESPONSIVE  --------------------------------------------------
+
+const mediaQuery850 = window.matchMedia('(max-width: 850px)')
+
+if (mediaQuery850.matches) {
+  getId('balance-section').classList.remove('container');
+}
+
