@@ -104,12 +104,12 @@ const printCategories = (collection) => {
 const getSelected = (element, name) => {
   const previous = getQuery(`.selected-${name}`);
   if (previous) {
-    previous.classList.remove("red");
-    previous.classList.remove("lighten-4");
+    previous.classList.remove("chip-selected-color");
+    previous.classList.remove("chip-selected-color");
     previous.classList.remove(`selected-${name}`);
   }
-  element.classList.add("red");
-  element.classList.add("lighten-4");
+  element.classList.add("chip-selected-color");
+  element.classList.add("chip-selected-color");
   element.classList.add(`selected-${name}`);
   return element;
 };
@@ -820,3 +820,4 @@ const mediaQuery850 = window.matchMedia('(max-width: 850px)')
 if (mediaQuery850.matches) {
   getId('balance-section').classList.remove('container');
 }
+

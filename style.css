@@ -62,3 +62,9 @@
 .icon-margin{
     margin-right: 5%;
 }
+
+.chip-selected-color{
+    background-color: var(--TypographyColor);
+    color: var(--SecondColor);
+}
+
