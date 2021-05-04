@@ -57,14 +57,14 @@
   <br />
 
   <!-- BALANCE SECTION -->
-  <section id="balance-section" class="container">
+  <section id="balance-section" class="">
     <article class="row">
       <div class="col s4">
         <div class="card-panel card-color">
           <h4 class="typography-color">Balance</h4>
-          <h6>Ganancias <span class="right">$0</span></h6>
-          <h6>Gastos <span class="right">$0</span></h6>
-          <h5>Total <span class="right">$0</span></h5>
+          <h6>Ganancias <span class="right" id="total-earned">$0</span></h6>
+          <h6>Gastos <span class="right" id="total-spent">$0</span></h6>
+          <h5>Total <span class="right" id="total-balance">$0</span></h5>
         </div>
         <div class="card-panel card-color">
           <h5 class="typography-color">Filtros</h5>
@@ -81,6 +81,7 @@
             <label><span class="typography-color-b">Tipos</span></label>
           </div>
           <div class="input-field margin-bottom">
+
             <label for="filter-date"><span class="typography-color-b">Desde</span></label>
             <input type="text" id="filter-date" class="datepicker nav-color" value="00/00/0000">
           </div>
@@ -157,11 +158,11 @@
               <h4 class="typography-color">Nueva Operación</h4>
               <br />
               <div class="input-field">
-                <input id="new-description" type="text" />
+                <input id="new-description" type="text" class="validate" required />
                 <label for="new-description"><span class="typography-color-b">Descripción</span></label>
               </div>
               <div class="input-field">
-                <input id="new-amount" type="number" class="validate" />
+                <input id="new-amount" type="number" class="validate" required />
                 <label for="new-amount"><span class="typography-color-b">Monto</span></label>
               </div>
               <div class="input-field">
@@ -173,18 +174,18 @@
               </div>
               <div class="input-field">
                 <label for="new-date"><span class="typography-color-b">Desde</span></label>
-                <input type="text" id="new-date" class="datepicker" />
+                <input type="text" id="new-date" class="datepicker" required />
               </div>
               <div class="collection" id="new-op-category-collection" style="border: none">
-
               </div>
             </div>
             <div class="card-color">
                 <div class="card-action right-align">
-                  <a href="#" id="submit-new-operation"><span class="typography-color"> Agregar</span></a>
+                  <a href="#" class='tooltipped' data-position="top"
+                data-tooltip="Por favor seleccione una categoría" id="submit-new-operation"><span class="typography-color"> Agregar</span></a>
                   <a href="#" id="cancel-operation"><span class="typography-color"> Cancelar</span></a>
              </div>
-          </div>
+          </div>r
           </div>
         </div>
       </div>
@@ -201,11 +202,11 @@
               <h4>Editar Operación</h4>
               <br />
               <div class="input-field">
-                <input id="edit-description" type="text" />
+                <input id="edit-description" type="text" class="validate" required />
                 <label for="edit-description">Descripción</label>
               </div>
               <div class="input-field">
-                <input id="edit-amount" type="number" class="validate" />
+                <input id="edit-amount" type="number" class="validate" required />
                 <label for="edit-amount">Monto</label>
               </div>
               <div class="input-field">
@@ -217,7 +218,7 @@
               </div>
               <div class="input-field">
                 <label for="edit-date">Desde</label>
-                <input type="text" id="edit-date" class="datepicker" />
+                <input type="text" id="edit-date" class="datepicker" class="validate" required />
               </div>
               <div class="collection" id="edit-op-category-collection" style="border: none">
 
@@ -225,7 +226,8 @@
             </div>
             <div class="card-action right-align">
               <a href="#" id="cancel-edit-operation">Cancelar</a>
-              <a href="#" id="submit-edit-operation">Editar</a>
+              <a class='tooltipped' href="#" id="submit-edit-operation" data-position="top"
+                data-tooltip="Por favor seleccione una categoría">Editar</a>
             </div>
           </div>
         </div>
@@ -259,14 +261,14 @@
           <i class="material-icons category-icon">motorcycle</i>
           <i class="material-icons category-icon">pets</i>
           <i class="material-icons category-icon">favorite</i>
-
-          <!-- <label>Materialize Select</label> -->
+          <i class="material-icons category-icon">games</i>
         </div>
         <div class="input-field col s7">
-          <input placeholder="Nombre de la categoría" id="category-name" type="text" class="validate">
+          <input placeholder="Nombre de la categoría" id="category-name" type="text" class="validate" class="validate"
+            required>
           <label for="category-name"></label>
         </div>
-        <a class="waves-effect waves-light btn-large chips-color" id="add-category-button">Agregar</a>
+        <a class="waves-effect waves-light btn-large chips-color" id="submit-new-category">Agregar</a>
       </div>
       <h6>Haga click sobre el lapiz de la categoria para editarla o en la cruz para eliminarla</h6>
       <br>
@@ -275,135 +277,91 @@
       </article>
   </section>
 
+  <!-- EDIT CATEGORY SECTION -->
+  <section id="edit-category-section" class="container hide">
+    <div class="card-panel">
+      <h3>Editar categoría</h3>
+      <br>
+      <div class="row ">
+        <div class="input-field col s3 blue-text">
+          <i class="material-icons category-icon">local_pizza</i>
+          <i class="material-icons category-icon">lightbulb_outline</i>
+          <i class="material-icons category-icon">local_library</i>
+          <i class="material-icons category-icon">beach_access</i>
+          <i class="material-icons category-icon">directions_bus</i>
+          <i class="material-icons category-icon">star</i>
+          <i class="material-icons category-icon">work</i>
+          <i class="material-icons category-icon">shopping_cart</i>
+          <i class="material-icons category-icon">airplanemode_active</i>
+          <i class="material-icons category-icon">build</i>
+          <i class="material-icons category-icon">child_friendly</i>
+          <i class="material-icons category-icon">credit_card</i>
+          <i class="material-icons category-icon">directions_car</i>
+          <i class="material-icons category-icon">fitness_center</i>
+          <i class="material-icons category-icon">format_paint</i>
+          <i class="material-icons category-icon">hotel</i>
+          <i class="material-icons category-icon">motorcycle</i>
+          <i class="material-icons category-icon">pets</i>
+          <i class="material-icons category-icon">favorite</i>
+          <i class="material-icons category-icon">games</i>
+
+          <!-- <label>Materialize Select</label> -->
+        </div>
+        <div class="input-field col s7">
+          <input placeholder="Nombre de la categoría" id="edit-category-name" type="text" class="validate" required>
+          <label for="edit-category-name"></label>
+        </div>
+        <a class="waves-effect waves-light btn-large" id="cancel-edit-category">Cancelar</a>
+        <a class="waves-effect waves-light btn-large" id="submit-edit-category">Editar</a>
+      </div>
+
+  </section>
+
   <!-- REPORTS SECTION -->
   <section id="reports-section" class="container hide">
     <article class="card-panel body-color">
       <h4 class="typography-color-b">Reportes</h4>
       <br>
       <h5>Resumen</h5>
-      <div class="collection with-header ">
-          <table>
-           <tbody>
-               <tr>
-                 <td>Categoria con mayor ganancia</td>
-                 <td>
-                     <div class="chip chips-color chips-center">
-                         <i class="material-icons icon-margin">work</i>
-                           Trabajo
-                       </div>
-                   </td>
-                 <td>$1000</td>
-               </tr>
-               <tr>
-                   <td>Categoria con mayor gasto</td>
-                   <td> 
-                       <div class="chip chips-color chips-center">
-                           <i class="material-icons icon-margin">local_pizza</i>
-                             Comida
-                        </div>
-                     </td>
-                    <td>-$1000</td>
-                 </tr>
-                 <tr>
-                  <td>Categoria con mayor balance</td>
-                  <td> 
-                      <div class="chip chips-color chips-center">
-                          <i class="material-icons icon-margin">work</i>
-                             Trabajo
-                        </div>
-                   </td>
-                  <td>$1000</td>
-               </tr>
-               <tr>
-                <td>Mes con mayor ganancia</td>
-                <td>1/11/1111</td>
-                <td>$1000</td>
-             </tr>
-             <tr>
-              <td>Mes con mayor gasto</td>
-              <td>1/11/1111</td>
-              <td>-$1000</td>
-           </tr>
-             </tbody>
-            </table>
-          </div>
-       <br>
-       <h5>Totales por categoria</h5>
-       <div class="collection with-header">
+      <div class="collection with-header">
         <table>
-          <thead class="card-color typography-color">
-            <tr>
-                <th>Categoria</th>
-                <th>Ganancias</th>
-                <th>Gastos</th>
-                <th>Balance</th>
-            </tr>
-          </thead>
-  
           <tbody>
-            <tr>
-              <td>
-                 <div class="chip chips-color chips-center">
-                     <i class="material-icons icon-margin">local_pizza</i>
-                       Comida
-                   </div>
-              </td>
-              <td>+$1000</td>
-              <td>-$1000</td>
-              <td>$1000</td>
-            </tr>
-            <tr>
-              <td>
-                 <div class="chip chips-color chips-center">
-                    <i class="material-icons icon-margin">work</i>
-                       Trabajo
-                   </div>
-              </td>
-              <td>+$1000</td>
-              <td>-$1000</td>
-              <td>$1000</td>
-            </tr>
-            <tr>
-               <td>
-                  <div class="chip chips-color chips-center">
-                      <i class="material-icons icon-margin">lightbulb_outline</i>
-                        Servicios
-                    </div>
-                </td>
-              <td>+$1000</td>
-              <td>-$1000</td>
-              <td>$1000</td>
-            </tr>
-          </tbody>
+            <tr id="category-most-earned"></tr>
+            <tr id="category-most-spent"></tr>
+            <tr id="category-most-balance"></tr>
+            <tr id="month-most-earned"></tr>
+            <tr id="month-most-spent"></tr>
+         </tbody>
         </table>
-        </div>
-        <br>
-        <h5>Totales por mes</h5>
-       <div class="collection with-header">
+      </div>
+      <br>
+      <h5>Totales por categoria</h5>
+      <div class="collection with-header">
         <table>
           <thead>
             <tr class="card-color typography-color">
-                <th>Mes</th>
-                <th>Ganancias</th>
-                <th>Gastos</th>
-                <th>Balance</th>
+              <th>Categoria</th>
+              <th>Ganancias</th>
+              <th>Gastos</th>
+              <th>Balance</th>
             </tr>
           </thead>
-  
-          <tbody>
+          <tbody id="categories-reports"></tbody>
+        </table>
+      </div>
+      <br>
+      <h5>Totales por mes</h5>
+      <div class="collection with-header">
+        <table>
+          <thead>
             <tr>
-              <td>3/03/2021</td>
-              <td>+$1000</td>
-              <td>-$1000</td>
-              <td>$1000</td>
+              <th>Mes</th>
+              <th>Ganancias</th>
+              <th>Gastos</th>
+              <th>Balance</th>
             </tr>
-            <tr>
-              <td>4/04/2021</td>
-              <td>+$1000</td>
-              <td>-$1000</td>
-              <td>$1000</td>
-            </tr>
-          </tbody>
+          </thead>
+          <tbody id="months-reports"></tbody>
         </table>
         </div>
       </article>
