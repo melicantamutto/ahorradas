@@ -38,9 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   };
   var elems = document.querySelectorAll(".datepicker");
-  var instance = M.Datepicker.init(elems[0], options);
+  var instance = M.Datepicker.init(elems, options);
   // instance.open();
-  instance.setDate(new Date());
+  // instance.setDate(new Date());
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -563,6 +563,7 @@ const clickCategoryRemove = (e) => {
 window.addEventListener("load", () => {
   printCategories(getId("filter-category-collection"));
   checkIfOperations();
+  showBalanceTotals();
 });
 
 // -------------------------------------------------- Balance / TOTALES --------------------------------------------------
