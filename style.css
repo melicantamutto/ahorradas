@@ -62,3 +62,34 @@
 .icon-margin{
     margin-right: 5%;
 }
+.datepicker-date-display {
+    background-color: var(--BaseColor);
+}
+
+.datepicker-day-button:focus {
+    color: white !important;
+    background-color: #a2b0b6
+}
+
+.datepicker-done,
+.datepicker-cancel,
+.select-dropdown li>span,
+.is-today {
+    color: var(--BaseColor) !important
+}
+
+td.is-selected,
+.month-prev:active,
+.month-prev:focus,
+.month-next:active,
+.month-next:focus {
+    background-color: var(--ContrastColor) !important
+}
+
+td.is-selected.is-today {
+    color: white !important
+}
+
+.btn-large:hover {
+   background-color: var(--ContrastColor);
+  }
