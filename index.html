@@ -12,14 +12,16 @@
   <meta name="title" content="AhorrADAs" />
   <meta name="description" content="Aplicación de tipo wallet que permite controlar los gastos y ganancias mes a mes" />
   <meta name="author" content="Gabriela Duran, Melina Lucía Cantamutto" />
-  <meta name="keywords" content="Melina Cantamutto, Gabriela Duran, AhorrADAs, frontend, gastos, ganancias, billetera" />
+  <meta name="keywords"
+    content="Melina Cantamutto, Gabriela Duran, AhorrADAs, frontend, gastos, ganancias, billetera" />
 
   <!-- -------------------Open Graph------------------- -->
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://flamboyant-cray-1a21a6.netlify.app/" />
   <meta property="og:title" content="AhorrADAs" />
-  <meta property="og:description" content="Aplicación de tipo wallet que permite controlar los gastos y ganancias mes a mes" />
+  <meta property="og:description"
+    content="Aplicación de tipo wallet que permite controlar los gastos y ganancias mes a mes" />
   <meta property="og:image"
     content="https://raw.githubusercontent.com/melicantamutto/ahorradas/master/assets/readme-img/main-page.png" />
   <meta property="og:site_name" content="AhorrADAs" />
@@ -29,7 +31,8 @@
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://flamboyant-cray-1a21a6.netlify.app/" />
   <meta property="twitter:title" content="AhorrADAs" />
-  <meta property="twitter:description" content="Aplicación de tipo wallet que permite controlar los gastos y ganancias mes a mes" />
+  <meta property="twitter:description"
+    content="Aplicación de tipo wallet que permite controlar los gastos y ganancias mes a mes" />
   <meta property="twitter:image"
     content="https://raw.githubusercontent.com/melicantamutto/ahorradas/master/assets/readme-img/main-page.png" />
   <meta name="twitter:image:alt" content="AhorrADAs main page" />
@@ -102,8 +105,8 @@
       <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </section>
   </nav>
-  <br class="hide-on-small-only"/>
-  <br class="hide-on-small-only"/>
+  <br class="hide-on-small-only" />
+  <br class="hide-on-small-only" />
   <br />
 
   <!-- BALANCE SECTION -->
@@ -117,7 +120,11 @@
           <h5>Total <span class="right" id="total-balance">$0</span></h5>
         </div>
         <div class="card-panel card-color">
-          <h5 class="typography-color">Filtros</h5>
+          <div class="row">
+            <h5 class="typography-color col s6">Filtros</h5>
+            <a href="#" id="clean-filters" class="col s4 right"><span class="typography-color">Limpiar
+                filtros</span></a>
+          </div>
           <h6>Categorías</h6>
           <div class="collection box-wrap" id="filter-category-collection" style="border: none">
 
@@ -191,9 +198,9 @@
             <div id="operations-list">
             </div>
           </div>
-          <br class="hide-on-small-only"/>
-          <br class="hide-on-small-only"/>
-          <br class="hide-on-small-only"/>
+          <br class="hide-on-small-only" />
+          <br class="hide-on-small-only" />
+          <br class="hide-on-small-only" />
           <br />
         </div>
       </div>
@@ -233,12 +240,12 @@
               </div>
             </div>
             <div class="card-color">
-                <div class="card-action right-align">
-                  <a href="#" id="cancel-operation"><span class="typography-color"> Cancelar</span></a>
-                  <a href="#" class='tooltipped' data-position="top"
-                data-tooltip="Por favor seleccione una categoría" id="submit-new-operation"><span class="typography-color"> Agregar</span></a>
-             </div>
-          </div>
+              <div class="card-action right-align">
+                <a href="#" id="cancel-operation"><span class="typography-color"> Cancelar</span></a>
+                <a href="#" class='tooltipped' data-position="top" data-tooltip="Por favor seleccione una categoría"
+                  id="submit-new-operation"><span class="typography-color"> Agregar</span></a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -284,7 +291,7 @@
                 <a class='tooltipped' href="#" id="submit-edit-operation" data-position="top"
                   data-tooltip="Por favor seleccione una categoría"><span class="typography-color">Editar</span></a>
               </div>
-            </div> 
+            </div>
           </div>
         </div>
       </div>
@@ -328,7 +335,7 @@
       </div>
       <h6>Haga click sobre el lapiz de la categoria para editarla o en la cruz para eliminarla</h6>
       <br>
-      <div class="collection" id="categories-section-collection" style="border: none">
+      <div class="collection box-wrap" id="categories-section-collection" style="border: none">
 
     </article>
   </section>
@@ -339,7 +346,7 @@
       <h3>Editar categoría</h3>
       <br>
       <div class="row ">
-        <div class="input-field col s12 m6 l3 typography-color">
+        <div class="input-field col s12 m6 l4 typography-color">
           <i class="material-icons category-icon">local_pizza</i>
           <i class="material-icons category-icon">lightbulb_outline</i>
           <i class="material-icons category-icon">local_library</i>
@@ -360,15 +367,17 @@
           <i class="material-icons category-icon">pets</i>
           <i class="material-icons category-icon">favorite</i>
           <i class="material-icons category-icon">games</i>
-
-          <!-- <label>Materialize Select</label> -->
         </div>
-        <div class="input-field col s12 m5 l7">
+        <div class="input-field col s12 m5 l8">
           <input placeholder="Nombre de la categoría" id="edit-category-name" type="text" class="validate" required>
           <label for="edit-category-name"></label>
         </div>
-        <a class="waves-effect waves-light btn-large" id="cancel-edit-category">Cancelar</a>
-        <a class="waves-effect waves-light btn-large" id="submit-edit-category">Editar</a>
+        <div class="col s12 l6 offset-l6 right-align">
+          <a class="waves-effect waves-light btn-large chips-color " id="cancel-edit-category">Cancelar</a>
+          <a class="waves-effect waves-light btn-large chips-color" id="submit-edit-category">Editar</a>
+        </div>
+
+
       </div>
 
   </section>
@@ -380,20 +389,20 @@
       <br>
       <h5>Resumen</h5>
       <div class="collection with-header">
-        <table>
+        <table class="responsive-table highlight">
           <tbody>
             <tr id="category-most-earned"></tr>
             <tr id="category-most-spent"></tr>
             <tr id="category-most-balance"></tr>
             <tr id="month-most-earned"></tr>
             <tr id="month-most-spent"></tr>
-         </tbody>
+          </tbody>
         </table>
       </div>
       <br>
       <h5>Totales por categoria</h5>
       <div class="collection with-header">
-        <table>
+        <table class="responsive-table highlight">
           <thead>
             <tr class="card-color typography-color">
               <th>Categoria</th>
@@ -408,7 +417,7 @@
       <br>
       <h5>Totales por mes</h5>
       <div class="collection with-header">
-        <table>
+        <table class="responsive-table highlight">
           <thead>
             <tr>
               <th>Mes</th>
