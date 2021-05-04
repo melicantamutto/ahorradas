@@ -103,7 +103,7 @@
           <div class="input-field margin-bottom">
 
             <label for="filter-date"><span class="typography-color-b">Desde</span></label>
-            <input type="text" id="filter-date" class="datepicker nav-color" value="00/00/0000">
+            <input type="text" id="filter-date" class="nav-color datepicker" value="00/00/0000">
           </div>
           <div class="col"></div>
           <div class="input-field margin-bottom">
@@ -194,17 +194,17 @@
                 <label><span class="typography-color-b">Tipo</span></label>
               </div>
               <div class="input-field">
-                <label for="new-date"><span class="typography-color-b">Desde</span></label>
-                <input type="text" id="new-date" class="datepicker" required />
+                <label for="new-date"><span class="typography-color-b">Fecha</span></label>
+                <input type="text" id="new-date" class="validate datepicker" />
               </div>
               <div class="collection" id="new-op-category-collection" style="border: none">
               </div>
             </div>
             <div class="card-color">
                 <div class="card-action right-align">
+                  <a href="#" id="cancel-operation"><span class="typography-color"> Cancelar</span></a>
                   <a href="#" class='tooltipped' data-position="top"
                 data-tooltip="Por favor seleccione una categoría" id="submit-new-operation"><span class="typography-color"> Agregar</span></a>
-                  <a href="#" id="cancel-operation"><span class="typography-color"> Cancelar</span></a>
              </div>
           </div>
           </div>
@@ -219,16 +219,16 @@
       <div class="row">
         <div class="col8 offset-s3">
           <div class="card">
-            <div class="card-content">
-              <h4>Editar Operación</h4>
+            <div class="card-content card-color">
+              <h4 class="typography-color">Editar Operación</h4>
               <br />
               <div class="input-field">
                 <input id="edit-description" type="text" class="validate" required />
-                <label for="edit-description">Descripción</label>
+                <label for="edit-description"><span class="typography-color-b">Descripción</span></label>
               </div>
               <div class="input-field">
                 <input id="edit-amount" type="number" class="validate" required />
-                <label for="edit-amount">Monto</label>
+                <label for="edit-amount"><span class="typography-color-b">Monto</span></label>
               </div>
               <div class="input-field">
                 <select id="edit-type">
@@ -238,18 +238,20 @@
                 <label>Tipo</label>
               </div>
               <div class="input-field">
-                <label for="edit-date">Desde</label>
-                <input type="text" id="edit-date" class="datepicker" class="validate" required />
+                <label for="edit-date"><span class="typography-color-b">Fecha</span></label>
+                <input type="text" id="edit-date" class="validate datepicker" />
               </div>
               <div class="collection" id="edit-op-category-collection" style="border: none">
 
               </div>
             </div>
-            <div class="card-action right-align">
-              <a href="#" id="cancel-edit-operation">Cancelar</a>
-              <a class='tooltipped' href="#" id="submit-edit-operation" data-position="top"
-                data-tooltip="Por favor seleccione una categoría">Editar</a>
-            </div>
+            <div class="card-color">
+              <div class="card-action right-align">
+                <a href="#" id="cancel-edit-operation"><span class="typography-color">Cancelar</span></a>
+                <a class='tooltipped' href="#" id="submit-edit-operation" data-position="top"
+                  data-tooltip="Por favor seleccione una categoría"><span class="typography-color">Editar</span></a>
+              </div>
+            </div> 
           </div>
         </div>
       </div>
