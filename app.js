@@ -237,11 +237,13 @@ const showSection = (click) => {
 getId("balance-button").addEventListener("click", () => {
   showSection(getId("balance-section"));
   showBalanceTotals();
+  printCategories(getId('filter-category-collection'))
 });
 
 getId("balance-ham-button").addEventListener("click", () => {
   showSection(getId("balance-section"));
   showBalanceTotals();
+  printCategories(getId('filter-category-collection'))
 });
 
 // Evento para mostrar la sección de categorías
@@ -323,16 +325,16 @@ const printOperations = (array) => {
   array.forEach((operation) => {
     const newRow = `<div class="row">
       <div class="col s4 m3 l3">${operation.description}</div>
-      <div class="col s4 m3 l3">
+      <div class="col s4 offset-s4 m3 l3">
         <div class="chip card-color typography-color ">
           ${capitalizeCategory(operation.category)}
         </div>
       </div>
       <div class="col m2 l2 hide-on-small-only">${operation.date}</div>
-      <div class="col s6 m2 l2" style="color:${colorAmount(
+      <div class="col s5 m2 l2" style="color:${colorAmount(
         operation.type
       )};">${operation.amount}</div>
-      <div class="col s6 m2 l2" id=${operation.id}>
+      <div class="col s6 offset-s1 m2 l2" id=${operation.id}>
         <a href="#" class="margin-right-plus" onclick="editOpClick(this)">Editar</a>
         <a href="#" onclick="removeOpClick(this)">Eliminar</a>
       </div>
@@ -686,7 +688,7 @@ const showCategoryMost = (most, type) => {
    ${title}
     <td>
       <div class="chip">
-        <i class="material-icons">${most.icon}</i>
+        <i class="material-icons hide-on-small-only">${most.icon}</i>
         ${most.name}
       </div>  
     </td>  
@@ -738,7 +740,7 @@ const showCategoryReport = (array) => {
     const newTr = `<tr>
     <td>
       <div class="chip">
-        <i class="material-icons">${category.icon}</i>
+        <i class="material-icons hide-on-small-only">${category.icon}</i>
         ${category.name}
       </div>  
     </td>  
@@ -813,21 +815,9 @@ const showAllReports = () =>{
 
 //  --------------------------------------------------  RESPONSIVE  --------------------------------------------------
 
-
 const mediaQuery850 = window.matchMedia('(max-width: 850px)')
-const mediaQuery450 = window.matchMedia('(max-width: 450px)')
-
-
-
 
 if (mediaQuery850.matches) {
   getId('balance-section').classList.remove('container');
 }
-
-
-if (mediaQuery450.matches) {
-  console.log(450);
-  getQueryAll('.material-icons').forEach(icon => {
-    icon.style.color = 'red !important'
-  });;
 
