@@ -93,3 +93,8 @@ td.is-selected.is-today {
 .btn-large:hover {
    background-color: var(--ContrastColor);
   }
+
+.box-wrap{
+    display: flex;
+    flex-wrap: wrap;
+}

@@ -86,7 +86,7 @@ const printCategories = (collection) => {
       collection.insertAdjacentHTML("beforeend", newHTML);
     });
   } else {
-    collection.innerHTML = "<h6>Categorías</h6>";
+    collection.innerHTML = "";
     categoriesStorage.forEach((category) => {
       const newHTML = `
       <div class="chip chips-color chips-center" id="${category.id}" onclick="clickOnChip(this)">
@@ -367,13 +367,14 @@ const checkIfOperations = () => {
 const getOperationById = (selected, type) => {
   const operationsStorage = getStorage("operationsList");
   const selectedId =
-    type === "operation" ? selected.id : selected.parentElement.id;
+    type === "category" ? selected.id : selected.parentElement.id;
   let opIndex;
   operationsStorage.forEach((operation) => {
     if (operation.id === selectedId) {
       opIndex = operationsStorage.indexOf(operation);
     }
   });
+  console.log(opIndex);
   return opIndex;
 };
 
@@ -446,16 +447,16 @@ getId("submit-edit-operation").addEventListener("click", (e) => {
 //  -------------------------------------------------- REMOVE OPERATIONS --------------------------------------------------
 
 //Función reutilizable que busca en el local storage todas las operaciones y corta según el indice la operacion seleccionada. Luego vuelve a guardar el array modificado en el local storage.
-const removeOperation = (op) => {
+const removeOperation = (op, type) => {
+  console.log(op);
   const operationsStorage = getStorage("operationsList");
-  operationsStorage.splice(getOperationById(op, "operation"), 1);
+  operationsStorage.splice(getOperationById(op, type), 1);
   setStorage("operationsList", operationsStorage);
-  console.log("coincidence");
 };
 
 //Evento aplicado al boton de eliminar de cada operación. Busca en el local storage todas las operaciones y corta según el indice la operacion seleccionada. Luego vuelve a guardar el array modificado en el local storage. Finalemente chequea si existen operaciones y las imprime.
 const removeOpClick = (e) => {
-  removeOperation(e);
+  removeOperation(e, 'operation');
   checkIfOperations();
 };
 
@@ -530,7 +531,7 @@ const removeOperationsByCategory = (category) => {
   const operationsStorage = getStorage("operationsList");
   operationsStorage.forEach((op) => {
     if (op.category === category) {
-      removeOperation(op);
+      removeOperation(op, 'category');
     }
   });
 };
@@ -655,6 +656,19 @@ const filterOperation = () => {
 
 //  --------------------------------------------------  REPORTS FUNCTIONALITY --------------------------------------------------
 
+const checkIfReports = (result) =>{
+  if(result === undefined){
+    getId('no-reports').classList.remove('hide')
+    getId('reports-container').classList.add('hide')
+    return false
+  }else{
+    getId('no-reports').classList.add('hide')
+    getId('reports-container').classList.remove('hide')
+    return true
+  }
+}
+
+
 // Función reutilizable que busca la categoría con más ganancias o gastos, segun lo que le pasemos como parámetros
 const getCategoryMost = (type) => {
   const reportCategories = getReport("categories");
@@ -673,7 +687,8 @@ const getCategoryMost = (type) => {
       }
     }
   });
-  return result;
+  const isTrue = checkIfReports(result) 
+  return isTrue === true ? result : false;
 };
 
 // Función reutilizable que muestra la categoría con más ganancias o gastos en el HTML, segun lo que le pasemos como parámetros
@@ -788,8 +803,10 @@ const getMonthMost = (type) => {
       }
     }
   });
-  return result;
+  const isTrue = checkIfReports(result) 
+  return isTrue === true ? result : false;
 };
+
 
 //Función reutilizable que muestra el mes con más ganancias o gastos en el HTML, segun lo que le pasemos como parámetros
 const showMonthMost = (most, type) => {

@@ -7,6 +7,37 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- -------------------Primary Meta Tags------------------- -->
+
+  <meta name="title" content="AhorrADAs" />
+  <meta name="description" content="Aplicación de tipo wallet que permite controlar los gastos y ganancias mes a mes" />
+  <meta name="author" content="Gabriela Duran, Melina Lucía Cantamutto" />
+  <meta name="keywords" content="Melina Cantamutto, Gabriela Duran, AhorrADAs, frontend, gastos, ganancias, billetera" />
+
+  <!-- -------------------Open Graph------------------- -->
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://flamboyant-cray-1a21a6.netlify.app/" />
+  <meta property="og:title" content="AhorrADAs" />
+  <meta property="og:description" content="Aplicación de tipo wallet que permite controlar los gastos y ganancias mes a mes" />
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/melicantamutto/ahorradas/master/assets/readme-img/main-page.png" />
+  <meta property="og:site_name" content="AhorrADAs" />
+
+  <!-- -------------------Twitter------------------- -->
+
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://flamboyant-cray-1a21a6.netlify.app/" />
+  <meta property="twitter:title" content="AhorrADAs" />
+  <meta property="twitter:description" content="Aplicación de tipo wallet que permite controlar los gastos y ganancias mes a mes" />
+  <meta property="twitter:image"
+    content="https://raw.githubusercontent.com/melicantamutto/ahorradas/master/assets/readme-img/main-page.png" />
+  <meta name="twitter:image:alt" content="AhorrADAs main page" />
+
+  <!-- -------------------Favicon------------------- -->
+
+  <link rel="shortcut icon" href="./assets/logo/coin-794.png" type="image/x-icon" />
+
   <!-- MATERIALIZE Compiled and minified CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
@@ -23,7 +54,7 @@
   <!-- NAV BAR -->
   <nav class="nav-color">
     <section class="nav-wrapper container">
-      <img class="logo hide-on-small-only" src="./assets/Logo/logoAhorradas.png" alt="">
+      <img class="logo hide-on-small-only" src="./assets/logo/logoAhorradas.png" alt="">
       <a href="#" class="brand-logo">
         AhorrADAs
       </a>
@@ -48,7 +79,6 @@
         </li>
       </ul>
       <ul id="slide-out" class="sidenav show-on-medium-and-down">
-
         <li><a class="subheader">Menu</a></li>
         <li id="balance-ham-button">
           <a class="waves-effect" href="#!">
@@ -88,7 +118,8 @@
         </div>
         <div class="card-panel card-color">
           <h5 class="typography-color">Filtros</h5>
-          <div class="collection box-center" id="filter-category-collection" style="border: none">
+          <h6>Categorías</h6>
+          <div class="collection box-wrap" id="filter-category-collection" style="border: none">
 
           </div>
           <div></div>
@@ -197,7 +228,8 @@
                 <label for="new-date"><span class="typography-color-b">Fecha</span></label>
                 <input type="text" id="new-date" class="validate datepicker" />
               </div>
-              <div class="collection" id="new-op-category-collection" style="border: none">
+              <h6>Categorías</h6>
+              <div class="collection box-wrap" id="new-op-category-collection" style="border: none">
               </div>
             </div>
             <div class="card-color">
@@ -241,7 +273,8 @@
                 <label for="edit-date"><span class="typography-color-b">Fecha</span></label>
                 <input type="text" id="edit-date" class="validate datepicker" />
               </div>
-              <div class="collection" id="edit-op-category-collection" style="border: none">
+              <h6>Categorías</h6>
+              <div class="collection box-wrap" id="edit-op-category-collection" style="border: none">
 
               </div>
             </div>
@@ -306,7 +339,7 @@
       <h3>Editar categoría</h3>
       <br>
       <div class="row ">
-        <div class="input-field col s12 m6 l3 blue-text">
+        <div class="input-field col s12 m6 l3 typography-color">
           <i class="material-icons category-icon">local_pizza</i>
           <i class="material-icons category-icon">lightbulb_outline</i>
           <i class="material-icons category-icon">local_library</i>
@@ -342,7 +375,7 @@
 
   <!-- REPORTS SECTION -->
   <section id="reports-section" class="container hide">
-    <article class="card-panel body-color">
+    <article id="reports-container" class="card-panel body-color">
       <h4 class="typography-color-b">Reportes</h4>
       <br>
       <h5>Resumen</h5>
@@ -386,6 +419,21 @@
           </thead>
           <tbody id="months-reports"></tbody>
         </table>
+      </div>
+    </article>
+    <article id="no-reports">
+      <div class="card-image container">
+        <br>
+        <br>
+        <div class="row">
+          <div class="col s9 offset-s2">
+            <img class="responsive-img" src="./assets/undraw_Data_re_80ws.svg" />
+          </div>
+        </div>
+      </div>
+      <div class="card-content center" id="no-op-text">
+        <h5>Operaciones insulficientes</h5>
+        <p>Prueba agregando más operaciones</p>
       </div>
     </article>
   </section>
