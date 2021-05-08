@@ -27,7 +27,7 @@
 
 ## Instalación ⚙
 #### Si queres clonar el repositorio seguí estos pasos:
-- Entrar al [Repo]()
+- Entrar al [Repo](https://github.com/melicantamutto/ahorradas.git)
 - Hacer click en Fork
 - Darle click al boton de Code
 - Copiar la url
@@ -38,7 +38,7 @@ git clone <url>
 ```
 - Entrar a la carpeta del proyecto y abrirlo en tu IDE
 
-#### Por el momento, no se requieren dependencias para la instalción.
+#### Para el diseño de la app utilizamos el Framework [Materialize](https://materializecss.com/), tambien hicimos uso de la dependencia [UUID](https://github.com/uuidjs/uuid) para generar 'id' aleatorios y finalmente la dependencia [LUXOR](https://moment.github.io/luxon/index.html) para poder trabajar con formatos de fecha diferentes. 
 
 ***
 <br>
@@ -53,5 +53,5 @@ git clone <url>
 ## Agradecimientos 💕
 
 - Principalmente a nuestro profe [Jonh](https://github.com/Jonhks), a [Leydy](https://github.com/leydyk93) y a las chicas de la sexta generación de Frontend online de [Ada](https://adaitw.org/) 🧚🏻‍♀️ y a su apoyo todos los días.
-- Si te gustó y lo queres compartir, te agradeciría muchisimo.
+- Si te gustó y lo queres compartir, te agradeciríamos muchisimo.
 
