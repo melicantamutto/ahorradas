@@ -131,7 +131,7 @@
           </div>
           <div></div>
           <div class="input-field margin-bottom">
-            <select id="filter-type" onchange="applyFilters()">
+            <select id="filter-type" onchange="filterOperations()">
               <option value="all">Todos</option>
               <option value="spent">Gastos</option>
               <option value="earned">Ganancias</option>
@@ -141,11 +141,11 @@
           <div class="input-field margin-bottom">
 
             <label for="filter-date"><span class="typography-color-b">Desde</span></label>
-            <input type="text" id="filter-date" class="nav-color datepicker" onchange="applyFilters()">
+            <input type="text" id="filter-date" class="nav-color datepicker" onchange="filterOperations()">
           </div>
           <div class="col"></div>
           <div class="input-field margin-bottom">
-            <select id="filter-sort" onchange="applyFilters()">
+            <select id="filter-sort" onchange="filterOperations()">
               <option value="most-recent">Más reciente</option>
               <option value="least-recent">Menos reciente</option>
               <option value="biggest-amount">Mayor monto</option>
@@ -453,6 +453,10 @@
   <!-- UUID -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
 
+  <!-- LUXOR (used to parse dates) -->
+  <script src="https://cdn.jsdelivr.net/npm/luxon@1.26.0/build/global/luxon.min.js"></script>
+  
+  <!-- APP JS -->
   <script src="./app.js"></script>
 </body>
 

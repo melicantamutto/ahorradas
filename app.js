@@ -66,6 +66,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var instances = M.Sidenav.init(elems);
 });
 
+//  -------------------------------------------------- MATERIALIZE INITIALIZATIONS --------------------------------------------------
+
+var DateTime = luxon.DateTime;
+
 //  -------------------------------------------------- HTML ELEMENTS --------------------------------------------------
 
 // Funciones para traer los elementos del HTML
@@ -195,7 +199,8 @@ const clickOnChip = (e) => {
 // Función que busca el chip con la clase de seleccionado y busca en el local storage qué categoría tiene el mismo id que el chip seleccionado y retorna EL NOMBRE de la categoría
 const getCategoryName = () => {
   let name = "";
-  const selected = getQuery(".selected-chip") !== null ? getQuery(".selected-chip") : false ;
+  const selected =
+    getQuery(".selected-chip") !== null ? getQuery(".selected-chip") : false;
   const categoriesStorage = getStorage("categoriesList");
   categoriesStorage.forEach((category) => {
     if (category["id"] === selected["id"]) {
@@ -215,7 +220,6 @@ const getCategoryIndex = () => {
       index = categoriesStorage.indexOf(category);
     }
   });
-  console.log(index);
   return index;
 };
 
@@ -386,7 +390,6 @@ const getOperationById = (selected, type) => {
       opIndex = operationsStorage.indexOf(operation);
     }
   });
-  console.log(opIndex);
   return opIndex;
 };
 
@@ -460,7 +463,6 @@ getId("submit-edit-operation").addEventListener("click", (e) => {
 
 //Función reutilizable que busca en el local storage todas las operaciones y corta según el indice la operacion seleccionada. Luego vuelve a guardar el array modificado en el local storage.
 const removeOperation = (op, type) => {
-  console.log(op);
   const operationsStorage = getStorage("operationsList");
   operationsStorage.splice(getOperationById(op, type), 1);
   setStorage("operationsList", operationsStorage);
@@ -478,7 +480,6 @@ const removeOpClick = (e) => {
 const printEditCategory = (i) => {
   const category = getStorage("categoriesList")[i];
   const icons = getQueryAll(".category-icon");
-  console.log(icons);
   getId("edit-category-name").value = category.name;
   icons.forEach((icon) => {
     if (icon.textContent.includes(category.icon)) {
@@ -551,7 +552,6 @@ const removeOperationsByCategory = (category) => {
 //Evento aplicado a la cruz dentro de cada chip de categorías que primero las selecciona(les da la clase de .selected-chip) con getSelected luego la remueve del local storage , las pinta y luego remueve las operaciones que tenian esa categoría eliminadas del local storage.
 const clickCategoryRemove = (e) => {
   getSelected(e.parentNode, "chip");
-  console.log("remove");
   removeCategory();
   removeOperationsByCategory(eliminatedCategory);
 };
@@ -569,15 +569,6 @@ const clickCategoryRemove = (e) => {
 //     console.log('tooltip');
 //   }
 // }
-
-//  -------------------------------------------------- ONLOAD EVENTS --------------------------------------------------
-
-// Evento aplicado a la página cuando se carga. Se imprimen las categorías que se enceuntran en el local storage y checkea si existen operaciones en el local storage. Si las hay las muestra, sino muestra que no hay.
-window.addEventListener("load", () => {
-  printCategories(getId("filter-category-collection"));
-  checkIfOperations();
-  showBalanceTotals();
-});
 
 // -------------------------------------------------- Balance / TOTALES --------------------------------------------------
 
@@ -614,26 +605,26 @@ const showBalanceTotals = () => {
 };
 
 // -------------------------------------------------- FILTER-FUNCIONALITY --------------------------------------------------
-let newArr = [...getStorage("operationsList")];
-const filterType = getId("filter-type");
-const filtersCategories = getId("filter-category-collection");
 
-
-const filterBySort = (newArr)=> {
+const filterBySort = (newArr) => {
   const filterSort = getId("filter-sort").value;
-  
+
   switch (filterSort) {
     case "most-recent":
-      newArr = newArr.sort((a, b) => a.date < b.date ? 1 : -1);
+      newArr = newArr.sort((a, b) => (a.date < b.date ? 1 : -1));
       break;
     case "least-recent":
-      newArr = newArr.sort((a, b) => a.date > b.date ? 1 : -1);
+      newArr = newArr.sort((a, b) => (a.date > b.date ? 1 : -1));
       break;
     case "biggest-amount":
-      newArr = newArr.sort((a, b) => (Number(a.amount) < Number(b.amount) ? 1 : -1));
+      newArr = newArr.sort((a, b) =>
+        Number(a.amount) < Number(b.amount) ? 1 : -1
+      );
       break;
     case "smallest-amount":
-      newArr = newArr.sort((a, b) => (Number(a.amount) > Number(b.amount) ? 1 : -1));
+      newArr = newArr.sort((a, b) =>
+        Number(a.amount) > Number(b.amount) ? 1 : -1
+      );
       break;
     case "a-z":
       newArr = newArr.sort((a, b) => (a.description > b.description ? 1 : -1));
@@ -641,58 +632,61 @@ const filterBySort = (newArr)=> {
     case "z-a":
       newArr = newArr.sort((a, b) => (a.description < b.description ? 1 : -1));
       break;
-}
-  return newArr
-}
+  }
+  return newArr;
+};
 
-const applyFilters = () => {
-  filterOperation()
-}
-
-const filterOperation = () => {
+const filterOperations = () => {
   let newArr = [...getStorage("operationsList")];
-  
+  const filterType = getId("filter-type");
   const selectedType = filterType.options[filterType.selectedIndex].value;
-  
   const selectedCategory = getCategoryName();
-  
-  const selectedDate = getId('filter-date').value;
-
+  const selectedDate = getId("filter-date").value;
+  // filtro por categoría
   if (selectedCategory) {
     newArr = newArr.filter((op) => op.category === selectedCategory);
   }
-  
+  // filtro por tipo
   if (selectedType !== "all") {
     newArr = newArr.filter((op) => op.type === selectedType);
   }
-  
-  if (selectedDate) {
-   newArr = newArr.filter(op => op.date >=  selectedDate)
-  }
-  
+  // filtro por fecha
+  newArr = newArr.filter((op) => op.date >= selectedDate);
+  // filtro que ordena, usando la función específica
   newArr = filterBySort(newArr);
-  printOperations(newArr);
-}
 
-//hacer una funcion que busque la fecha mas vuieja para pasarla como base de filtro
-const fechaBase = (array) => {
+  printOperations(newArr);
+};
+
+// Función que parsea la fecha con la librería luxon, para obtener una fecha comparable
+const parseDate = (date) => {
+  return DateTime.fromFormat("May 25 1982", "LLLL dd yyyy");
+};
+
+// Funcion que busca la fecha mas vieja para pasarla como base de filtro
+const getOldestDate = (array) => {
   let result = [];
-  array.filter((op)=>{
-    result.push(op.date) 
-  })
-  result = result.sort((a,b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    return dateA  < dateB  ? -1 : 1
-  })
-  return result[0]
-}
-console.log(fechaBase(getStorage("operationsList")));
+  array.filter((op) => {
+    result.push(op.date);
+  });
+  result = result.sort((a, b) => {
+    const dateA = parseDate(a.date);
+    const dateB = parseDate(b.date);
+    return dateA < dateB ? -1 : 1;
+  });
+  return result[0];
+};
+
+// Funcion que pone a los filtros como default (materialize no deja cambiar el value de los select por lo que cambiamos la fecha y categoría unicamente)
+const printDefaultFilters = () => {
+  getSelected(null, "chip");
+  getId("filter-date").value = getOldestDate(getStorage("operationsList"));
+};
 
 // Evento que imprime las operaciones en el orden que aparecen en el local storage y quita la categoría seleccionada
 getId("clean-filters").addEventListener("click", () => {
   checkIfOperations();
-  getSelected(null, "chip");
+  printDefaultFilters();
 });
 
 //  --------------------------------------------------  REPORTS FUNCTIONALITY --------------------------------------------------
@@ -759,18 +753,18 @@ const getReport = (type) => {
   const operationsStorage = getStorage("operationsList");
   const categoriesStorage = getStorage("categoriesList");
   const months = [
-    "Jan",
+    "Ene",
     "Feb",
     "Mar",
-    "Apr",
-    "May",
+    "Abr",
+    "Mayo",
     "Jun",
     "Jul",
-    "Aug",
+    "Ago",
     "Sep",
     "Oct",
     "Nov",
-    "Dec",
+    "Dic",
   ];
   const toFilter = type === "months" ? months : categoriesStorage;
   let reportArray = [];
@@ -890,6 +884,16 @@ const showAllReports = () => {
   showCategoryReport(getReport("category"));
   showMonthReport(getReport("months"));
 };
+
+//  -------------------------------------------------- ONLOAD EVENTS --------------------------------------------------
+
+// Evento aplicado a la página cuando se carga. Se imprimen las categorías que se enceuntran en el local storage y checkea si existen operaciones en el local storage. Si las hay las muestra, sino muestra que no hay.
+window.addEventListener("load", () => {
+  printCategories(getId("filter-category-collection"));
+  checkIfOperations();
+  showBalanceTotals();
+  printDefaultFilters();
+});
 
 //  --------------------------------------------------  RESPONSIVE  --------------------------------------------------
 
