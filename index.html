@@ -124,7 +124,7 @@
           </div>
           <div></div>
           <div class="input-field margin-bottom">
-            <select id="filter-type">
+            <select id="filter-type" onchange="applyFilters()">
               <option value="all">Todos</option>
               <option value="spent">Gastos</option>
               <option value="earned">Ganancias</option>
@@ -134,11 +134,11 @@
           <div class="input-field margin-bottom">
 
             <label for="filter-date"><span class="typography-color-b">Desde</span></label>
-            <input type="text" id="filter-date" class="nav-color datepicker" value="00/00/0000">
+            <input type="text" id="filter-date" class="nav-color datepicker" onchange="applyFilters()">
           </div>
           <div class="col"></div>
           <div class="input-field margin-bottom">
-            <select id="filter-sort">
+            <select id="filter-sort" onchange="applyFilters()">
               <option value="most-recent">Más reciente</option>
               <option value="least-recent">Menos reciente</option>
               <option value="biggest-amount">Mayor monto</option>
