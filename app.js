@@ -4,31 +4,13 @@ document.addEventListener("DOMContentLoaded", function () {
   var elems = document.querySelectorAll("select");
   var instances = M.FormSelect.init(elems);
 });
-//Intento de funcion para filtrar por fecha
-// const catchOperationsDate = (array) => {
-//   let result = ''
-//   array.filter((op)=>{
-//     result += op.date
-//   })
-//   return result
-// }
-// const operationsDate = console.log(catchOperationsDate([...getStorage("operationsList")]));
-
-// const filterDate = (date) => {
-//   let result = ''
-//   if (date === operationsDate.filter((op)=>{op === date}) ) {
-//     result += date
-//   }
-//   return result
-// }
 
 document.addEventListener("DOMContentLoaded", function () {
   var options = {
     defaultDate: new Date(),
     setDefaultDate: true,
     onSelect: function (Date) {
-      //  filterDate(Date)
-      console.log(Date);
+      // guardarFechaSeleccionada (Date)
     },
     i18n: {
       months: [
@@ -73,10 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
   var elems = document.querySelectorAll(".datepicker");
   var instance = M.Datepicker.init(elems, options);
-  // instance.open();
-  // instance.setDate(new Date());
 });
-
 document.addEventListener("DOMContentLoaded", function () {
   var elems = document.querySelectorAll(".tooltipped");
   var instances = M.Tooltip.init(elems);
@@ -216,7 +195,7 @@ const clickOnChip = (e) => {
 // Función que busca el chip con la clase de seleccionado y busca en el local storage qué categoría tiene el mismo id que el chip seleccionado y retorna EL NOMBRE de la categoría
 const getCategoryName = () => {
   let name = "";
-  const selected = getQuery(".selected-chip");
+  const selected = getQuery(".selected-chip") !== null ? getQuery(".selected-chip") : false ;
   const categoriesStorage = getStorage("categoriesList");
   categoriesStorage.forEach((category) => {
     if (category["id"] === selected["id"]) {
@@ -635,57 +614,80 @@ const showBalanceTotals = () => {
 };
 
 // -------------------------------------------------- FILTER-FUNCIONALITY --------------------------------------------------
-
 let newArr = [...getStorage("operationsList")];
 const filterType = getId("filter-type");
 const filtersCategories = getId("filter-category-collection");
-const filterDate = getId("filter-date");
-const filterSort = getId("filter-sort");
-// var checkDate = ''
-// console.log(checkDate);
+
+
+const filterBySort = (newArr)=> {
+  const filterSort = getId("filter-sort").value;
+  
+  switch (filterSort) {
+    case "most-recent":
+      newArr = newArr.sort((a, b) => a.date < b.date ? 1 : -1);
+      break;
+    case "least-recent":
+      newArr = newArr.sort((a, b) => a.date > b.date ? 1 : -1);
+      break;
+    case "biggest-amount":
+      newArr = newArr.sort((a, b) => (Number(a.amount) < Number(b.amount) ? 1 : -1));
+      break;
+    case "smallest-amount":
+      newArr = newArr.sort((a, b) => (Number(a.amount) > Number(b.amount) ? 1 : -1));
+      break;
+    case "a-z":
+      newArr = newArr.sort((a, b) => (a.description > b.description ? 1 : -1));
+      break;
+    case "z-a":
+      newArr = newArr.sort((a, b) => (a.description < b.description ? 1 : -1));
+      break;
+}
+  return newArr
+}
+
+const applyFilters = () => {
+  filterOperation()
+}
 
 const filterOperation = () => {
-  const selectedType = filterType.options[filterType.selectedIndex].value;
-  console.log(selectedType);
-  const selectedCategory = getCategoryName();
-  const sortBy = filterSort.options[filterSort.selectedIndex].value;
-  // const selectedDate = filterDate.picker.value
-  // console.log(selectedDate);
   let newArr = [...getStorage("operationsList")];
+  
+  const selectedType = filterType.options[filterType.selectedIndex].value;
+  
+  const selectedCategory = getCategoryName();
+  
+  const selectedDate = getId('filter-date').value;
 
-  if (selectedCategory !== "all") {
+  if (selectedCategory) {
     newArr = newArr.filter((op) => op.category === selectedCategory);
   }
-
+  
   if (selectedType !== "all") {
     newArr = newArr.filter((op) => op.type === selectedType);
   }
-  //  if(filterDate){
-  //    newArr = newArr.filter((op) => op.date === selectedDate)
-  //  }
-  //  console.log(filterDate);
-  switch (sortBy) {
-    case "most-recent":
-      newArr = newArr.sort((a, b) => a.date > b.date);
-      break;
-    case "least-recent":
-      newArr = newArr.sort((a, b) => a.date < b.date);
-      break;
-    case "biggest-amount":
-      newArr = newArr.sort((a, b) => (a.amount < b.amount ? 1 : -1));
-      break;
-    case "smallest-amount":
-      newArr = newArr.sort((a, b) => (a.amount > b.amount ? 1 : -1));
-      break;
-    case "a-z":
-      newArr = newArr.sort((a, b) => (a.description < b.description ? 1 : -1));
-      break;
-    case "z-a":
-      newArr = newArr.sort((a, b) => (a.description > b.description ? 1 : -1));
-      break;
+  
+  if (selectedDate) {
+   newArr = newArr.filter(op => op.date >=  selectedDate)
   }
+  
+  newArr = filterBySort(newArr);
   printOperations(newArr);
-};
+}
+
+//hacer una funcion que busque la fecha mas vuieja para pasarla como base de filtro
+const fechaBase = (array) => {
+  let result = [];
+  array.filter((op)=>{
+    result.push(op.date) 
+  })
+  result = result.sort((a,b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateA  < dateB  ? -1 : 1
+  })
+  return result[0]
+}
+console.log(fechaBase(getStorage("operationsList")));
 
 // Evento que imprime las operaciones en el orden que aparecen en el local storage y quita la categoría seleccionada
 getId("clean-filters").addEventListener("click", () => {
