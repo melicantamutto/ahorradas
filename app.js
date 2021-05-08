@@ -192,7 +192,7 @@ let currentEditIndex = 0;
 const clickOnChip = (e) => {
   getSelected(e, "chip");
   if (e.parentNode === getId("filter-category-collection")) {
-    filterOperation();
+    filterOperations();
   }
 };
 
