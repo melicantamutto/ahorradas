@@ -277,12 +277,12 @@ getId("categories-ham-button").addEventListener("click", () => {
 
 getId("reports-button").addEventListener("click", () => {
   showSection(getId("reports-section"));
-  showAllReports();
+  checkIfReports();
 });
 
 getId("reports-ham-button").addEventListener("click", () => {
   showSection(getId("reports-section"));
-  showAllReports();
+  checkIfReports();
 });
 
 //  -------------------------------------------------- ADD OPERATIONS --------------------------------------------------
@@ -691,16 +691,30 @@ getId("clean-filters").addEventListener("click", () => {
 
 //  --------------------------------------------------  REPORTS FUNCTIONALITY --------------------------------------------------
 
-// Función que retorna true or false dependiendo si alguno de los reportes dan undefined. Si es el caso, muestra que no hay suficientes operaciones para mostrar los reportes
+// Función que checkea si todos los reportes existen. Si es false, muestra que no hay suficientes operaciones para mostrar los reportes, sino muestra correctamente los reportes
 const checkIfReports = (result) => {
-  if (result === undefined) {
+  let allTrue = true;
+  const reportFuncs = [
+    getCategoryMost("earned"),
+    getCategoryMost("spent"),
+    getCategoryMost("balance"),
+    getMonthMost("earned"),
+    getMonthMost("spent"),
+  ];
+  reportFuncs.forEach((func) => {
+    const result = func;
+    if (!result) {
+      allTrue = false;
+    }
+  });
+
+  if (!allTrue) {
     getId("no-reports").classList.remove("hide");
     getId("reports-container").classList.add("hide");
-    return false;
   } else {
     getId("no-reports").classList.add("hide");
     getId("reports-container").classList.remove("hide");
-    return true;
+    showAllReports();
   }
 };
 
@@ -722,8 +736,7 @@ const getCategoryMost = (type) => {
       }
     }
   });
-  const isTrue = checkIfReports(result);
-  return isTrue === true ? result : false;
+  return result ? result : false;
 };
 
 // Función reutilizable que muestra la categoría con más ganancias o gastos en el HTML, segun lo que le pasemos como parámetros
@@ -857,8 +870,7 @@ const getMonthMost = (type) => {
       }
     }
   });
-  const isTrue = checkIfReports(result);
-  return isTrue === true ? result : false;
+  return result ? result : false;
 };
 
 //Función reutilizable que muestra el mes con más ganancias o gastos en el HTML, segun lo que le pasemos como parámetros
